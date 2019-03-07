@@ -1,0 +1,16 @@
+{
+  "name": "jasperreddin/chemconxfiles",
+  "description": "Safety Data Sheet server for Chemistry Connection",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+	{
+	  "name": "Jasper Reddin",
+	  "email": "jasper@jasperreddin.com"
+	}
+  ],
+  "require": {
+    "kreait/firebase-php": "4.19.0",
+	"ext-json": "*"
+  }
+}

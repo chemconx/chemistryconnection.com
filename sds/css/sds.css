@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway:300,400,600');
+
+body {
+	background-color: #CFD6DE;
+	font-family: 'Raleway', sans-serif;
+	font-weight: 300;
+	color: #214A5B;
+}
+
+h1,h2,h3,h4,h5,h6 {
+	margin: 0;
+}
+
+a, a:visited {
+	color: #214A5B;
+}
+
+.navbar {
+	background-color: #B2C9E3;
+	padding: 20px 0;
+}
+
+.header-image {
+	height: 80px;
+	width: auto;
+	padding-left: 50px;
+}
+
+.main {
+	max-width: 1000px;
+	margin: auto;
+}
+
+.main-header {
+	display: flex;
+	align-items: center;
+}
+
+.main-header h1 {
+	margin: 0;
+	padding-left: 30px;
+	flex-grow: 1;
+}
+
+.main-header div {
+	padding-right: 50px;
+	text-align: right;
+}
+
+.main.content {
+	background-color: #EFEFEF;
+}
+
+.main-container {
+	padding: 50px;
+}
+
+.container.header {
+	display: flex;
+	padding-bottom: 5px;
+	border-bottom: #214A5B 2px solid;
+}
+
+.header {
+	margin: 0;
+	flex-grow: 1;
+	padding: 6px 0;
+}
+
+/* CONTAINERS */
+.container {
+	padding: 20px 0;
+}
+
+.container:last-child {
+	padding-bottom: 0;
+}
+
+/* TABLE */
+table {
+	width: 100%;
+	max-width: 100%;
+	border: #214A5B 1px solid;
+	background-color: #FFFFFF;
+	border-collapse: collapse;
+}
+
+table button {
+	padding: 5px 15px;
+}
+
+tr {
+	padding: 10px 0;
+}
+
+
+td {
+	padding: 10px 5px;
+	white-space: nowrap;
+	border: none;
+	border-top: #214A5B 1px solid;
+}
+
+td:first-child {
+	padding-left: 10px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	max-width: 1px;
+}
+
+tr:first-child td {
+	border: none;
+}

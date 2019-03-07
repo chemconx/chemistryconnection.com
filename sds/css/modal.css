@@ -1,0 +1,35 @@
+.darkenscreen {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 998;
+	background: rgba(0, 0, 0, 0.3);
+}
+
+.modal {
+	max-height: calc(100% - 100px);
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+
+	background-color: #EFEFEF;
+	padding: 40px;
+	z-index: 999;
+}
+
+.modal .container.header {
+	padding-top: 0;
+}
+
+.modal input {
+	padding: 5px 5px;
+	margin:  5px 0;
+}
+
+.modal button {
+	padding: 5px 10px;
+}
+

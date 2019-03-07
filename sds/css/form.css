@@ -1,0 +1,99 @@
+.container.header form {
+	display: flex;
+}
+
+.login-form {
+	display: flex;
+	flex-direction: column;
+}
+
+/* SEARCH FORM */
+
+#search-form {
+	display: flex;
+}
+
+#search-input {
+	flex-grow: 1;
+
+	padding: 10px;
+	margin-right: 20px;
+}
+
+button {
+	padding: 0 30px;
+	background-color: #214A5B;
+	color: white;
+
+	font-weight: 600;
+	border: none;
+	border-radius: 5px;
+}
+
+button.destructive {
+	background-color: #E65532;
+}
+
+button:hover, .upload-input + label:hover {
+	opacity: 0.8;
+}
+
+/* UPLOAD BUTTON */
+.upload-input {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.upload-input + label {
+	cursor: pointer;
+
+	padding: 5px 10px;
+	background-color: #214A5B;
+	color: white;
+
+	font-weight: 600;
+	border: none;
+	border-radius: 5px;
+}
+
+.upload-input + label i {
+	padding-right: 5px;
+}
+
+form p {
+	margin: 0;
+	font-size: 0.85rem;
+}
+
+/* UPLOAD PROGRESS BAR */
+#progress-wrp {
+	border: 1px solid #0099CC;
+	padding: 1px;
+	position: relative;
+	height: 30px;
+	border-radius: 3px;
+	margin: 10px;
+	text-align: left;
+	background: #fff;
+	box-shadow: inset 1px 3px 6px rgba(0, 0, 0, 0.12);
+}
+
+#progress-wrp .progress-bar {
+	height: 100%;
+	border-radius: 3px;
+	background-color: #f39ac7;
+	width: 0;
+	box-shadow: inset 1px 1px 10px rgba(0, 0, 0, 0.11);
+}
+
+#progress-wrp .status {
+	top: 3px;
+	left: 50%;
+	position: absolute;
+	display: inline-block;
+	color: #000000;
+}
