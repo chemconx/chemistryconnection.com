@@ -1,5 +1,6 @@
-var Upload = function (file) {
+var Upload = function (file, filename) {
 	this.file = file;
+	this.filename = filename;
 };
 
 Upload.prototype.getType = function() {
@@ -11,12 +12,13 @@ Upload.prototype.getSize = function() {
 Upload.prototype.getName = function() {
 	return this.file.name;
 };
-Upload.prototype.doUpload = function () {
+Upload.prototype.doUpload = function (completion = null) {
 	var that = this;
 	var formData = new FormData();
 
 	// add assoc key values, this will be posts values
 	formData.append("file", this.file, this.getName());
+	formData.append("filename", this.filename);
 	formData.append("upload_file", true);
 
 	$.ajax({
@@ -41,7 +43,7 @@ Upload.prototype.doUpload = function () {
 		contentType: false,
 		processData: false,
 		timeout: 60000
-	});
+	}).done(function (data) {completion(data)});
 };
 
 Upload.prototype.progressHandling = function (event) {

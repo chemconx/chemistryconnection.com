@@ -64,17 +64,22 @@ function initSearch() {
 
 function initUpload() {
 	$('#upload-file-input').on('change', function () {
-		$('#rename-input').val($(this).val().split("\\").pop());
+		$('#upload-file-rename-input').val($(this).val().split("\\").pop());
 	});
 
 	$('#upload-file-submit').click(function (e) {
 		e.preventDefault();
 
 		// run upload crap
-		let file = $('#upload-file-input').prop('files')  [0];
-		let upload = new Upload(file);
+		let file = $('#upload-file-input').prop('files') [0];
+		let upload = new Upload(file, $('#upload-file-rename-input').val());
 		// execute upload
-		upload.doUpload();
+		upload.doUpload(function (data) {
+			$('#progress-wrp').slideUp();
+			$('#msg').html(data);
+		});
+
+
 	});
 }
 

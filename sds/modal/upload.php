@@ -24,13 +24,15 @@ if (!$authresults['success']) {
 	<form class="login-form" id="upload-form">
 		<input class="upload-input" type="file" id="upload-file-input" name="file" accept=".pdf">
 		<label for="upload-file-input"><i class="fas fa-file-upload"></i> Choose...</label>
-		<input type="text" name="filename" id="rename-input" placeholder="Rename" size="35">
+		<input type="text" name="filename" id="upload-file-rename-input" placeholder="Rename" size="35">
 		<p>You can optionally provide an alternate name</p>
 
 		<div id="progress-wrp">
 			<div class="progress-bar"></div>
 			<div class="status">0%</div>
 		</div>
+
+		<div id="msg"></div>
 
 		<div class="container">
 			<button id="upload-file-submit" style="float: right">Upload</button>
