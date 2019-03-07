@@ -51,7 +51,7 @@ button:hover, .upload-input + label:hover {
 .upload-input + label {
 	cursor: pointer;
 
-	padding: 5px 10px;
+	padding: 10px 10px;
 	background-color: #214A5B;
 	color: white;
 
@@ -69,14 +69,18 @@ form p {
 	font-size: 0.85rem;
 }
 
+.error {
+	color: #E65532;
+}
+
 /* UPLOAD PROGRESS BAR */
 #progress-wrp {
-	border: 1px solid #0099CC;
+	border: 1px solid #214A5B;
 	padding: 1px;
 	position: relative;
-	height: 30px;
+	height: 4px;
 	border-radius: 3px;
-	margin: 10px;
+	margin: 10px 0;
 	text-align: left;
 	background: #fff;
 	box-shadow: inset 1px 3px 6px rgba(0, 0, 0, 0.12);
@@ -84,8 +88,8 @@ form p {
 
 #progress-wrp .progress-bar {
 	height: 100%;
-	border-radius: 3px;
-	background-color: #f39ac7;
+	/*border-radius: 3px;*/
+	background-color: #214A5B;
 	width: 0;
 	box-shadow: inset 1px 1px 10px rgba(0, 0, 0, 0.11);
 }

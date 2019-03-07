@@ -56,5 +56,5 @@ Upload.prototype.progressHandling = function (event) {
 	}
 	// update progressbars classes so it fits your code
 	$(progress_bar_id + " .progress-bar").css("width", +percent + "%");
-	$(progress_bar_id + " .status").text(percent + "%");
+	// $(progress_bar_id + " .status").text(percent + "%");
 };

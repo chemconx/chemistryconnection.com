@@ -39,6 +39,11 @@ function initModals() {
 	$('#upload-button').click(function () {
 		showModal("modal/upload.php", initUpload);
 	});
+
+	$('.modal-close').click(function () {
+		$('.darkenscreen').hide();
+		$('.modal').hide();
+	});
 }
 
 function initSearch() {
@@ -73,13 +78,30 @@ function initUpload() {
 		// run upload crap
 		let file = $('#upload-file-input').prop('files') [0];
 		let upload = new Upload(file, $('#upload-file-rename-input').val());
-		// execute upload
-		upload.doUpload(function (data) {
-			$('#progress-wrp').slideUp();
-			$('#msg').html(data);
+
+		if (upload.getSize() > 10000000) {
+			$('#upload-msg').addClass('error').html('File too big (Max 10mb).');
+			return;
+		}
+
+		$('#progress-wrp').slideDown(100, function () {
+			// execute upload
+			upload.doUpload(function (data) {
+				$('.login-form').slideUp(100, function () {
+					let message = $(data).hide();
+
+					$('#upload-container').append(message);
+					message.slideDown(100);
+
+					// add event to modal-close
+					$('.modal-close').click(function (e) {
+						e.preventDefault();
+						$('.darkenscreen').hide();
+						$('.modal').hide();
+					});
+				});
+			});
 		});
-
-
 	});
 }
 
