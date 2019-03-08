@@ -98,6 +98,9 @@ function initUpload() {
 						e.preventDefault();
 						$('.darkenscreen').hide();
 						$('.modal').hide();
+
+						// reload homepage
+						initTables();
 					});
 				});
 			});

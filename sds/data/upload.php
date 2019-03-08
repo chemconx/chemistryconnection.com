@@ -8,6 +8,7 @@
 		 * Time: 8:37 PM
 		 */
 
+		require_once __DIR__ . '/SafetyDataSheet.php';
 		require_once __DIR__ . '/Connection.php';
 		require_once __DIR__ . '/auth.php';
 
@@ -18,21 +19,13 @@
 			} else {
 				// HANDLE DUPLICATE FILES
 				$targetDir = __DIR__ . "/pdf/";
-				$basename = basename($_FILES['file']['name']);
-				$targetFile = $targetDir . $basename;
-				$filename = pathinfo($targetFile, PATHINFO_FILENAME);
+				$targetFile = $_FILES['file']['name'];
 				$fileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
 
 				$desiredName = pathinfo($_POST['filename'], PATHINFO_FILENAME);
 
 				$replacementSTR = "";
 				$tries = 0;
-
-				do {
-					$targetFile = $targetDir . $desiredName . $replacementSTR . "." . $fileType;
-					$tries++;
-					$replacementSTR = " " . $tries;
-				} while (file_exists($targetFile));
 
 
 				// HANDLE FILE SIZE
@@ -41,16 +34,37 @@
 					return;
 				}
 
+
 				// HANDLE FILE TYPE
 				if ($fileType != "pdf") {
 					echo "<span class=\"error\">Invalid file type (only PDF is allowed).</span>";
 					return;
 				}
 
+				// HANDLE DUPLICATES
+				do {
+					$targetFile = $targetDir . $desiredName . $replacementSTR . "." . $fileType;
+					$tries++;
+					$replacementSTR = " " . $tries;
+				} while (file_exists($targetFile));
+
+				$finalName = pathinfo($targetFile, PATHINFO_BASENAME);
+
+
+				// FINALLY
 				if (move_uploaded_file($_FILES["file"]["tmp_name"], $targetFile)) {
 
 					// TODO: Do fancy MySQL stuff
+					$conn = new Connection();
 
+					if ($conn == null) {
+						echo "<span class='error'>Error connecting to database.</span>";
+						return;
+					}
+
+					$sds = new SafetyDataSheet($finalName, $targetFile, new DateTime(), -1);
+
+					$conn->addNewFile($sds);
 
 					echo "Upload successful";
 				} else {

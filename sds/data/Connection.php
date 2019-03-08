@@ -101,7 +101,9 @@ class Connection {
 	 * @param $sds SafetyDataSheet
 	 */
 	function addNewFile($sds) {
-
+		$stmt = $this->prepare("INSERT INTO `file` (type, name, filepath, date_uploaded) VALUES (1, ?, ?, NOW())");
+		$stmt->bind_param("ss",$sds->name, $sds->filepath);
+		$stmt->execute();
 	}
 
 	/**
