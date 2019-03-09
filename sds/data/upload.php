@@ -24,6 +24,8 @@
 
 				$desiredName = pathinfo($_POST['filename'], PATHINFO_FILENAME);
 
+				$desiredName = str_replace(" ", "_", $desiredName);
+
 				$replacementSTR = "";
 				$tries = 0;
 
@@ -45,7 +47,7 @@
 				do {
 					$targetFile = $targetDir . $desiredName . $replacementSTR . "." . $fileType;
 					$tries++;
-					$replacementSTR = " " . $tries;
+					$replacementSTR = "_" . $tries;
 				} while (file_exists($targetFile));
 
 				$finalName = pathinfo($targetFile, PATHINFO_BASENAME);
