@@ -10,33 +10,7 @@
 require_once (__DIR__ . "/SafetyDataSheet.php");
 require_once (__DIR__ . "/Connection.php");
 require_once (__DIR__ . "/auth.php");
-
-$login = false;
-
-$fileRowTeemplate = '
-<tr>
-	<td><a href="">{FILENAME}</a></td>
-	<td><button>Download</button></td>
-	<td><button>Copy Link</button></td>
-</tr>
-';
-
-// check for session
-
-$authResult = auth(false);
-
-if ($authResult['success']) {
-	$login = true;
-	$fileRowTeemplate = '
-<tr>
-	<td><a href="">{FILENAME}</a></td>
-	<td><button>Download</button></td>
-	<td><button>Rename</button></td>
-	<td><button>Copy Link</button></td>
-	<td><button class="destructive">Delete</button></td>
-</tr>
-';
-}
+require_once (__DIR__ . "/buildtables.php");
 
 // initialize connection to database
 $conn = new Connection();
@@ -47,18 +21,6 @@ if ($conn == null) {
 	exit();
 }
 
-// load files
-$recentsdsheets = $conn->getRecentFiles();
+$sds = $conn->getRecentFiles();
 
-echo '<colgroup>
-					<col width="100%">
-					<col width="0%">
-					<col width="0%">
-					<col width="0%">
-					<col width="0%">
-				</colgroup>';
-
-foreach ($recentsdsheets as $file) {
-	$populatedTemplate = str_replace("{FILENAME}", $file->name, $fileRowTeemplate);
-	echo $populatedTemplate;
-}
+buildTables($sds);
