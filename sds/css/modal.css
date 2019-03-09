@@ -33,3 +33,25 @@
 	padding: 10px 15px;
 }
 
+.bottommsg {
+	padding: 10px 100px;
+
+
+
+	position: fixed;
+	bottom: -100px;
+	left: 50%;
+	transform: translate(-50%, 0);
+	z-index: 999;
+
+	background-color: white;
+	border: 1px solid #214A5B;
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+
+	box-shadow: -0px 0px 10px rgba(0,0,0,.3);
+}
+
+.bottommsg p {
+	margin: 0;
+}

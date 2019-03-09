@@ -6,4 +6,4 @@
  * Time: 11:13 PM
  */
 
-echo exec('whoami');
+echo $_SERVER['HTTP_HOST'];

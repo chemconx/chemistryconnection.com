@@ -20,7 +20,7 @@
 	margin-right: 20px;
 }
 
-button {
+button, a.action {
 	padding: 0 30px;
 	background-color: #214A5B;
 	color: white;
@@ -30,11 +30,18 @@ button {
 	border-radius: 5px;
 }
 
-button.destructive {
+a.action {
+	padding: 5px 25px;
+	height: 100%;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.action.destructive {
 	background-color: #E65532;
 }
 
-button:hover, .upload-input + label:hover {
+button:hover, .upload-input + label:hover, a.action:hover {
 	opacity: 0.8;
 }
 

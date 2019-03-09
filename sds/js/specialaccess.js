@@ -46,10 +46,12 @@ function initUpload() {
 	});
 }
 
-function rename(id) {
+function renameFile(id) {
 	// TODO Rename file
+
 }
 
 function deleteFile(id) {
 	// TODO delete file
+	console.log("DELETE FILE");
 }

@@ -26,6 +26,17 @@ function initTables() {
 			$("#search-results-table").html(data);
 		});
 	}
+
+	let clipboard = new ClipboardJS('.action.copy');
+
+
+	clipboard.on('success', function(e) {
+		showBottomMSG("Link copied!");
+	});
+
+	clipboard.on('error', function(e) {
+		showBottomMSG("We were unable to copy the link.");
+	});
 }
 
 function initModals() {
@@ -44,6 +55,10 @@ function initModals() {
 		$('.darkenscreen').hide();
 		$('.modal').hide();
 	});
+
+	$('.bottommsg').click(function () {
+		hideBottomMsg();
+	})
 }
 
 function initSearch() {
@@ -65,16 +80,6 @@ function initSearch() {
 			});
 		}
 	});
-}
-
-function downloadFile(id) {
-	// TODO download file thing
-
-
-}
-
-function copyLink(id) {
-	// TODO copyLink
 }
 
 function getUrlVars() {
@@ -106,3 +111,21 @@ function showModal(url, completion = null) {
 	});
 }
 
+function showBottomMSG(msg){
+	let bottomMSG = $('.bottommsg');
+	bottomMSG.html("<p>" + msg + "</p>");
+	bottomMSG.show();
+
+	bottomMSG.animate({bottom:'0px'},500);
+
+	setTimeout(function () {
+		hideBottomMsg();
+	}, 3000);
+
+}
+
+function hideBottomMsg() {
+	$('.bottommsg').animate({bottom:'-100px'},500, "swing", function() {
+		$(this).hide();
+	})
+}

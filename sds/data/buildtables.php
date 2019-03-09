@@ -12,8 +12,8 @@ function buildTables($sds) {
 	$fileRowTeemplate = '
 <tr>
 	<td><a href="">{FILENAME}</a></td>
-	<td><button onclick="downloadFile({ID})">Download</button></td>
-	<td><button onclick="copyLink({ID})">Copy Link</button></td>
+	<td><a class="action" href="{LINK}" target="_blank">Open</a></td>
+	<td><a class="action copy" data-clipboard-text="{LINK}">Copy Link</a></td>
 </tr>
 ';
 
@@ -26,10 +26,10 @@ function buildTables($sds) {
 		$fileRowTeemplate = '
 <tr>
 	<td><a href="">{FILENAME}</a></td>
-	<td><button onclick="downloadFile({ID})">Download</button></td>
-	<td><button onclick="renameFile({ID})">Rename</button></td>
-	<td><button onclick="copyLink({ID})">Copy Link</button></td>
-	<td><button class="destructive" onclick="deleteFile({ID})">Delete</button></td>
+	<td><a class="action" href="{LINK}" target="_blank">Open</a></td>
+	<td><a class="action copy" data-clipboard-text="{LINK}">Copy Link</a></td>
+	<td><a class="action" onclick="renameFile({ID})">Rename</a></td>
+	<td><a class="action destructive" onclick="deleteFile({ID})">Delete</a></td>
 </tr>
 ';
 	}
@@ -46,6 +46,7 @@ function buildTables($sds) {
 	foreach ($sds as $file) {
 		$populatedTemplate = str_replace("{FILENAME}", $file->name, $fileRowTeemplate);
 		$populatedTemplate = str_replace("{ID}", $file->id, $populatedTemplate);
+		$populatedTemplate = str_replace("{LINK}", "https://" . $_SERVER['HTTP_HOST'] ."/sds/data/pdf/".$file->name, $populatedTemplate);
 
 		echo $populatedTemplate;
 	}
