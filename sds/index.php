@@ -164,7 +164,13 @@ if ($authresults['success']) {
 <script>window.jQuery || document.write('<script src="../js/vendor/jquery-3.3.1.min.js"><\/script>');</script>
 <script src="../js/plugins.js"></script>
 <script src="js/main.js"></script>
-<script src="js/upload.js"></script>
+<?php
+	if ($authresults['success']) {
+		echo '<script src="js/upload.js"></script>';
+		echo '<script src="js/specialaccess.js"></script>';
+	}
+?>
+
 
 <?php
 
