@@ -2,7 +2,7 @@
 	display: flex;
 }
 
-.login-form {
+.modal-form {
 	display: flex;
 	flex-direction: column;
 }

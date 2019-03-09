@@ -41,8 +41,8 @@ function initTables() {
 
 function initModals() {
 	$('.darkenscreen').click(function () {
-		$(this).hide();
-		$('.modal').hide();
+		$(this).fadeOut(100);
+		$('.modal').fadeOut(100);
 
 		cleanURL();
 	});
@@ -99,7 +99,8 @@ function cleanURL() {
 }
 
 function showModal(url, completion = null) {
-	$('.darkenscreen').show();
+	$('.darkenscreen').fadeIn(100);
+	$('.modal').fadeIn(100);
 
 	$.get(url, function (data) {
 		$(".modal").html(data).show();
@@ -116,7 +117,7 @@ function showBottomMSG(msg){
 	bottomMSG.html("<p>" + msg + "</p>");
 	bottomMSG.show();
 
-	bottomMSG.animate({bottom:'0px'},500);
+	bottomMSG.animate({bottom:'0px'},300);
 
 	setTimeout(function () {
 		hideBottomMsg();
@@ -125,7 +126,7 @@ function showBottomMSG(msg){
 }
 
 function hideBottomMsg() {
-	$('.bottommsg').animate({bottom:'-100px'},500, "swing", function() {
+	$('.bottommsg').animate({bottom:'-100px'},300, "swing", function() {
 		$(this).hide();
 	})
 }

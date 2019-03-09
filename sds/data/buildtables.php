@@ -11,7 +11,7 @@ function buildTables($sds) {
 
 	$fileRowTeemplate = '
 <tr>
-	<td><a href="">{FILENAME}</a></td>
+	<td>{FILENAME}</td>
 	<td><a class="action" href="{LINK}" target="_blank">Open</a></td>
 	<td><a class="action copy" data-clipboard-text="{FULL_LINK}">Copy Link</a></td>
 </tr>
@@ -25,7 +25,7 @@ function buildTables($sds) {
 		$login = true;
 		$fileRowTeemplate = '
 <tr>
-	<td><a href="">{FILENAME}</a></td>
+	<td>{FILENAME}</td>
 	<td><a class="action" href="{LINK}" target="_blank">Open</a></td>
 	<td><a class="action copy" data-clipboard-text="{FULL_LINK}">Copy Link</a></td>
 	<td><a class="action" onclick="renameFile({ID})">Rename</a></td>

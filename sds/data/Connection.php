@@ -51,7 +51,7 @@ class Connection {
 		$files = array();
 
 		while ($row = $resut->fetch_assoc()) {
-			array_push($files, new SafetyDataSheet($row['name'], $row['filepath'], new DateTime($row['date_uploaded']), $row['id']));
+			array_push($files, new SafetyDataSheet($row['name'], $row['filepath'], new DateTime($row['date_uploaded']), intval($row['id'])));
 		}
 
 		return $files;
@@ -71,7 +71,7 @@ class Connection {
 		$files = array();
 
 		while ($row = $resut->fetch_assoc()) {
-			array_push($files, new SafetyDataSheet($row['name'], $row['filepath'], new DateTime($row['date_uploaded']), $row['id']));
+			array_push($files, new SafetyDataSheet($row['name'], $row['filepath'], new DateTime($row['date_uploaded']), intval($row['id'])));
 		}
 
 		return $files;
@@ -88,13 +88,26 @@ class Connection {
 		$files = array();
 
 		while ($row = $resut->fetch_assoc()) {
-			array_push($files, new SafetyDataSheet($row['name'], $row['filepath'], new DateTime($row['date_uploaded']), $row['id']));
+			array_push($files, new SafetyDataSheet($row['name'], $row['filepath'], new DateTime($row['date_uploaded']), intval($row['id'])));
 		}
 
 		return $files;
 	}
 
 	// FILE MANAGEMENT
+	function getFile($id) {
+		$stmt = $this->prepare("SELECT * FROM `file` WHERE `id` = ?");
+		$stmt->bind_param('i', intval($id));
+		$stmt->execute();
+
+		$result = $stmt->get_result();
+
+		while ($row = $result->fetch_assoc()) {
+			return new SafetyDataSheet($row['name'], $row['filepath'], new DateTime($row['date_uploaded']), intval($row['id']));
+		}
+
+		return null;
+	}
 
 	/**
 	 * Adds new file to database records
@@ -119,6 +132,8 @@ class Connection {
 	 * @param $sds SafetyDataSheet
 	 */
 	function renameFile($sds) {
-
+		$stmt = $this->prepare("UPDATE `file` SET `name` = ?, `filepath` = ? WHERE id = ?");
+		$stmt->bind_param("ssi", $sds->name, $sds->filepath, $sds->id);
+		$stmt->execute();
 	}
 }
