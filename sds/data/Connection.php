@@ -124,7 +124,9 @@ class Connection {
 	 * @param $sds SafetyDataSheet
 	 */
 	function deleteFile($sds) {
-
+		$stmt = $this->prepare("DELETE FROM `file` WHERE id = ?");
+		$stmt->bind_param("i", $sds->id);
+		$stmt->execute();
 	}
 
 	/**

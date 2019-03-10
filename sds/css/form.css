@@ -30,6 +30,22 @@ button, a.action {
 	border-radius: 5px;
 }
 
+.modal-action-buttons button {
+	border: 2px solid #214A5B;
+	background-color: #EFEFEF;
+	color: #214A5B;
+}
+
+.modal-action-buttons button:hover {
+	background-color: #214A5B;
+	color: white;
+}
+
+.modal-action-buttons .default-action {
+	background-color: #214A5B;
+	color: white;
+}
+
 a.action {
 	padding: 5px 25px;
 	height: 100%;
@@ -71,9 +87,13 @@ button:hover, .upload-input + label:hover, a.action:hover {
 	padding-right: 5px;
 }
 
-form p {
+form p.small {
 	margin: 0;
 	font-size: 0.85rem;
+}
+
+.container.modal-action-buttons button {
+	margin-left: 10px;
 }
 
 .error {

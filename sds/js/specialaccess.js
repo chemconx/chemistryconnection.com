@@ -93,6 +93,53 @@ function initRename() {
 	});
 }
 
+function initDelete(){
+	$('#delete-file-decline').click(function (e) {
+		e.preventDefault();
+		$('.darkenscreen').fadeOut(100);
+		$('.modal').fadeOut(100);
+	});
+
+	$('#delete-file-accept').click(function (e) {
+		e.preventDefault();
+
+		let id = $("#delete-file-id").val();
+
+		var formData = new FormData();
+
+		// add assoc key values, this will be posts values
+		formData.append("id", id);
+
+		$.ajax({
+			type: "POST",
+			url: "data/delete.php",
+			async: true,
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			timeout: 60000
+		}).done(function (data) {
+			$('.modal-form').slideUp(100, function () {
+				let message = $(data).hide();
+
+				$('#delete-container').append(message);
+				message.slideDown(100);
+
+				// reload homepage
+				initTables();
+
+				// add event to modal-close
+				$('.modal-close').click(function (e) {
+					e.preventDefault();
+					$('.darkenscreen').fadeOut(100);
+					$('.modal').fadeOut(100);
+				});
+			});
+		});
+	});
+}
+
 function renameFile(id) {
 	// TODO Rename file
 	showModal("modal/rename.php?id=" + id, initRename);
@@ -100,5 +147,5 @@ function renameFile(id) {
 
 function deleteFile(id) {
 	// TODO delete file
-	console.log("DELETE FILE");
+	showModal("modal/delete.php?id=" + id, initDelete);
 }

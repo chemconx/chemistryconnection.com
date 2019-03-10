@@ -119,7 +119,7 @@ if ($authresults['success']) {
 		if ($authresults['success']) {
 			echo '
 					<div>
-						<p>Welcome, Jasper<br><a href="index.php?logout">Log out</a></p>
+						<p>Welcome, Admin<br><a href="index.php?logout">Log out</a></p>
 					</div>
 				';
 		}
