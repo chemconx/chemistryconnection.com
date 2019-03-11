@@ -74,6 +74,7 @@ button:hover, .upload-input + label:hover, a.action:hover {
 .upload-input + label {
 	cursor: pointer;
 
+	margin: 0px 2px 10px 2px;
 	padding: 10px 10px;
 	background-color: #214A5B;
 	color: white;
@@ -90,6 +91,11 @@ button:hover, .upload-input + label:hover, a.action:hover {
 form p.small {
 	margin: 0;
 	font-size: 0.85rem;
+	text-align: center;
+}
+
+#upload-file-rename-input {
+	padding: 10px 10px;
 }
 
 .container.modal-action-buttons button {
@@ -98,6 +104,12 @@ form p.small {
 
 .error {
 	color: #E65532;
+}
+
+.ui.selection.dropdown {
+	min-height: auto; !important;
+	height: 1em;
+	display: flex;
 }
 
 /* UPLOAD PROGRESS BAR */

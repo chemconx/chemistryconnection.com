@@ -8,7 +8,7 @@
 		 * Time: 8:37 PM
 		 */
 
-		require_once __DIR__ . '/SafetyDataSheet.php';
+		require_once __DIR__ . '/DataSheet.php';
 		require_once __DIR__ . '/Connection.php';
 		require_once __DIR__ . '/auth.php';
 
@@ -17,6 +17,15 @@
 				echo '<span class="error">Not authorized.</span>';
 				return;
 			} else {
+				// DO DSTYPE INJECTION CHECK, DEFAULT TO 1
+				$dsType = 1;
+				if (isset($_POST['dstype'])){
+					$dsType = intval($_POST['dstype']);
+					if ($dsType != 1 && $dsType != 2) {
+						$dsType = 1;
+					}
+				}
+
 				$targetDir = __DIR__ . "/pdf/";
 				$targetFile = $_FILES['file']['name'];
 				$fileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
@@ -61,7 +70,7 @@
 						return;
 					}
 
-					$sds = new SafetyDataSheet($finalName, $targetFile, new DateTime(), -1);
+					$sds = new DataSheet($finalName, $targetFile, new DateTime(), -1, $dsType);
 
 					$conn->addNewFile($sds);
 

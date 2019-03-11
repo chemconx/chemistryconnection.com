@@ -3,10 +3,11 @@
 </div>
 <div class="container">
 	<form class="modal-form" id="login-form" method="post" action="./">
-		<input type="text" name="email" placeholder="Username" size="35">
-		<input type="password" name="pass" placeholder="Password" size="35">
+		<input id="login-form-email" type="text" name="email" placeholder="Username" size="35">
+		<input id="login-form-pass" type="password" name="pass" placeholder="Password" size="35">
+		<p id="login-message" class="error" style="display: none"></p>
 		<div class="container">
-			<button type="submit" style="float: right">Login</button>
+			<button id="login-form-submit" type="submit" style="float: right">Login</button>
 		</div>
 	</form>
 </div>

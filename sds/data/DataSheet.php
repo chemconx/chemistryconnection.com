@@ -6,9 +6,11 @@
  * Time: 9:13 PM
  */
 
-class SafetyDataSheet {
+class DataSheet {
 	/** @var string */
 	var $name;
+
+	var $fileType = 1;
 
 	/** @var string */
 	var $filepath;
@@ -20,17 +22,18 @@ class SafetyDataSheet {
 	var $id;
 
 	/**
-	 * SafetyDataSheet constructor.
+	 * DataSheet constructor.
 	 * @param string $name
 	 * @param string $filepath
 	 * @param DateTime $dateUploaded
 	 * @param int $id
 	 */
-	public function __construct($name, $filepath, DateTime $dateUploaded, $id) {
+	public function __construct($name, $filepath, DateTime $dateUploaded, $id, $fileType = 1) {
 		$this->name = $name;
 		$this->filepath = $filepath;
 		$this->dateUploaded = $dateUploaded;
 		$this->id = $id;
+		$this->fileType = $fileType;
 	}
 
 

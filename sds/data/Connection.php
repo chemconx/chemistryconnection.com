@@ -6,6 +6,8 @@
  * Time: 9:09 PM
  */
 
+require_once __DIR__ . '/DataSheet.php';
+
 class Connection {
 	/** @var mysqli */
 	var $conn;
@@ -36,14 +38,23 @@ class Connection {
 		}
 	}
 
+	function dataSheetFromRow($row) {
+		return new DataSheet($row['name'], $row['filepath'], new DateTime($row['date_uploaded']), intval($row['id']), intval($row['type']));
+	}
+
 	// FILE READ
 
 	/**
-	 * @return SafetyDataSheet[]
+	 * @return DataSheet[]
 	 * Null if database connection fails, array of SafetyDataSheets if successful
 	 */
-	function getAllFiles() {
-		$stmt = $this->conn->prepare("SELECT * FROM `file` ORDER BY `name` ASC");
+	function getAllFiles($dataSheetType = -1) {
+		$query = "SELECT * FROM `file` ORDER BY `name` ASC";
+
+		if ($dataSheetType != -1) {
+			$query = "SELECT * FROM `file` WHERE `type` = $dataSheetType ORDER BY `name` ASC";
+		}
+		$stmt = $this->conn->prepare($query);
 		$stmt->execute();
 
 		$resut = $stmt->get_result();
@@ -51,7 +62,7 @@ class Connection {
 		$files = array();
 
 		while ($row = $resut->fetch_assoc()) {
-			array_push($files, new SafetyDataSheet($row['name'], $row['filepath'], new DateTime($row['date_uploaded']), intval($row['id'])));
+			array_push($files, $this->dataSheetFromRow($row));
 		}
 
 		return $files;
@@ -59,11 +70,18 @@ class Connection {
 
 	/**
 	 * Get five most recent files. Useful if you just uploaded a file and need to copy the link.
-	 * @return SafetyDataSheet[]
+	 * @return DataSheet[]
 	 * Null if database connection fails, array of SafetyDataSheets if successful.
 	 */
-	function getRecentFiles() {
-		$stmt = $this->conn->prepare("SELECT * FROM `file` ORDER BY date_uploaded DESC LIMIT 0,5");
+	function getRecentFiles($dataSheetType = -1) {
+
+		$query = "SELECT * FROM `file` ORDER BY date_uploaded DESC LIMIT 0,5";
+
+		if ($dataSheetType != -1) {
+			$query = "SELECT * FROM `file` WHERE `type` = $dataSheetType ORDER BY date_uploaded DESC LIMIT 0,5";
+		}
+
+		$stmt = $this->conn->prepare($query);
 		$stmt->execute();
 
 		$resut = $stmt->get_result();
@@ -71,16 +89,23 @@ class Connection {
 		$files = array();
 
 		while ($row = $resut->fetch_assoc()) {
-			array_push($files, new SafetyDataSheet($row['name'], $row['filepath'], new DateTime($row['date_uploaded']), intval($row['id'])));
+			array_push($files, $this->dataSheetFromRow($row));
 		}
 
 		return $files;
 	}
 
-	function search(string $query) {
+	function search(string $query, $dataSheetType = 1) {
+		$mysqlquery = "SELECT * FROM `file` WHERE `name` LIKE ?";
+
+		if ($dataSheetType != -1) {
+			$mysqlquery = "SELECT * FROM `file` WHERE  `name` LIKE ? AND `type` = $dataSheetType";
+		}
+
+
 		$query = "%".$query."%";
-		$stmt = $this->conn->prepare("SELECT * FROM `file` WHERE `name` LIKE ? OR `filepath` LIKE ?");
-		$stmt->bind_param('ss', $query, $query);
+		$stmt = $this->conn->prepare($mysqlquery);
+		$stmt->bind_param('s', $query);
 		$stmt->execute();
 
 		$resut = $stmt->get_result();
@@ -88,7 +113,7 @@ class Connection {
 		$files = array();
 
 		while ($row = $resut->fetch_assoc()) {
-			array_push($files, new SafetyDataSheet($row['name'], $row['filepath'], new DateTime($row['date_uploaded']), intval($row['id'])));
+			array_push($files, $this->dataSheetFromRow($row));
 		}
 
 		return $files;
@@ -103,7 +128,7 @@ class Connection {
 		$result = $stmt->get_result();
 
 		while ($row = $result->fetch_assoc()) {
-			return new SafetyDataSheet($row['name'], $row['filepath'], new DateTime($row['date_uploaded']), intval($row['id']));
+			return $this->dataSheetFromRow($row);
 		}
 
 		return null;
@@ -111,17 +136,17 @@ class Connection {
 
 	/**
 	 * Adds new file to database records
-	 * @param $sds SafetyDataSheet
+	 * @param $sds DataSheet
 	 */
 	function addNewFile($sds) {
-		$stmt = $this->prepare("INSERT INTO `file` (type, name, filepath, date_uploaded) VALUES (1, ?, ?, NOW())");
-		$stmt->bind_param("ss",$sds->name, $sds->filepath);
+		$stmt = $this->prepare("INSERT INTO `file` (type, name, filepath, date_uploaded) VALUES (?, ?, ?, NOW())");
+		$stmt->bind_param("iss",$sds->fileType, $sds->name, $sds->filepath);
 		$stmt->execute();
 	}
 
 	/**
 	 * Deletes file from database records
-	 * @param $sds SafetyDataSheet
+	 * @param $sds DataSheet
 	 */
 	function deleteFile($sds) {
 		$stmt = $this->prepare("DELETE FROM `file` WHERE id = ?");
@@ -131,7 +156,7 @@ class Connection {
 
 	/**
 	 * Renames file in database records
-	 * @param $sds SafetyDataSheet
+	 * @param $sds DataSheet
 	 */
 	function renameFile($sds) {
 		$stmt = $this->prepare("UPDATE `file` SET `name` = ?, `filepath` = ? WHERE id = ?");

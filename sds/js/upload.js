@@ -1,6 +1,7 @@
-var Upload = function (file, filename) {
+var Upload = function (file, filename, fileType) {
 	this.file = file;
 	this.filename = filename;
+	this.dsType = fileType;
 };
 
 Upload.prototype.getType = function() {
@@ -12,13 +13,23 @@ Upload.prototype.getSize = function() {
 Upload.prototype.getName = function() {
 	return this.file.name;
 };
+
+Upload.prototype.getFilename = function() {
+	return this.filename;
+};
+
+Upload.prototype.getDSType = function() {
+	return this.dsType;
+};
+
 Upload.prototype.doUpload = function (completion = null) {
 	var that = this;
 	var formData = new FormData();
 
 	// add assoc key values, this will be posts values
 	formData.append("file", this.file, this.getName());
-	formData.append("filename", this.filename);
+	formData.append("filename", this.getFilename());
+	formData.append("dstype", this.getDSType());
 	formData.append("upload_file", true);
 
 	$.ajax({

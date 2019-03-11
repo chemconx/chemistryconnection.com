@@ -7,7 +7,7 @@
  */
 
 
-require_once (__DIR__ . "/SafetyDataSheet.php");
+require_once (__DIR__ . "/DataSheet.php");
 require_once (__DIR__ . "/Connection.php");
 require_once (__DIR__ . "/auth.php");
 require_once (__DIR__ . "/buildtables.php");
@@ -21,6 +21,12 @@ if ($conn == null) {
 	exit();
 }
 
-$sds = $conn->getRecentFiles();
+$fileType = -1;
+
+if(isset($_GET['t']) && ($_GET['t'] == 1 || $_GET['t'] == 2)) {
+	$fileType = $_GET['t'];
+}
+
+$sds = $conn->getRecentFiles($fileType);
 
 buildTables($sds);

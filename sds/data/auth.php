@@ -33,7 +33,7 @@ function auth($echoJSON = true) {
 
 			if (strlen($password) < 6) {
 				$result['success'] = false;
-				$result['message'] = "Invalid password";
+				$result['message'] = "Invalid username or password";
 			} else {
 
 				$serviceAccount = ServiceAccount::fromJsonFile(__DIR__ . '/private/myopdffilebrowser-b92e95396fa0.json');

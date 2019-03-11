@@ -5,10 +5,17 @@
 // although this file will still be accessible if people know where
 // to look.
 
+$(document).ready(function () {
+	$('#upload-button').click(function () {
+		showModal("modal/upload.php", initUpload);
+	});
+});
 
 function initUpload() {
+	$('#upload-file-filetype').dropdown();
+
 	$('#upload-file-input').on('change', function () {
-		$('#upload-file-rename-input').val($(this).val().split("\\").pop());
+		$('#upload-file-rename-input').val($(this).val().split("\\").pop()).focus().select();
 	});
 
 	$('#upload-file-submit').click(function (e) {
@@ -16,7 +23,8 @@ function initUpload() {
 
 		// run upload crap
 		let file = $('#upload-file-input').prop('files') [0];
-		let upload = new Upload(file, $('#upload-file-rename-input').val());
+		let fileType = $('#upload-file-filetype').dropdown('get value');
+		let upload = new Upload(file, $('#upload-file-rename-input').val(), fileType);
 
 		if (upload.getSize() > 10000000) {
 			$('#upload-msg').addClass('error').html('File too big (Max 10mb).');
@@ -38,8 +46,7 @@ function initUpload() {
 					// add event to modal-close
 					$('.modal-close').click(function (e) {
 						e.preventDefault();
-						$('.darkenscreen').fadeOut(100);
-						$('.modal').fadeOut(100);
+						closeModal();
 					});
 				});
 			});
@@ -85,8 +92,7 @@ function initRename() {
 				// add event to modal-close
 				$('.modal-close').click(function (e) {
 					e.preventDefault();
-					$('.darkenscreen').fadeOut(100);
-					$('.modal').fadeOut(100);
+					closeModal();
 				});
 			});
 		});
@@ -96,8 +102,7 @@ function initRename() {
 function initDelete(){
 	$('#delete-file-decline').click(function (e) {
 		e.preventDefault();
-		$('.darkenscreen').fadeOut(100);
-		$('.modal').fadeOut(100);
+		closeModal();
 	});
 
 	$('#delete-file-accept').click(function (e) {
@@ -132,8 +137,7 @@ function initDelete(){
 				// add event to modal-close
 				$('.modal-close').click(function (e) {
 					e.preventDefault();
-					$('.darkenscreen').fadeOut(100);
-					$('.modal').fadeOut(100);
+					closeModal();
 				});
 			});
 		});
@@ -141,11 +145,9 @@ function initDelete(){
 }
 
 function renameFile(id) {
-	// TODO Rename file
 	showModal("modal/rename.php?id=" + id, initRename);
 }
 
 function deleteFile(id) {
-	// TODO delete file
 	showModal("modal/delete.php?id=" + id, initDelete);
 }

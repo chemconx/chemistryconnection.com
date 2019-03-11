@@ -1,4 +1,8 @@
+var tabSelected = -1;
+
 $(document).ready(function () {
+	initTabs();
+
 	initTables();
 
 	initModals();
@@ -6,19 +10,44 @@ $(document).ready(function () {
 	initSearch();
 }());
 
+function initTabs() {
+	$('.tab-item').click(function (e) {
+		$('.tab-active').removeClass('tab-active');
+		$(this).addClass('tab-active');
+
+		tabSelected = parseInt($(this).attr("data-sheet-type"));
+
+		initTables();
+	})
+}
 
 function initTables() {
-	$.get("data/recentfiles.php", function (data) {
+	var type = "?t="+tabSelected;
+
+	if (tabSelected === -1) {
+		type = ""
+	}
+
+	$.get("data/recentfiles.php" + type, function (data) {
 		$('#recent-files-table').html(data);
 	});
 
-	$.get("data/allfiles.php", function (data) {
+	$.get("data/allfiles.php" + type, function (data) {
 		$('#all-files-table').html(data);
 	});
 
 	if ($('.container.search').length) {
 		let urlvars = getUrlVars();
-		let url = 'data/search.php?q=' + urlvars['q'];
+
+		var url = '';
+
+		if (tabSelected === -1) {
+			url = 'data/search.php?q=' + urlvars['q'];
+		} else {
+			url = 'data/search.php' + type + '&q=' + urlvars['q']
+		}
+
+
 
 		$("#search-input").val(urlvars['q'].replace(/\+/g, ' '));
 
@@ -41,14 +70,7 @@ function initTables() {
 
 function initModals() {
 	$('.darkenscreen').click(function () {
-		$(this).fadeOut(100);
-		$('.modal').fadeOut(100);
-
-		cleanURL();
-	});
-
-	$('#upload-button').click(function () {
-		showModal("modal/upload.php", initUpload);
+		closeModal();
 	});
 
 	$('.modal-close').click(function () {
@@ -65,7 +87,7 @@ function initSearch() {
 	let searchInput = $('#search-input');
 
 	searchInput.click(function () {
-		$(this).val('');
+		$(this).select();
 	});
 
 	searchInput.on('keyup paste', function () {
@@ -112,6 +134,12 @@ function showModal(url, completion = null) {
 	});
 }
 
+function closeModal() {
+	$('.darkenscreen').fadeOut(100);
+	$('.modal').fadeOut(100);
+	cleanURL();
+}
+
 function showBottomMSG(msg){
 	let bottomMSG = $('.bottommsg');
 	bottomMSG.html("<p>" + msg + "</p>");
@@ -130,3 +158,4 @@ function hideBottomMsg() {
 		$(this).hide();
 	})
 }
+

@@ -6,7 +6,7 @@
  * Time: 1:54 PM
  */
 
-require_once __DIR__ . '/../data/SafetyDataSheet.php';
+require_once __DIR__ . '/../data/DataSheet.php';
 require_once __DIR__ . '/../data/Connection.php';
 require_once(__DIR__ . "/../data/auth.php");
 

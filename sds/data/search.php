@@ -6,40 +6,11 @@
  * Time: 6:14 PM
  */
 
+require_once __DIR__ . '/Connection.php';
+require_once __DIR__ . '/buildtables.php';
 
 if (!isset($_GET['q']) || empty($_GET['q'])) {
 	exit();
-}
-
-require_once (__DIR__ . "/SafetyDataSheet.php");
-require_once (__DIR__ . "/Connection.php");
-require_once (__DIR__ . "/auth.php");
-
-$login = false;
-
-$fileRowTeemplate = '
-<tr>
-	<td><a href="">{FILENAME}</a></td>
-	<td><button>Download</button></td>
-	<td><button>Copy Link</button></td>
-</tr>
-';
-
-// check for session
-
-$authResult = auth(false);
-
-if ($authResult['success']) {
-	$login = true;
-	$fileRowTeemplate = '
-<tr>
-	<td><a href="">{FILENAME}</a></td>
-	<td><button>Download</button></td>
-	<td><button>Rename</button></td>
-	<td><button>Copy Link</button></td>
-	<td><button class="destructive">Delete</button></td>
-</tr>
-';
 }
 
 // initialize connection to database
@@ -51,18 +22,13 @@ if ($conn == null) {
 	exit();
 }
 
-// load files
-$recentsdsheets = $conn->search($_GET['q']);
+$fileType = -1;
 
-echo '<colgroup>
-					<col width="100%">
-					<col width="0%">
-					<col width="0%">
-					<col width="0%">
-					<col width="0%">
-				</colgroup>';
-
-foreach ($recentsdsheets as $file) {
-	$populatedTemplate = str_replace("{FILENAME}", $file->name, $fileRowTeemplate);
-	echo $populatedTemplate;
+if(isset($_GET['t']) && ($_GET['t'] == 1 || $_GET['t'] == 2)) {
+	$fileType = $_GET['t'];
 }
+
+// load files
+$recentsdsheets = $conn->search($_GET['q'], $fileType);
+
+buildTables($recentsdsheets);

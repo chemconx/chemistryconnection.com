@@ -6,6 +6,8 @@
  * Time: 11:44 PM
  */
 
+require_once __DIR__ . '/auth.php';
+
 function buildTables($sds) {
 	$login = false;
 

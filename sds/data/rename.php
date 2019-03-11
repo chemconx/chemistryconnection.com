@@ -8,7 +8,7 @@
 		 * Date: 3/9/19
 		 * Time: 2:42 PM
 		 */
-		require_once __DIR__ . '/SafetyDataSheet.php';
+		require_once __DIR__ . '/DataSheet.php';
 		require_once __DIR__ . '/Connection.php';
 		require_once __DIR__ . '/auth.php';
 
