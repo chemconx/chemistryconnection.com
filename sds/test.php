@@ -6,4 +6,4 @@
  * Time: 11:13 PM
  */
 
-echo $_SERVER['HTTP_HOST'];
+phpinfo();

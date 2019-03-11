@@ -23,6 +23,7 @@ class Connection {
 		$conn = new mysqli($servername, $username, $password, $dbname);
 
 		if ($conn->connect_error) {
+			echo "Connect error: " . $conn->connect_error;
 			$this->conn = null;
 			$this->connect_error = $conn->connect_error;
 		} else {
@@ -55,6 +56,7 @@ class Connection {
 			$query = "SELECT * FROM `file` WHERE `type` = $dataSheetType ORDER BY `name` ASC";
 		}
 		$stmt = $this->conn->prepare($query);
+
 		$stmt->execute();
 
 		$resut = $stmt->get_result();

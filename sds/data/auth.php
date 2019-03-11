@@ -6,7 +6,7 @@
  * Time: 6:17 PM
  */
 
-require $_SERVER['DOCUMENT_ROOT'].'/myo/vendor/autoload.php';
+require __DIR__ . '/../../vendor/autoload.php';
 
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
