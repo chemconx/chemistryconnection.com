@@ -113,21 +113,13 @@ if ($authresults['success']) {
 <![endif]-->
 
 <!-- Add your site or application content here -->
+
+<?php require __DIR__ . '/data/usertoolbar.php';?>
+
 <div class="navbar">
 	<div class="main main-header">
 		<img class="header-image" src="../img/chemconx.png">
 		<h1>Safety Data Sheets</h1>
-
-
-		<?php
-		if ($authresults['success']) {
-			echo '
-					<div>
-						<p>Welcome, Admin<br><a href="index.php?logout">Log out</a></p>
-					</div>
-				';
-		}
-		?>
 	</div>
 </div>
 

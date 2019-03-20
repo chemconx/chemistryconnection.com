@@ -1,0 +1,32 @@
+.usertoolbar {
+	background-color: #E3E3E3;
+	padding: 0 10px;
+	color: #868686;
+}
+
+.usertoolbar-links {
+	margin:0px;
+	text-align: right;
+}
+
+.usertoolbar-link {
+	display: inline-block;
+	text-transform: uppercase;
+	padding: 5px 15px;
+	cursor: pointer;
+	transition: color, background-color 0.1s linear;
+}
+
+.usertoolbar-link:hover {
+	background-color: #868686;
+	color: #E3E3E3;
+}
+
+.usertoolbar-link:hover a {
+	color: #E3E3E3;
+}
+
+.usertoolbar-link a {
+	color: #868686;
+	text-decoration: none;
+}
