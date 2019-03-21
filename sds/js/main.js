@@ -30,10 +30,14 @@ function initTables() {
 
 	$.get("data/recentfiles.php" + type, function (data) {
 		$('#recent-files-table').html(data);
+
+		initTableButtons();
 	});
 
 	$.get("data/allfiles.php" + type, function (data) {
 		$('#all-files-table').html(data);
+
+		initTableButtons();
 	});
 
 	if ($('.container.search').length) {
@@ -53,19 +57,20 @@ function initTables() {
 
 		$.get(url, function (data) {
 			$("#search-results-table").html(data);
+
+			initTableButtons();
 		});
 	}
 
-	let clipboard = new ClipboardJS('.action.copy');
-
-
-	clipboard.on('success', function(e) {
-		showBottomMSG("Link copied!");
-	});
-
-	clipboard.on('error', function(e) {
-		showBottomMSG("We were unable to copy the link.");
-	});
+	// let clipboard = new ClipboardJS('.action.copy');
+	//
+	// clipboard.on('success', function(e) {
+	// 	showBottomMSG("Link copied!");
+	// });
+	//
+	// clipboard.on('error', function(e) {
+	// 	showBottomMSG("We were unable to copy the link.");
+	// });
 }
 
 function initModals() {
@@ -101,6 +106,17 @@ function initSearch() {
 				$("#search-results-table").html(data);
 			});
 		}
+	});
+}
+
+function initTableButtons() {
+	$('.action.copy').click(function (e) {
+		let link = $(this).attr("data-clipboard-text");
+		showModal('modal/copy.html', function () {
+
+			// TODO: Set clipboard data and init JSClipboard here
+
+		});
 	});
 }
 
