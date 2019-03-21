@@ -30,10 +30,14 @@ function initTables() {
 
 	$.get("data/recentfiles.php" + type, function (data) {
 		$('#recent-files-table').html(data);
+
+		initTableButtons();
 	});
 
 	$.get("data/allfiles.php" + type, function (data) {
 		$('#all-files-table').html(data);
+
+		initTableButtons();
 	});
 
 	if ($('.container.search').length) {
@@ -53,19 +57,20 @@ function initTables() {
 
 		$.get(url, function (data) {
 			$("#search-results-table").html(data);
+
+			initTableButtons();
 		});
 	}
 
-	let clipboard = new ClipboardJS('.action.copy');
-
-
-	clipboard.on('success', function(e) {
-		showBottomMSG("Link copied!");
-	});
-
-	clipboard.on('error', function(e) {
-		showBottomMSG("We were unable to copy the link.");
-	});
+	// let clipboard = new ClipboardJS('.action.copy');
+	//
+	// clipboard.on('success', function(e) {
+	// 	showBottomMSG("Link copied!");
+	// });
+	//
+	// clipboard.on('error', function(e) {
+	// 	showBottomMSG("We were unable to copy the link.");
+	// });
 }
 
 function initModals() {
@@ -101,6 +106,46 @@ function initSearch() {
 				$("#search-results-table").html(data);
 			});
 		}
+	});
+}
+
+function initTableButtons() {
+	$('.action.copy').click(function (e) {
+		let link = $(this).attr("data-clipboard-text");
+		let fileType = $(this).attr("data-copy-link-file-type");
+		showModal('modal/copy.html', function () {
+			var imageLink = "https://chemistryconnection.com/sds/img/sds.jpg";
+
+			if (fileType == 2) {
+				imageLink = "https://chemistryconnection.com/sds/img/coa.jpg";
+			}
+
+			var iconCode = '<a target="_blank" href="' + link + '"><img src="' + imageLink + '" style="height: 6rem; width: auto"></a>';
+
+			$('#copy-form-link').attr("data-clipboard-text", link);
+			$('#copy-form-icon-code').attr("data-clipboard-text", iconCode);
+
+			let clipboardLink = new ClipboardJS('#copy-form-link');
+			let clipboardCode = new ClipboardJS('#copy-form-icon-code');
+
+			clipboardLink.on('success', function(e) {
+				closeModal();
+				showBottomMSG("Link copied!");
+			});
+
+			clipboardLink.on('error', function(e) {
+				showBottomMSG("We were unable to copy the link.");
+			});
+
+			clipboardCode.on('success', function(e) {
+				closeModal();
+				showBottomMSG("HTML code copied!");
+			});
+
+			clipboardCode.on('error', function(e) {
+				showBottomMSG("We were unable to copy the code.");
+			});
+		});
 	});
 }
 
