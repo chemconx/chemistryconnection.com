@@ -2,11 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fd38daa7-39e7-451f-9feb-005e305d5554" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/sds/modal/copy.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sds/css/form.css" beforeDir="false" afterPath="$PROJECT_DIR$/sds/css/form.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sds/data/usertoolbar.php" beforeDir="false" afterPath="$PROJECT_DIR$/sds/data/usertoolbar.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sds/data/buildtables.php" beforeDir="false" afterPath="$PROJECT_DIR$/sds/data/buildtables.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sds/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/sds/js/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sds/modal/copy.html" beforeDir="false" afterPath="$PROJECT_DIR$/sds/modal/copy.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,15 +21,15 @@
     <session id="-1274539815">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="18" />
+          <entry key="project.closed" value="19" />
           <entry key="project.open.time.0" value="2" />
           <entry key="project.open.time.3" value="1" />
           <entry key="project.open.time.4" value="2" />
           <entry key="project.open.time.5" value="9" />
-          <entry key="project.open.time.6" value="4" />
+          <entry key="project.open.time.6" value="5" />
           <entry key="project.open.time.7" value="2" />
           <entry key="project.open.time.8" value="1" />
-          <entry key="project.opened" value="21" />
+          <entry key="project.opened" value="22" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -41,7 +40,7 @@
           <entry key="ini" value="2" />
           <entry key="js" value="20" />
           <entry key="json" value="3" />
-          <entry key="php" value="67" />
+          <entry key="php" value="69" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
@@ -51,7 +50,7 @@
           <entry key="Ini" value="2" />
           <entry key="JSON" value="3" />
           <entry key="JavaScript" value="20" />
-          <entry key="PHP" value="67" />
+          <entry key="PHP" value="69" />
           <entry key="htaccess" value="5" />
         </counts>
       </usages-collector>
@@ -60,21 +59,21 @@
           <entry key="css" value="2742" />
           <entry key="dummy" value="9" />
           <entry key="htaccess" value="13" />
-          <entry key="html" value="471" />
+          <entry key="html" value="477" />
           <entry key="ini" value="41" />
-          <entry key="js" value="4666" />
+          <entry key="js" value="5226" />
           <entry key="json" value="140" />
-          <entry key="php" value="12920" />
+          <entry key="php" value="12981" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CSS" value="2742" />
-          <entry key="HTML" value="612" />
+          <entry key="HTML" value="618" />
           <entry key="Ini" value="41" />
           <entry key="JSON" value="140" />
-          <entry key="JavaScript" value="4666" />
-          <entry key="PHP" value="12779" />
+          <entry key="JavaScript" value="5226" />
+          <entry key="PHP" value="12840" />
           <entry key="PLAIN_TEXT" value="9" />
           <entry key="htaccess" value="13" />
         </counts>
@@ -107,7 +106,7 @@
         <entry file="file://$PROJECT_DIR$/sds/data/usertoolbar.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="330">
-              <caret line="27" column="2" lean-forward="true" selection-start-line="27" selection-start-column="2" selection-end-line="27" selection-end-column="2" />
+              <caret line="27" column="2" selection-start-line="27" selection-start-column="2" selection-end-line="27" selection-end-column="2" />
             </state>
           </provider>
         </entry>
@@ -115,8 +114,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/sds/js/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="547">
-              <caret line="120" column="1" selection-start-line="120" selection-start-column="1" selection-end-line="120" selection-end-column="1" />
+            <state relative-caret-position="332">
+              <caret line="122" column="45" selection-start-line="122" selection-start-column="45" selection-end-line="122" selection-end-column="45" />
+              <folding>
+                <element signature="n#style#0;n#img#0;n#a#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -124,8 +126,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sds/data/buildtables.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="8" column="25" selection-start-line="8" selection-start-column="25" selection-end-line="8" selection-end-column="25" />
+            <state relative-caret-position="180">
+              <caret line="17" column="103" selection-start-line="17" selection-start-column="103" selection-end-line="17" selection-end-column="103" />
             </state>
           </provider>
         </entry>
@@ -134,7 +136,7 @@
         <entry file="file://$PROJECT_DIR$/sds/css/form.css">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="210">
-              <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+              <caret line="14" selection-start-line="14" selection-end-line="14" />
             </state>
           </provider>
         </entry>
@@ -151,8 +153,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sds/modal/copy.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" selection-start-line="6" selection-end-line="6" />
+            <state relative-caret-position="75">
+              <caret line="5" column="51" selection-start-line="5" selection-start-column="51" selection-end-line="5" selection-end-column="51" />
             </state>
           </provider>
         </entry>
@@ -215,7 +217,6 @@
         <option value="$PROJECT_DIR$/sds/data/DataSheet.php" />
         <option value="$PROJECT_DIR$/sds/data/recentfiles.php" />
         <option value="$PROJECT_DIR$/sds/data/search.php" />
-        <option value="$PROJECT_DIR$/sds/data/buildtables.php" />
         <option value="$PROJECT_DIR$/sds/css/sds.css" />
         <option value="$PROJECT_DIR$/sds/modal/upload.php" />
         <option value="$PROJECT_DIR$/sds/js/specialaccess.js" />
@@ -232,6 +233,7 @@
         <option value="$PROJECT_DIR$/sds/css/form.css" />
         <option value="$PROJECT_DIR$/sds/modal/login.html" />
         <option value="$PROJECT_DIR$/sds/modal/copy.php" />
+        <option value="$PROJECT_DIR$/sds/data/buildtables.php" />
         <option value="$PROJECT_DIR$/sds/modal/copy.html" />
         <option value="$PROJECT_DIR$/sds/js/main.js" />
       </list>
@@ -282,8 +284,8 @@
     </include_path>
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="width" value="1440" />
-    <option name="height" value="900" />
+    <option name="width" value="1680" />
+    <option name="height" value="1050" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -291,7 +293,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -329,6 +330,12 @@
               <item name="myo" type="b2602c69:ProjectViewProjectNode" />
               <item name="myo" type="462c0819:PsiDirectoryNode" />
               <item name="sds" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="myo" type="b2602c69:ProjectViewProjectNode" />
+              <item name="myo" type="462c0819:PsiDirectoryNode" />
+              <item name="sds" type="462c0819:PsiDirectoryNode" />
               <item name="js" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -345,6 +352,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -412,18 +420,19 @@
       <workItem from="1552263382082" duration="15056000" />
       <workItem from="1552880757254" duration="905000" />
       <workItem from="1553052037651" duration="814000" />
-      <workItem from="1553139418026" duration="3668000" />
+      <workItem from="1553139418026" duration="3749000" />
+      <workItem from="1553180506822" duration="1473000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="84772000" />
+    <option name="totallyTimeSpent" value="86326000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4989796" visible="true" weight="0.14592275" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4989796" visible="true" weight="0.14774115" />
       <window_info id="Structure" order="1" sideWeight="0.50102043" side_tool="true" weight="0.1892552" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -589,13 +598,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sds/data/DataSheet.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="30" column="20" selection-start-line="30" selection-start-column="20" selection-end-line="30" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sds/data/upload.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="933">
@@ -694,31 +696,11 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/sds/modal/copy.php" />
     <entry file="file://$PROJECT_DIR$/sds/css/form.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
-          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sds/css/usertoolbar.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="31" column="1" selection-start-line="31" selection-start-column="1" selection-end-line="31" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sds/data/buildtables.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="8" column="25" selection-start-line="8" selection-start-column="25" selection-end-line="8" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sds/modal/copy.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" selection-start-line="8" selection-end-line="15" selection-end-column="6" />
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
         </state>
       </provider>
     </entry>
@@ -729,24 +711,48 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/sds/data/DataSheet.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="30" column="20" selection-start-line="30" selection-start-column="20" selection-end-line="30" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sds/css/usertoolbar.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="465">
+          <caret line="31" column="1" selection-start-line="31" selection-start-column="1" selection-end-line="31" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/sds/modal/copy.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" selection-start-line="6" selection-end-line="6" />
+        <state relative-caret-position="75">
+          <caret line="5" column="51" selection-start-line="5" selection-start-column="51" selection-end-line="5" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sds/data/buildtables.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="17" column="103" selection-start-line="17" selection-start-column="103" selection-end-line="17" selection-end-column="103" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sds/data/usertoolbar.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
-          <caret line="27" column="2" lean-forward="true" selection-start-line="27" selection-start-column="2" selection-end-line="27" selection-end-column="2" />
+          <caret line="27" column="2" selection-start-line="27" selection-start-column="2" selection-end-line="27" selection-end-column="2" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sds/js/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="547">
-          <caret line="120" column="1" selection-start-line="120" selection-start-column="1" selection-end-line="120" selection-end-column="1" />
+        <state relative-caret-position="332">
+          <caret line="122" column="45" selection-start-line="122" selection-start-column="45" selection-end-line="122" selection-end-column="45" />
+          <folding>
+            <element signature="n#style#0;n#img#0;n#a#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
