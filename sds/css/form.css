@@ -7,6 +7,10 @@
 	flex-direction: column;
 }
 
+button {
+	cursor: pointer;
+}
+
 /* SEARCH FORM */
 
 #search-form {

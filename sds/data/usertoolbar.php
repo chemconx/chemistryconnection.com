@@ -16,8 +16,8 @@ if ($auth['success'] && !isset($_GET['logout'])) {?>
 
 	<div class="usertoolbar">
 		<ul class="usertoolbar-links">
-			<li class="usertoolbar-link"><a href="">Welcome, <?php echo $auth['user']->displayName; ?></a></li>
-			<li class="usertoolbar-link"><a href="">Manage Users</a></li>
+			<li class="usertoolbar-link"><a href="">Welcome, Admin</a></li>
+<!--			<li class="usertoolbar-link"><a href="">Manage Users</a></li>-->
 			<li class="usertoolbar-link"><a href="index.php?logout">Sign out</a></li>
 		</ul>
 	</div>
