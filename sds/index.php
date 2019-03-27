@@ -74,54 +74,14 @@ if ($authresults['success']) {
 				';
 }
 
+include __DIR__ . '/component/page-head.php';
 
+include __DIR__ . '/data/usertoolbar.php';
+
+include __DIR__ . '/component/navbar.php';
 ?>
 
-<!doctype html>
-<html class="no-js" lang="">
-
-<head>
-	<meta charset="utf-8">
-	<title>Chemistry Connection -- Safety Data Sheets</title>
-	<meta name="description" content="Chemistry Connection -- Safety Data Sheets">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-
-	<link rel="manifest" href="../site.webmanifest">
-	<link rel="apple-touch-icon" href="../icon.png">
-	<!-- Place favicon.ico in the root directory -->
-
-	<link rel="stylesheet" href="../css/normalize.css">
-
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
-		  integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-
-	<link rel="stylesheet" href="js/ui-transition/transition.min.css">
-	<link rel="stylesheet" href="js/ui-dropdown/dropdown.min.css">
-
-	<link rel="stylesheet" href="../css/main.css">
-	<link rel="stylesheet" href="css/sds.css">
-	<link rel="stylesheet" href="css/modal.css">
-	<link rel="stylesheet" href="css/form.css">
-
-	<meta name="theme-color" content="#fafafa">
-</head>
-
-<body>
-<!--[if lte IE 9]>
-<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade
-	your browser</a> to improve your experience and security.</p>
-<![endif]-->
-
-<!-- Add your site or application content here -->
-
-<?php require __DIR__ . '/data/usertoolbar.php';?>
-
-<div class="navbar">
-	<div class="main main-header">
-		<img class="header-image" src="../img/chemconx.png">
-		<h1>Safety Data Sheets</h1>
-	</div>
-</div>
+<!-- NAVBAR -->
 
 <div class="main content">
 	<div class="tab-bar">
@@ -147,41 +107,6 @@ if ($authresults['success']) {
 		?>
 	</div>
 </div>
-
-<div class="darkenscreen" style="display: none">
-</div>
-
-<div class="modal" style="display: none">
-
-</div>
-
-<div class="bottommsg" style="display: none;">
-
-</div>
-
-<!--<div class="modal login-panel" style="display: none">-->
-<!---->
-<!--</div>-->
-
-
-<script src="../js/vendor/modernizr-3.6.0.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"
-		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-		crossorigin="anonymous"></script>
-<script>window.jQuery || document.write('<script src="../js/vendor/jquery-3.3.1.min.js"><\/script>');</script>
-<script src="../js/vendor/clipboard.min.js"></script>
-<script src="../js/plugins.js"></script>
-<script src="js/main.js"></script>
-<?php
-if ($authresults['success']) {
-	echo '<script src="js/ui-dropdown/dropdown.min.js"></script>';
-	echo '<script src="js/ui-transition/transition.min.js"></script>';
-	echo '<script src="js/upload.js"></script>';
-	echo '<script src="js/specialaccess.js"></script>';
-
-}
-?>
-
 
 <?php
 
@@ -232,6 +157,12 @@ if (isset($_GET['login']) && !$authresults['success']) {
 	</script>';
 }
 
-?>
+if ($authresults['success']) {
+	echo '<script src="js/ui-dropdown/dropdown.min.js"></script>';
+	echo '<script src="js/ui-transition/transition.min.js"></script>';
+	echo '<script src="js/upload.js"></script>';
+	echo '<script src="js/specialaccess.js"></script>';
 
-</html>
+}
+
+include __DIR__ . '/component/footer.php'; ?>
