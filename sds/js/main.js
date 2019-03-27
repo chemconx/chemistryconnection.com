@@ -110,41 +110,40 @@ function initSearch() {
 }
 
 function initTableButtons() {
-	$('.action.copy').click(function (e) {
-		let link = $(this).attr("data-clipboard-text");
-		let fileType = $(this).attr("data-copy-link-file-type");
-		showModal('modal/copy.html', function () {
-			var imageLink = "https://chemistryconnection.com/sds/img/sds.jpg";
+	$('.action.copy').click(e => {
+		onCopy(e);
+	});
+}
 
-			if (fileType == 2) {
-				imageLink = "https://chemistryconnection.com/sds/img/coa.jpg";
-			}
+function onCopy(e) {
+	let link = $(e.target).attr("data-clipboard-text");
+	let fileType = $(e.target).attr("data-copy-link-file-type");
+	showModal('modal/copy.html', () => {
+		var imageLink = "https://chemistryconnection.com/sds/img/datasheettype" + fileType + ".jpg";
+		var iconCode = '<a target="_blank" href="' + link + '"><img src="' + imageLink + '" style="height: 6rem; width: auto"></a>';
 
-			var iconCode = '<a target="_blank" href="' + link + '"><img src="' + imageLink + '" style="height: 6rem; width: auto"></a>';
+		$('#copy-form-link').attr("data-clipboard-text", link);
+		$('#copy-form-icon-code').attr("data-clipboard-text", iconCode);
 
-			$('#copy-form-link').attr("data-clipboard-text", link);
-			$('#copy-form-icon-code').attr("data-clipboard-text", iconCode);
+		let clipboardLink = new ClipboardJS('#copy-form-link');
+		let clipboardCode = new ClipboardJS('#copy-form-icon-code');
 
-			let clipboardLink = new ClipboardJS('#copy-form-link');
-			let clipboardCode = new ClipboardJS('#copy-form-icon-code');
+		clipboardLink.on('success', () => {
+			closeModal();
+			showBottomMSG("Link copied!");
+		});
 
-			clipboardLink.on('success', function(e) {
-				closeModal();
-				showBottomMSG("Link copied!");
-			});
+		clipboardLink.on('error', () => {
+			showBottomMSG("We were unable to copy the link.");
+		});
 
-			clipboardLink.on('error', function(e) {
-				showBottomMSG("We were unable to copy the link.");
-			});
+		clipboardCode.on('success', () => {
+			closeModal();
+			showBottomMSG("HTML code copied!");
+		});
 
-			clipboardCode.on('success', function(e) {
-				closeModal();
-				showBottomMSG("HTML code copied!");
-			});
-
-			clipboardCode.on('error', function(e) {
-				showBottomMSG("We were unable to copy the code.");
-			});
+		clipboardCode.on('error', () => {
+			showBottomMSG("We were unable to copy the code.");
 		});
 	});
 }
