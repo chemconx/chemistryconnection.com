@@ -7,12 +7,19 @@
  */
 
 require_once(__DIR__ . "/../data/auth.php");
+require_once __DIR__ . '/../data/Connection.php';
 
 $authresults = auth(false);
 
 if (!$authresults['success']) {
 	echo "You do not have access";
 	exit();
+}
+
+$conn = new Connection();
+
+if ($conn == null) {
+	echo "<p>Unable to connect to database</p>";
 }
 
 ?>
@@ -26,8 +33,13 @@ if (!$authresults['success']) {
 		<label for="upload-file-input"><i class="fas fa-file-upload"></i> Choose...</label>
 		<div>
 			<select class="ui dropdown" id="upload-file-filetype">
-				<option value="1">Safety Data Sheet</option>
-				<option value="2">Certificate of Analysis</option>
+				<?php
+
+				foreach ($conn->getDataSheetTypes() as $type){
+					echo "<option value='" . $type['id'] . "'>" . $type['display_name'] . "</option>";
+				}
+
+				?>
 			</select>
 		</div>
 

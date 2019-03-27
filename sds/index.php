@@ -128,6 +128,7 @@ if ($authresults['success']) {
 		<a class="tab-item tab-active" data-sheet-type="-1">All files</a>
 		<a class="tab-item" data-sheet-type="1">Safety Data Sheets</a>
 		<a class="tab-item" data-sheet-type="2">Certificates of Analysis</a>
+		<a class="tab-item" data-sheet-type="3">Technical Data Sheets</a>
 	</div>
 	<div class="main-container">
 		<div class="container search-container">

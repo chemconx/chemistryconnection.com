@@ -32,6 +32,7 @@ a, a:visited {
 	align-items: center;
 	justify-content: center;
 	border-bottom: 4px solid #214A5B;
+	background-color: #CFD6DE;
 }
 
 .tab-bar a {
