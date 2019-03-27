@@ -23,8 +23,8 @@ if ($conn == null) {
 
 $fileType = -1;
 
-if(isset($_GET['t']) && ($_GET['t'] == 1 || $_GET['t'] == 2)) {
-	$fileType = $_GET['t'];
+if (!empty($_GET['t']) && is_numeric($_GET['t'])) {
+	$fileType = intval($_GET['t']);
 }
 
 $sds = $conn->getRecentFiles($fileType);

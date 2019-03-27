@@ -8,6 +8,7 @@
 
 require_once __DIR__ . '/DataSheet.php';
 
+
 class Connection {
 	/** @var mysqli */
 	var $conn;
@@ -41,6 +42,21 @@ class Connection {
 
 	function dataSheetFromRow($row) {
 		return new DataSheet($row['name'], $row['filepath'], new DateTime($row['date_uploaded']), intval($row['id']), intval($row['type']));
+	}
+
+	function getDataSheetTypes() {
+		$stmt = $this->conn->prepare("SELECT `id`, `display_name` FROM `filetype`");
+		$stmt->execute();
+
+		$result = $stmt->get_result();
+
+		$dataSheetTypes = array();
+
+		while ($row = $result->fetch_assoc()) {
+			array_push($dataSheetTypes, ["id" => $row['id'], "display_name" => $row['display_name']]);
+		}
+
+		return $dataSheetTypes;
 	}
 
 	// FILE READ
