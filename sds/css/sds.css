@@ -69,6 +69,10 @@ a, a:visited {
 	flex-grow: 1;
 }
 
+.main-header h1 a {
+	text-decoration: none;
+}
+
 .main-header div {
 	padding-right: 50px;
 	text-align: right;

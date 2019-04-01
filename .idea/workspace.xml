@@ -2,11 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fd38daa7-39e7-451f-9feb-005e305d5554" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sds/account.php" beforeDir="false" afterPath="$PROJECT_DIR$/sds/account.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sds/component/footer.php" beforeDir="false" afterPath="$PROJECT_DIR$/sds/component/footer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sds/component/page-head.php" beforeDir="false" afterPath="$PROJECT_DIR$/sds/component/page-head.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sds/css/form.css" beforeDir="false" afterPath="$PROJECT_DIR$/sds/css/form.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sds/css/sds.css" beforeDir="false" afterPath="$PROJECT_DIR$/sds/css/sds.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sds/data/Connection.php" beforeDir="false" afterPath="$PROJECT_DIR$/sds/data/Connection.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sds/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/sds/js/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sds/modal/upload.php" beforeDir="false" afterPath="$PROJECT_DIR$/sds/modal/upload.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,60 +24,61 @@
     <session id="-1274539815">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="19" />
+          <entry key="project.closed" value="20" />
           <entry key="project.open.time.0" value="2" />
           <entry key="project.open.time.3" value="1" />
           <entry key="project.open.time.4" value="2" />
-          <entry key="project.open.time.5" value="9" />
-          <entry key="project.open.time.6" value="5" />
+          <entry key="project.open.time.5" value="10" />
+          <entry key="project.open.time.6" value="6" />
           <entry key="project.open.time.7" value="2" />
           <entry key="project.open.time.8" value="2" />
-          <entry key="project.opened" value="23" />
+          <entry key="project.opened" value="25" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="css" value="20" />
+          <entry key="css" value="22" />
           <entry key="htaccess" value="5" />
           <entry key="html" value="15" />
           <entry key="ini" value="2" />
           <entry key="js" value="21" />
           <entry key="json" value="3" />
-          <entry key="php" value="78" />
+          <entry key="php" value="87" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="CSS" value="20" />
+          <entry key="CSS" value="22" />
           <entry key="HTML" value="15" />
           <entry key="Ini" value="2" />
           <entry key="JSON" value="3" />
           <entry key="JavaScript" value="21" />
-          <entry key="PHP" value="78" />
+          <entry key="PHP" value="87" />
           <entry key="htaccess" value="5" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="css" value="2764" />
+          <entry key="css" value="3088" />
           <entry key="dummy" value="9" />
           <entry key="htaccess" value="13" />
           <entry key="html" value="477" />
           <entry key="ini" value="41" />
           <entry key="js" value="5339" />
           <entry key="json" value="140" />
-          <entry key="php" value="13637" />
+          <entry key="php" value="14546" />
+          <entry key="txt" value="35" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="CSS" value="2764" />
+          <entry key="CSS" value="3088" />
           <entry key="HTML" value="618" />
           <entry key="Ini" value="41" />
           <entry key="JSON" value="140" />
           <entry key="JavaScript" value="5339" />
-          <entry key="PHP" value="13496" />
-          <entry key="PLAIN_TEXT" value="9" />
+          <entry key="PHP" value="14405" />
+          <entry key="PLAIN_TEXT" value="44" />
           <entry key="htaccess" value="13" />
         </counts>
       </usages-collector>
@@ -104,49 +107,55 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sds/index.php">
+        <entry file="file://$PROJECT_DIR$/sds/component/page-head.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1950">
-              <caret line="130" column="73" selection-start-line="130" selection-start-column="73" selection-end-line="130" selection-end-column="73" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sds/js/main.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="718">
-              <caret line="121" column="100" selection-start-line="121" selection-start-column="100" selection-end-line="121" selection-end-column="100" />
-              <folding>
-                <element signature="n#style#0;n#img#0;n#a#0;n#!!top" expanded="true" />
-              </folding>
+            <state relative-caret-position="615">
+              <caret line="41" lean-forward="true" selection-start-line="41" selection-end-line="41" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/sds/account.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="519">
+              <caret line="57" lean-forward="true" selection-start-line="57" selection-end-line="57" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vendor/kreait/firebase-php/src/Firebase/Auth/UserRecord.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="110">
+              <caret line="10" column="6" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sds/css/form.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1440">
+              <caret line="96" column="38" selection-start-line="96" selection-start-column="38" selection-end-line="96" selection-end-column="38" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sds/component/footer.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="16" column="59" selection-start-line="16" selection-start-column="59" selection-end-line="16" selection-end-column="59" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sds/css/sds.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="435">
-              <caret line="37" column="12" selection-start-line="37" selection-start-column="12" selection-end-line="37" selection-end-column="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sds/data/allfiles.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="22" selection-start-line="22" selection-end-line="27" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sds/data/recentfiles.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="28" selection-start-line="28" selection-end-line="28" />
+            <state relative-caret-position="951">
+              <caret line="72" column="25" selection-start-line="72" selection-start-column="25" selection-end-line="72" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -163,26 +172,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sds/modal/rename.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="9" column="49" selection-start-line="9" selection-end-line="10" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sds/data/Connection.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="825">
-              <caret line="60" selection-start-line="60" selection-end-line="60" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sds/modal/copy.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" column="51" selection-start-line="5" selection-start-column="51" selection-end-line="5" selection-end-column="51" />
+            <state relative-caret-position="540">
+              <caret line="41" column="115" lean-forward="true" selection-start-line="41" selection-start-column="36" selection-end-line="41" selection-end-column="115" />
             </state>
           </provider>
         </entry>
@@ -243,7 +234,6 @@
         <option value="$PROJECT_DIR$/sds/data/auth.php" />
         <option value="$PROJECT_DIR$/sds/css/usertoolbar.css" />
         <option value="$PROJECT_DIR$/sds/data/usertoolbar.php" />
-        <option value="$PROJECT_DIR$/sds/css/form.css" />
         <option value="$PROJECT_DIR$/sds/modal/login.html" />
         <option value="$PROJECT_DIR$/sds/modal/copy.php" />
         <option value="$PROJECT_DIR$/sds/data/buildtables.php" />
@@ -254,7 +244,12 @@
         <option value="$PROJECT_DIR$/sds/modal/upload.php" />
         <option value="$PROJECT_DIR$/sds/data/Connection.php" />
         <option value="$PROJECT_DIR$/sds/js/main.js" />
+        <option value="$PROJECT_DIR$/sds/component/footer.php" />
+        <option value="$PROJECT_DIR$/sds/component/page-head.php" />
         <option value="$PROJECT_DIR$/sds/css/sds.css" />
+        <option value="$PROJECT_DIR$/sds/component/navbar.php" />
+        <option value="$PROJECT_DIR$/sds/css/form.css" />
+        <option value="$PROJECT_DIR$/sds/account.php" />
       </list>
     </option>
   </component>
@@ -303,10 +298,8 @@
     </include_path>
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="x" value="-570" />
-    <option name="y" value="-1440" />
-    <option name="width" value="2560" />
-    <option name="height" value="1440" />
+    <option name="width" value="1440" />
+    <option name="height" value="900" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -314,7 +307,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -326,6 +318,12 @@
               <item name="myo" type="b2602c69:ProjectViewProjectNode" />
               <item name="myo" type="462c0819:PsiDirectoryNode" />
               <item name="sds" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="myo" type="b2602c69:ProjectViewProjectNode" />
+              <item name="myo" type="462c0819:PsiDirectoryNode" />
+              <item name="sds" type="462c0819:PsiDirectoryNode" />
+              <item name="component" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="myo" type="b2602c69:ProjectViewProjectNode" />
@@ -351,10 +349,37 @@
               <item name="sds" type="462c0819:PsiDirectoryNode" />
               <item name="modal" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="myo" type="b2602c69:ProjectViewProjectNode" />
+              <item name="myo" type="462c0819:PsiDirectoryNode" />
+              <item name="vendor" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="myo" type="b2602c69:ProjectViewProjectNode" />
+              <item name="myo" type="462c0819:PsiDirectoryNode" />
+              <item name="vendor" type="462c0819:PsiDirectoryNode" />
+              <item name="firebase" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="myo" type="b2602c69:ProjectViewProjectNode" />
+              <item name="myo" type="462c0819:PsiDirectoryNode" />
+              <item name="vendor" type="462c0819:PsiDirectoryNode" />
+              <item name="firebase" type="462c0819:PsiDirectoryNode" />
+              <item name="php-jwt" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="myo" type="b2602c69:ProjectViewProjectNode" />
+              <item name="myo" type="462c0819:PsiDirectoryNode" />
+              <item name="vendor" type="462c0819:PsiDirectoryNode" />
+              <item name="firebase" type="462c0819:PsiDirectoryNode" />
+              <item name="php-jwt" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -425,17 +450,27 @@
       <workItem from="1553139418026" duration="3749000" />
       <workItem from="1553180506822" duration="1473000" />
       <workItem from="1553643905487" duration="2510000" />
+      <workItem from="1553648275258" duration="827000" />
+      <workItem from="1554155125338" duration="4278000" />
     </task>
+    <task id="LOCAL-00001" summary="Add links to homepage in navbar">
+      <created>1554156070931</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1554156070931</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="91371000" />
+    <option name="totallyTimeSpent" value="96476000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-570" y="-1440" width="2560" height="1440" extended-state="0" />
+    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4989796" visible="true" weight="0.07505957" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4989796" visible="true" weight="0.13662376" />
       <window_info id="Structure" order="1" sideWeight="0.50102043" side_tool="true" weight="0.1892552" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -482,6 +517,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Add links to homepage in navbar" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add links to homepage in navbar" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/sds/data/private/myopdffilebrowser-b92e95396fa0.json">
@@ -622,34 +661,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/doc/.htaccess">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="13" selection-start-column="13" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/kreait/firebase-php/src/Firebase/Auth.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="318">
-          <caret line="386" column="58" selection-start-line="386" selection-start-column="58" selection-end-line="386" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sds/data/auth.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="615">
-          <caret line="47" column="42" selection-start-line="47" selection-start-column="42" selection-end-line="47" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/kreait/firebase-php/src/Firebase/Auth/UserRecord.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="10" column="6" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/doc/.htaccess" />
     <entry file="file://$PROJECT_DIR$/sds/modal/login.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -658,13 +670,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sds/modal/copy.php" />
-    <entry file="file://$PROJECT_DIR$/sds/css/form.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" selection-start-line="14" selection-end-line="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sds/data/DataSheet.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="375">
@@ -686,10 +691,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sds/index.php">
+    <entry file="file://$PROJECT_DIR$/sds/data/buildtables.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1950">
-          <caret line="130" column="73" selection-start-line="130" selection-start-column="73" selection-end-line="130" selection-end-column="73" />
+        <state relative-caret-position="765">
+          <caret line="56" column="1" lean-forward="true" selection-start-line="56" selection-start-column="1" selection-end-line="56" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sds/js/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1815">
+          <caret line="121" column="100" selection-start-line="121" selection-start-column="100" selection-end-line="121" selection-end-column="100" />
         </state>
       </provider>
     </entry>
@@ -707,31 +719,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sds/modal/upload.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="40" selection-start-line="40" selection-end-line="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sds/modal/rename.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="9" column="49" selection-start-line="9" selection-end-line="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sds/data/Connection.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="825">
           <caret line="60" selection-start-line="60" selection-end-line="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sds/data/buildtables.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="765">
-          <caret line="56" column="1" lean-forward="true" selection-start-line="56" selection-start-column="1" selection-end-line="56" selection-end-column="1" />
         </state>
       </provider>
     </entry>
@@ -742,20 +733,94 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sds/js/main.js">
+    <entry file="file://$PROJECT_DIR$/sds/index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="718">
-          <caret line="121" column="100" selection-start-line="121" selection-start-column="100" selection-end-line="121" selection-end-column="100" />
-          <folding>
-            <element signature="n#style#0;n#img#0;n#a#0;n#!!top" expanded="true" />
-          </folding>
+        <state relative-caret-position="15">
+          <caret line="1" selection-start-line="1" selection-end-line="9" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sds/component/navbar.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="2" column="46" lean-forward="true" selection-start-line="2" selection-start-column="46" selection-end-line="2" selection-end-column="46" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sds/css/sds.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="37" column="12" selection-start-line="37" selection-start-column="12" selection-end-line="37" selection-end-column="12" />
+        <state relative-caret-position="951">
+          <caret line="72" column="25" selection-start-line="72" selection-start-column="25" selection-end-line="72" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sds/modal/rename.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="41" column="115" lean-forward="true" selection-start-line="41" selection-start-column="36" selection-end-line="41" selection-end-column="115" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sds/modal/upload.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="40" selection-start-line="40" selection-end-line="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sds/component/page-head.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="615">
+          <caret line="41" lean-forward="true" selection-start-line="41" selection-end-line="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sds/component/footer.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="59" selection-start-line="16" selection-start-column="59" selection-end-line="16" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sds/css/form.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1440">
+          <caret line="96" column="38" selection-start-line="96" selection-start-column="38" selection-end-line="96" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/kreait/firebase-php/src/Firebase.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="415">
+          <caret line="51" column="33" selection-start-line="51" selection-start-column="33" selection-end-line="51" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/kreait/firebase-php/src/Firebase/Auth.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="55" column="39" lean-forward="true" selection-start-line="55" selection-start-column="39" selection-end-line="55" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/kreait/firebase-php/src/Firebase/Auth/UserRecord.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="110">
+          <caret line="10" column="6" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sds/data/auth.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="570">
+          <caret line="44" column="39" selection-start-line="44" selection-start-column="39" selection-end-line="44" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sds/account.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="519">
+          <caret line="57" lean-forward="true" selection-start-line="57" selection-end-line="57" />
         </state>
       </provider>
     </entry>

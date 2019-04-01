@@ -2,17 +2,39 @@
 	display: flex;
 }
 
-.modal-form {
-	display: flex;
-	flex-direction: column;
-}
-
 button {
 	cursor: pointer;
 }
 
-/* SEARCH FORM */
+button, a.action {
+	padding: 0 30px;
+	background-color: #214A5B;
+	color: white;
 
+	font-weight: 600;
+	border: none;
+	border-radius: 5px;
+}
+
+a.action {
+	padding: 5px 25px;
+	height: 100%;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.action.destructive {
+	background-color: #E65532;
+}
+
+button:hover, .upload-input + label:hover, a.action:hover {
+	opacity: 0.8;
+}
+
+
+
+
+/*---------- SEARCH FORM ----------*/
 #search-form {
 	display: flex;
 }
@@ -24,14 +46,14 @@ button {
 	margin-right: 20px;
 }
 
-button, a.action {
-	padding: 0 30px;
-	background-color: #214A5B;
-	color: white;
 
-	font-weight: 600;
-	border: none;
-	border-radius: 5px;
+
+
+/*---------- MODAL ----------*/
+
+.modal-form {
+	display: flex;
+	flex-direction: column;
 }
 
 .modal-action-buttons button {
@@ -50,22 +72,39 @@ button, a.action {
 	color: white;
 }
 
-a.action {
-	padding: 5px 25px;
-	height: 100%;
-	cursor: pointer;
-	text-decoration: none;
+
+
+
+/*---------- CONTENT FORM ----------*/
+.content-form .form-element {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	padding-top: .5rem;
 }
 
-.action.destructive {
-	background-color: #E65532;
+.content-form .form-element label {
+	min-width: 10rem;
+	width: 10rem;
 }
 
-button:hover, .upload-input + label:hover, a.action:hover {
-	opacity: 0.8;
+.content-form .form-element input {
+	padding: .3rem;
 }
 
-/* UPLOAD BUTTON */
+.content-form .form-element.submit-element {
+	justify-content: right;
+	-webkit-justify-content: flex-end;
+}
+
+.content-form .form-element button {
+	padding: .4rem 1.1rem;
+}
+
+
+
+
+/*---------- UPLOAD BUTTON ----------*/
 .upload-input {
 	width: 0.1px;
 	height: 0.1px;
