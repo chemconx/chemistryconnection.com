@@ -10,30 +10,34 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 include __DIR__ . '/component/page-head.php';
 
-include __DIR__ . '/data/usertoolbar.php';
-
-include __DIR__ . '/component/navbar.php';
-
 require_once(__DIR__ . "/data/auth.php");
 
 $authresults = auth(false);
 $displayName;
 
 if ($authresults['success']) {
+	$uid = $authresults['user']->uid;
+	$properties = array();
+	$updateUser = false;
+
 	// check post data
 	if (isset($_POST['email']) && !empty($_POST['email'])) {
 		// we won't update email if it's empty
-		$uid = $authresults['user']->uid;
-		$properties = [
-			'email' => $_POST['email']
-		];
+		$properties['email'] = $_POST['email'];
+		$updateUser = true;
+	}
 
+	if (isset($_POST['display']) && !empty($_POST['display'])) {
+		// we won't update email if it's empty
+		$properties['displayName'] = $_POST['display'];
+		$updateUser = true;
+	}
+
+	if ($updateUser){
 		$updatedUser = $auth->updateUser($uid, $properties);
-
 		$_SESSION['user'] = $updatedUser;
 		$authresults['user'] = $updatedUser;
 	}
-
 
 	if ($authresults['user']->displayName) {
 		$displayName = $authresults['user']->displayName;
@@ -42,6 +46,10 @@ if ($authresults['success']) {
 	}
 
 	$email = $authresults['user']->email;
+
+	include __DIR__ . '/data/usertoolbar.php';
+
+	include __DIR__ . '/component/navbar.php';
 
 // crap goes here
 
@@ -56,17 +64,22 @@ if ($authresults['success']) {
 
 				<form class="content-form" method="post">
 
+					<?php if ($updateUser) { ?>
+
+						<p class="success hide-eventually">Successfully updated user.</p>
+
+					<?php } ?>
+
 					<div class="form-element">
 						<label for="account-form-email">Email:</label>
 						<input type="text" id="account-form-email" name="email" placeholder="Email" size="40" value="<?php echo $email; ?>">
 					</div>
 
 					<div class="form-element">
-						<label for="account-form-display">Display Name:</label>
+						<label for="account-form-display">Name:</label>
 						<input type="text" id="account-form-display" name="display" placeholder="Display Name"
 							   size="40" value="<?php echo $displayName; ?>">
 					</div>
-
 
 					<div class="form-element submit-element">
 						<button type="submit" id="account-form-submit">Update</button>
@@ -113,6 +126,9 @@ if ($authresults['success']) {
 	<?php
 
 } else {
+
+	include __DIR__ . '/component/navbar.php';
+
 	?>
 
 	<div class="main content">

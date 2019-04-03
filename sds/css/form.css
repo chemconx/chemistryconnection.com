@@ -31,6 +31,10 @@ button:hover, .upload-input + label:hover, a.action:hover {
 	opacity: 0.8;
 }
 
+.success {
+	color: #31872c;
+}
+
 
 
 

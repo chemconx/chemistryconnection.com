@@ -8,6 +8,10 @@ $(document).ready(function () {
 	initModals();
 
 	initSearch();
+
+	setTimeout(function () {
+		$('.hide-eventually').slideUp(300);
+	}, 3000);
 }());
 
 function initTabs() {
