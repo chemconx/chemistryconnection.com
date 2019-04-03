@@ -158,11 +158,12 @@ if (isset($_GET['login']) && !$authresults['success']) {
 }
 
 if ($authresults['success']) {
-	echo '<script src="js/ui-dropdown/dropdown.min.js"></script>';
-	echo '<script src="js/ui-transition/transition.min.js"></script>';
-	echo '<script src="js/upload.js"></script>';
-	echo '<script src="js/specialaccess.js"></script>';
-
+	$scripts = [
+		'<script src="js/ui-dropdown/dropdown.min.js"></script>',
+		'<script src="js/ui-transition/transition.min.js"></script>',
+		'<script src="js/upload.js"></script>',
+		'<script src="js/specialaccess.js"></script>'
+	];
 }
 
 include __DIR__ . '/component/footer.php'; ?>
