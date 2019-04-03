@@ -6,18 +6,35 @@
  * Time: 11:29 PM
  */
 
+require_once __DIR__ . '/../vendor/autoload.php';
+
 include __DIR__ . '/component/page-head.php';
 
 include __DIR__ . '/data/usertoolbar.php';
 
 include __DIR__ . '/component/navbar.php';
 
-require_once("data/auth.php");
+require_once(__DIR__ . "/data/auth.php");
 
 $authresults = auth(false);
 $displayName;
 
 if ($authresults['success']) {
+	// check post data
+	if (isset($_POST['email']) && !empty($_POST['email'])) {
+		// we won't update email if it's empty
+		$uid = $authresults['user']->uid;
+		$properties = [
+			'email' => $_POST['email']
+		];
+
+		$updatedUser = $auth->updateUser($uid, $properties);
+
+		$_SESSION['user'] = $updatedUser;
+		$authresults['user'] = $updatedUser;
+	}
+
+
 	if ($authresults['user']->displayName) {
 		$displayName = $authresults['user']->displayName;
 	} else {

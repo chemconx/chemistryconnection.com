@@ -6,14 +6,23 @@
  * Time: 6:17 PM
  */
 
-require __DIR__ . '/../../vendor/autoload.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
 
 session_start();
 
+$serviceAccount = ServiceAccount::fromJsonFile(__DIR__ . '/private/myopdffilebrowser-b92e95396fa0.json');
+
+$firebase = (new Factory)
+	->withServiceAccount($serviceAccount)
+	->create();
+
+$auth = $firebase->getAuth();
+
 function auth($echoJSON = true) {
+	global $auth;
 	$result = array();
 
 	if (isset($_SESSION['user'])) {
@@ -35,14 +44,6 @@ function auth($echoJSON = true) {
 				$result['success'] = false;
 				$result['message'] = "Invalid username or password";
 			} else {
-
-				$serviceAccount = ServiceAccount::fromJsonFile(__DIR__ . '/private/myopdffilebrowser-b92e95396fa0.json');
-
-				$firebase = (new Factory)
-					->withServiceAccount($serviceAccount)
-					->create();
-
-				$auth = $firebase->getAuth();
 
 				try {
 					$user = $auth->verifyPassword($email, $password);
