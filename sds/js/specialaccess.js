@@ -1,4 +1,5 @@
-// specialaccess.js: download this script only if user is logged in
+// specialaccess.js
+// Functions and code needed only if a user is logged in.
 //
 // keeps download size small and improves security maybe
 //

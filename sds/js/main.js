@@ -1,3 +1,6 @@
+// main.js
+// define global variables and main functions
+
 var tabSelected = -1;
 
 $(document).ready(function () {

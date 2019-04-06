@@ -9,11 +9,6 @@
 
 </div>
 
-<!--<div class="modal login-panel" style="display: none">-->
-<!---->
-<!--</div>-->
-
-
 <script src="../js/vendor/modernizr-3.6.0.min.js"></script>
 <script src="../js/vendor/clipboard.min.js"></script>
 <script src="../js/plugins.js"></script>
@@ -29,4 +24,5 @@ if (isset($scripts)) {
 
 ?>
 
+</body>
 </html>

@@ -35,6 +35,14 @@ button:hover, .upload-input + label:hover, a.action:hover {
 	color: #31872c;
 }
 
+input.error {
+	border: 1px solid #E65532;
+}
+
+button.disabled {
+	opacity: 0.5;
+}
+
 
 
 

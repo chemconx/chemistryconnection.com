@@ -176,19 +176,34 @@ if ($authresults['success']) {
 			<div class="form-element">
 				<label for="account-form-email">Old Password:</label>
 				<input type="password" autocomplete="current-password" id="new-pass-form-old" name="oldpass"
-					   placeholder="Old Password" size="40">
+					   placeholder="Old Password" size="40" class="chpassfield">
+			</div>
+
+			<div class="form-element" id="new-pass-form-old-msg-container" style="display: none">
+				<label></label>
+				<p class="small error" id="new-pass-form-old-msg"></p>
 			</div>
 
 			<div class="form-element">
 				<label for="account-form-display">New Password:</label>
 				<input type="password" autocomplete="new-password" id="new-pass-form-new" name="newpass"
-					   placeholder="New Password" size="40">
+					   placeholder="New Password" size="40" class="chpassfield">
+			</div>
+
+			<div class="form-element" id="new-pass-form-new-msg-container" style="display: none">
+				<label></label>
+				<p class="small error" id="new-pass-form-new-msg"></p>
 			</div>
 
 			<div class="form-element">
 				<label for="account-form-display">Confirm:</label>
 				<input type="password" autocomplete="confirm-password" id="new-pass-form-confirm" name="confirm"
-					   placeholder="Confirm" size="40">
+					   placeholder="Confirm" size="40" class="chpassfield">
+			</div>
+
+			<div class="form-element" id="new-pass-form-confirm-msg-container" style="display: none">
+				<label></label>
+				<p class="small error" id="new-pass-form-confirm-msg"></p>
 			</div>
 
 			<div class="form-element submit-element">
@@ -220,4 +235,6 @@ if ($authresults['success']) {
 
 	<?php
 }
+
+$scripts = ['<script src="js/account.js"></script>'];
 include __DIR__ . '/component/footer.php';

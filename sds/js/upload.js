@@ -1,3 +1,6 @@
+// upload.js
+// Define Upload prototype.
+
 var Upload = function (file, filename, fileType) {
 	this.file = file;
 	this.filename = filename;
