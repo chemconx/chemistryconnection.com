@@ -12,12 +12,14 @@ require_once __DIR__ . '/Connection.php';
 class UserPermissions {
 	/** @var Connection */
 	var $conn;
+	var $uid;
 
-	public function __construct() {
+	public function __construct($uid) {
 		$this->conn = new Connection();
+		$this->uid = $uid;
 	}
 
-	public function userHasPermission($uid, $perm) {
+	public function userHasPermission($perm) {
 		// get permission ID from name of permission
 		$stmt = $this->conn->prepare("SELECT id FROM perms where title = ?");
 		$stmt->bind_param('s', $perm);
@@ -25,7 +27,7 @@ class UserPermissions {
 		$result_row = $stmt->get_result()->fetch_row();
 
 		if ($result_row != null && count($result_row) == 1) {
-			return $this->userHasPermissionID($uid, $result_row[0]);
+			return $this->userHasPermissionID($result_row[0]);
 		} else {
 			return false;
 		}
@@ -33,12 +35,43 @@ class UserPermissions {
 		// check if user has ID
 	}
 
-	public function userHasPermissionID($uid, $permid) {
+	public function userHasPermissionID($permid) {
 		$stmt = $this->conn->prepare("SELECT * FROM userperms where uid = ? AND permid = ?");
-		$stmt->bind_param('si', $uid, intval($permid));
+		$stmt->bind_param('si', $this->uid, intval($permid));
 		$stmt->execute();
 		$result = $stmt->get_result();
 
 		return $result->num_rows == 1;
+	}
+
+	public function userHasPermissionsFromUserGroup($group) {
+		$stmt = $this->conn->prepare("SELECT * FROM perms WHERE usergroup = ?");
+		$stmt->bind_param('s', $group);
+		$stmt->execute();
+		$result = $stmt->get_result();
+
+		if ($result->num_rows == 0) {
+			return false;
+		}
+
+		$newStmt = "SELECT permid FROM userperms WHERE uid = ? AND (";
+
+		$index = 0;
+		while ($row = $result->fetch_assoc()) {
+			if ($index == 0) {
+				$newStmt = $newStmt . "permid = " . $row['id'] . " ";
+			} else {
+				$newStmt = $newStmt . "OR permid = " . $row['id'] . " ";
+			}
+
+			$index++;
+		}
+
+		$newStmt = $newStmt . ");";
+		$stmt = $this->conn->prepare($newStmt);
+		$stmt->bind_param("s", $this->uid);
+		$stmt->execute();
+
+		return $stmt->get_result()->num_rows >= 1;
 	}
 }
