@@ -19,20 +19,43 @@ include __DIR__ . '/data/usertoolbar.php';
 
 include __DIR__ . '/component/navbar.php';
 
-$perms = new UserPermissions($authResults['user']->uid);
+$perms = null;
+
+if ($authResults['success']) {
+	$perms = new UserPermissions($authResults['user']->uid);
+}
 
 ?>
 
 	<div class="main content">
 		<div class="main-container">
-			<div class="container header">
-				<h3 class="header recent">Manage Accounts</h3>
-			</div>
+
 <?php
 
 // main content here
-if (!$perms->userHasPermissionsFromUserGroup("Admin")){
+if (!$perms || !$perms->userHasPermissionsFromUserGroup("Admin")){
+	echo '<div class="container header">
+				<h3 class="header recent">Manage Accounts</h3>
+			</div>';
+
+
 	echo "<p>You do not have permission</p>";
+} else {
+	?>
+
+	<div class="container userlist">
+		<div class="container header">
+			<h3 class="header userlist">Manage Accounts</h3>
+			<button id="add-user-button">ADD USER</button>
+		</div>
+
+		<!-- table data -->
+		<table id="user-table">
+
+		</table>
+	</div>
+
+	<?php
 }
 
 ?>
@@ -42,5 +65,12 @@ if (!$perms->userHasPermissionsFromUserGroup("Admin")){
 
 <?php
 
+if ($authResults['success']) {
+	$scripts = [
+		'<script src="js/ui-dropdown/dropdown.min.js"></script>',
+		'<script src="js/ui-transition/transition.min.js"></script>',
+		'<script src="js/manage.js"></script>'
+	];
+}
 
 include __DIR__ . '/component/footer.php';
