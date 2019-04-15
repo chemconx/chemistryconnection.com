@@ -146,3 +146,12 @@ td:first-child {
 tr:first-child td {
 	border: none;
 }
+
+.threedotsdropdown {
+	position: fixed;
+	display: flex;
+	flex-direction: column;
+	background-color: white;
+	padding: 10px;
+	border: #214A5B 2px solid;
+}

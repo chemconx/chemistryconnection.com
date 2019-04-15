@@ -10,20 +10,16 @@ include __DIR__ . "/../auth.php";
 
 $fileRowTeemplate = '
 <tr>
+	<td><a class="action threedots">&bull;&bull;&bull;</a></td>
 	<td>{USER_EMAIL}</td>
-	<td><a class="action" onclick="changeDispName({UID})">Change Display Name</a></td>
-	<td><a class="action" onclick="resetUserPassword({UID})">Reset Password</a></td>
-	<td><a class="action" onclick="managePermissions({UID})">Permissions</a></td>
-	<td><a class="action destructive" onclick="deleteUser({UID})">Delete</a></td>
+	<td>{USER_NAME}</td>
 </tr>
 ';
 
 echo '<colgroup>
-					<col width="100%">
-					<col width="0%">
-					<col width="0%">
-					<col width="0%">
-					<col width="0%">
+					<col width="10%">
+					<col width="50%">
+					<col width="40%">
 				</colgroup>';
 
 // foreach user in database, add: user email, button to
@@ -36,9 +32,8 @@ foreach ($users as $user) {
 	/** @var \Kreait\Firebase\Auth\UserRecord $user */
 
 	$populatedTemplate = str_replace("{USER_EMAIL}", $user->email, $fileRowTeemplate);
+	$populatedTemplate = str_replace("{USER_NAME}", $user->displayName, $populatedTemplate);
 	$populatedTemplate = str_replace("{UID}", $user->uii, $populatedTemplate);
 
 	echo $populatedTemplate;
 }
-
-echo "Here's your damn table.";

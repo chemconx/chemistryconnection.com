@@ -62,6 +62,12 @@ if (!$perms || !$perms->userHasPermissionsFromUserGroup("Admin")){
 		</div>
 	</div>
 
+<div style="display: none" id="threedotsdropdown">
+	<a>Change Username</a>
+	<a>Reset Password</a>
+	<a>Permissions</a>
+	<a>Delete</a>
+</div>
 
 <?php
 
