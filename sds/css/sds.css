@@ -148,10 +148,24 @@ tr:first-child td {
 }
 
 .threedotsdropdown {
-	position: fixed;
+	position: absolute;
 	display: flex;
 	flex-direction: column;
 	background-color: white;
-	padding: 10px;
+	/*padding: 10px;*/
 	border: #214A5B 2px solid;
+}
+
+.threedotsaction {
+	margin: 0;
+	padding: 5px 10px;
+	cursor: pointer;
+}
+
+.threedotsaction.destructive {
+	color: #E65532;
+}
+
+.threedotsaction:hover {
+	background-color: #EFEFEF;
 }
