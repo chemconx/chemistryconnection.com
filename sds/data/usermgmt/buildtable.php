@@ -10,7 +10,7 @@ include __DIR__ . "/../auth.php";
 
 $fileRowTeemplate = '
 <tr>
-	<td><a class="action threedots">&bull;&bull;&bull;</a></td>
+	<td><a class="action threedots" data-uid="{UID}">&bull;&bull;&bull;</a></td>
 	<td>{USER_EMAIL}</td>
 	<td>{USER_NAME}</td>
 </tr>
@@ -33,7 +33,7 @@ foreach ($users as $user) {
 
 	$populatedTemplate = str_replace("{USER_EMAIL}", $user->email, $fileRowTeemplate);
 	$populatedTemplate = str_replace("{USER_NAME}", $user->displayName, $populatedTemplate);
-	$populatedTemplate = str_replace("{UID}", $user->uii, $populatedTemplate);
+	$populatedTemplate = str_replace("{UID}", $user->uid, $populatedTemplate);
 
 	echo $populatedTemplate;
 }
