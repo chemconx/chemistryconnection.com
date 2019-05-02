@@ -32,6 +32,12 @@ function initTable() {
 				showModal("modal/chusername.php?uid=" + uid, initChUsername);
 
 			});
+
+			$('#respass-threedotsaction').click(() => {
+				closeDropdown($('.threedotsdropdown'));
+				showModal("modal/respass.php?uid=" + uid, initResPass);
+
+			});
 		});
 	});
 }
@@ -47,6 +53,9 @@ function initChUsername() {
 
 	$('#chusername-submit').click(function (e) {
 		e.preventDefault();
+
+		var that = jQuery(this);
+		that.prop("disabled", true);
 
 		let id = $("#chusername-uid").val();
 		let username = $('#chusername-username').val();
@@ -70,11 +79,55 @@ function initChUsername() {
 			$('.modal-form').slideUp(100, function () {
 				let message = $(data).hide();
 
+				that.prop("disabled", false);
+
 				$('#chusername-container').append(message);
 				message.slideDown(100);
 
 				// reload homepage
 				initTable();
+
+				// add event to modal-close
+				$('.modal-close').click(function (e) {
+					e.preventDefault();
+					closeModal();
+				});
+			});
+		});
+	});
+}
+
+function initResPass(){
+	$('#respass-decline').click(function (e) {
+		e.preventDefault();
+		closeModal();
+	});
+
+	$('#respass-accept').click(function (e) {
+		e.preventDefault();
+
+		let id = $("#respass-uid").val();
+
+		var formData = new FormData();
+
+		// add assoc key values, this will be posts values
+		formData.append("uid", id);
+
+		$.ajax({
+			type: "POST",
+			url: "data/usermgmt/respass.php",
+			async: true,
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			timeout: 60000
+		}).done(function (data) {
+			$('.modal-form').slideUp(100, function () {
+				let message = $(data).hide();
+
+				$('#respass-container').append(message);
+				message.slideDown(100);
 
 				// add event to modal-close
 				$('.modal-close').click(function (e) {

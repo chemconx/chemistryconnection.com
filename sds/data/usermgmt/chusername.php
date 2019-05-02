@@ -29,7 +29,7 @@ $properties = [
 ];
 
 $updatedUser = $auth->updateUser($_POST['uid'], $properties);
-
+$_SESSION['user'] = $updatedUser;
 
 ?>
 
