@@ -174,7 +174,7 @@ if ($authresults['success']) {
 			?>
 
 			<div class="form-element">
-				<label for="account-form-email">Old Password:</label>
+				<label for="new-pass-form-old">Old Password:</label>
 				<input type="password" autocomplete="current-password" id="new-pass-form-old" name="oldpass"
 					   placeholder="Old Password" size="40" class="chpassfield">
 			</div>
@@ -185,7 +185,7 @@ if ($authresults['success']) {
 			</div>
 
 			<div class="form-element">
-				<label for="account-form-display">New Password:</label>
+				<label for="new-pass-form-new">New Password:</label>
 				<input type="password" autocomplete="new-password" id="new-pass-form-new" name="newpass"
 					   placeholder="New Password" size="40" class="chpassfield">
 			</div>
@@ -196,7 +196,7 @@ if ($authresults['success']) {
 			</div>
 
 			<div class="form-element">
-				<label for="account-form-display">Confirm:</label>
+				<label for="new-pass-form-confirm">Confirm:</label>
 				<input type="password" autocomplete="confirm-password" id="new-pass-form-confirm" name="confirm"
 					   placeholder="Confirm" size="40" class="chpassfield">
 			</div>
