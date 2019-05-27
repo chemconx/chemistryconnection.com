@@ -29,7 +29,10 @@ $properties = [
 ];
 
 $updatedUser = $auth->updateUser($_POST['uid'], $properties);
-$_SESSION['user'] = $updatedUser;
+
+if ($updatedUser->uid == $_SESSION['user']->uid) {
+	$_SESSION['user'] = $updatedUser;
+}
 
 ?>
 
