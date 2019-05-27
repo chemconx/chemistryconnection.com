@@ -43,6 +43,11 @@ function initTable() {
 				closeDropdown($('.threedotsdropdown'));
 				showModal('modal/permissions.php?uid=' + uid, initMngPerms);
 			});
+
+			$('#del-threedotsaction').click(()=> {
+				closeDropdown($('.threedotsdropdown'));
+				showModal('modal/deluser.php?uid=' + uid, initDelUser);
+			});
 		});
 	});
 }
@@ -205,8 +210,34 @@ function initMngPerms() {
 			closeModal();
 			showBottomMSG(result);
 		});
+	});
+}
 
-		console.log(data);
+function initDelUser(){
+	$('#delete-user-accept').click((e)=>{
+		e.preventDefault();
+
+		var data = new FormData();
+		data.append('uid', $('#delete-user-uid').val());
+
+		$.ajax({
+			type: "POST",
+			url: "data/usermgmt/deluser.php",
+			async: true,
+			data: data,
+			cache: false,
+			contentType: false,
+			processData: false,
+			timeout: 60000
+		}).done(function (result) {
+			closeModal();
+			initTable();
+			showBottomMSG(result);
+		});
 	});
 
+	$('#delete-user-decline').click((e)=>{
+		e.preventDefault();
+		closeModal();
+	});
 }
