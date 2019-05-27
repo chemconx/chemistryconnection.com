@@ -49,8 +49,11 @@ function showModal(url, completion = null) {
 
 function closeModal() {
 	$('.darkenscreen').fadeOut(100);
-	$('.modal').fadeOut(100);
+	$('.modal').fadeOut(100, ()=>{
+		$('.modal').html("");
+	});
 	cleanURL();
+
 }
 
 function showBottomMSG(msg){
