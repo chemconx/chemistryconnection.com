@@ -38,6 +38,11 @@ function initTable() {
 				showModal("modal/respass.php?uid=" + uid, initResPass);
 
 			});
+
+			$('#perms-threedotsaction').click(()=> {
+				closeDropdown($('.threedotsdropdown'));
+				showModal('modal/permissions.php?uid=' + uid, initMngPerms);
+			});
 		});
 	});
 }
@@ -137,4 +142,71 @@ function initResPass(){
 			});
 		});
 	});
+}
+
+function initMngPerms() {
+	$('.checkboxrow').click((e) => {
+		var checkbox = jQuery(e.target).find(':checkbox');
+		checkbox.prop('checked', !checkbox[0].checked);
+	});
+
+	$('.checkbox-label').click((e) => {
+		var checkbox = $(e.target).parents('.checkboxrow').find(':checkbox');
+		checkbox.prop('checked', !checkbox[0].checked);
+	});
+
+	$('.checkbox-label label').click((e) => {
+		e.preventDefault();
+	});
+
+	$('#assign-perms-select-all').click((e) => {
+		e.preventDefault();
+
+		$('.checkbox').each((i,e) => {
+			$(e).prop('checked', true);
+		});
+	});
+
+	$('#assign-perms-select-none').click((e) => {
+		e.preventDefault();
+
+		$('.checkbox').each((i,e) => {
+			$(e).prop('checked', false);
+		});
+	});
+
+	$('#assign-perms-save').click((e) => {
+		e.preventDefault();
+
+		var permMap = {};
+
+		$('.checkbox').each((i,e) => {
+			var permid = $(e).attr("data-perm-id");
+			permMap[permid] = $(e).prop('checked');
+			// permMap.set(permid, $(e).prop('checked'));
+		});
+
+		var stringify = JSON.stringify(permMap);
+
+		var data = new FormData();
+		data.append('perms',stringify);
+		data.append('uid', $('#assign-perms-uid').val());
+
+		$.ajax({
+			type: "POST",
+			url: "data/usermgmt/assignperms.php",
+			async: true,
+			data: data,
+			cache: false,
+			contentType: false,
+			processData: false,
+			timeout: 60000
+		}).done(function (result) {
+			closeModal();
+			showBottomMSG(result);
+		});
+
+		console.log(data);
+	});
+
 }

@@ -8,8 +8,6 @@ $(document).ready(function () {
 
 	initTables();
 
-	initModals();
-
 	initSearch();
 
 	setTimeout(function () {

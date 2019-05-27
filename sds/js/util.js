@@ -1,3 +1,22 @@
+$(document).ready(()=>{
+	initModals();
+});
+
+function initModals() {
+	$('.darkenscreen').click(function () {
+		closeModal();
+	});
+
+	$('.modal-close').click(function () {
+		$('.darkenscreen').hide();
+		$('.modal').hide();
+	});
+
+	$('.bottommsg').click(function () {
+		hideBottomMsg();
+	})
+}
+
 function getUrlVars() {
 	var vars = {};
 	var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {

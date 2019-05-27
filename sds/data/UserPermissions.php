@@ -14,8 +14,14 @@ class UserPermissions {
 	var $conn;
 	var $uid;
 
-	public function __construct($uid) {
-		$this->conn = new Connection();
+	public function __construct($uid, $conn = null) {
+		if ($conn == null) {
+			$this->conn = new Connection();
+		} else {
+			$this->conn = $conn;
+
+		}
+
 		$this->uid = $uid;
 	}
 
@@ -42,6 +48,18 @@ class UserPermissions {
 		$result = $stmt->get_result();
 
 		return $result->num_rows == 1;
+	}
+
+	public function updateUserPermission($permid, $value = true) {
+		$stmt = null;
+		if ($value) {
+			$stmt = $this->conn->prepare("INSERT INTO `userperms` (uid, permid) VALUES (?, ?) ");
+		} else {
+			$stmt = $this->conn->prepare("DELETE FROM `userperms` WHERE `uid` = ? AND `permid` = ? ");
+		}
+
+		$stmt->bind_param('si', $this->uid, $permid);
+		$stmt->execute();
 	}
 
 	public function userHasPermissionsFromUserGroup($group) {

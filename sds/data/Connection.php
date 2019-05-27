@@ -7,7 +7,7 @@
  */
 
 require_once __DIR__ . '/DataSheet.php';
-
+require_once __DIR__ . '/Permission.php';
 
 class Connection {
 	/** @var mysqli */
@@ -180,5 +180,28 @@ class Connection {
 		$stmt = $this->prepare("UPDATE `file` SET `name` = ?, `filepath` = ? WHERE id = ?");
 		$stmt->bind_param("ssi", $sds->name, $sds->filepath, $sds->id);
 		$stmt->execute();
+	}
+
+	// PERMISSIONS
+	function listPermissions() {
+		$stmt = $this->prepare("SELECT * FROM `perms`");
+		$stmt->execute();
+
+		$result = $stmt->get_result();
+
+		$perms = array();
+
+		while ($row = $result->fetch_assoc()) {
+			$id = intval($row['id']);
+			$title     = $row['title'];
+			$usergroup = $row['usergroup'];
+			$desc      = $row['description'];
+
+			$perm = new Permission($id, $title, $usergroup, $desc);
+
+			array_push($perms, $perm);
+		}
+
+		return $perms;
 	}
 }
