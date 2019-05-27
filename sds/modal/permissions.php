@@ -62,8 +62,8 @@ if ($conn == null) {
 	</fieldset>
 
 	<div class="container modal-action-buttons">
-		<button class="left-button" id="assign-perms-select-all">Select All</button>
-		<button class="left-button" id="assign-perms-select-none">Select None</button>
+		<button class="left-most-button" id="assign-perms-select-all">Select All</button>
+		<button class="" id="assign-perms-select-none">Select None</button>
 		<button class="modal-close default-action" id="assign-perms-save" style="float: right">Save</button>
 	</div>
 

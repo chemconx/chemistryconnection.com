@@ -201,7 +201,7 @@ form p.small {
 	margin-left: 10px;
 }
 
-.container.modal-action-buttons button:first-child {
+.container.modal-action-buttons .left-most-button {
 	margin-left: 0;
 }
 
