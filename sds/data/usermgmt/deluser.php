@@ -17,4 +17,4 @@ if (!$authresults['success']) {
 
 $auth->deleteUser($_POST['uid']);
 
-echo "User removed."
+echo "User removed.";

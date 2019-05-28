@@ -39,7 +39,7 @@ input.error {
 	border: 1px solid #E65532;
 }
 
-button.disabled {
+button.disabled, button:disabled {
 	opacity: 0.5;
 }
 
@@ -125,6 +125,16 @@ button.disabled {
 .perm-desc {
 	font-size: .8rem;
 	margin: 0;
+}
+
+.modal-form .form-element {
+	display: flex;
+	align-items: center;
+}
+
+.modal-form .form-element label {
+	min-width: 7.5rem;
+	width: 7.5rem;
 }
 
 

@@ -13,6 +13,12 @@ $(document).ready((e) => {
 			}
 		}
 	});
+
+	$('#add-user-button').click((e)=>{
+		e.preventDefault();
+
+		showModal("modal/newuser.php", initNewUserModal);
+	});
 });
 
 function initTable() {
@@ -240,4 +246,62 @@ function initDelUser(){
 		e.preventDefault();
 		closeModal();
 	});
+}
+
+function initNewUserModal(){
+	$('#new-user-form').submit((e)=>{
+		e.preventDefault();
+
+
+		var email = $('#new-user-email').val();
+		var displayName = $('#new-user-display-name').val();
+		var pass = $('#new-user-password').val();
+		var confpass = $('#new-user-confpass').val();
+
+		if (email.length == 0) {
+			$('#new-user-email-err').slideDown(100);
+			return;
+		} else {
+			$('#new-user-email-err').slideUp(100);
+		}
+
+		if (pass != confpass) {
+			$('#new-user-pass-err p').html('Passwords do not match.');
+			$('#new-user-pass-err').slideDown(100);
+			return;
+		} else {
+			$('#new-user-pass-err').slideUp(100);
+		}
+
+		if (pass.length < 6) {
+			$('#new-user-pass-err p').html('Password must have at least 6 characters.');
+			$('#new-user-pass-err').slideDown(100);
+			return;
+		} else {
+			$('#new-user-pass-err').slideUp(100);
+		}
+
+		$('#new-user-submit').attr("disabled", true);
+
+		var data = new FormData();
+		data.append('email', email);
+		data.append('display_name', displayName);
+		data.append('password', pass);
+		data.append('confpass', confpass);
+
+
+		$.ajax({
+			type: "POST",
+			url: "data/usermgmt/newuser.php",
+			async: true,
+			data: data,
+			cache: false,
+			contentType: false,
+			processData: false,
+			timeout: 60000
+		}).done(function (result) {
+			closeModal();
+			initTable();
+			showBottomMSG(result);
+		});	});
 }
