@@ -37,7 +37,8 @@ if ($conn == null) {
 
 		<?php
 
-			$perms = $conn->listPermissions();
+
+			$perms = $conn->listPermissions($_GET['uid'] == 'public');
 			$userperms = new UserPermissions($_GET['uid'], $conn);
 
 			foreach ($perms as $perm) {

@@ -19,6 +19,10 @@ $(document).ready((e) => {
 
 		showModal("modal/newuser.php", initNewUserModal);
 	});
+
+	$('#public-permissions').click(()=> {
+		showModal('modal/permissions.php?uid=public', initMngPerms);
+	});
 });
 
 function initTable() {

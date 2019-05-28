@@ -183,8 +183,14 @@ class Connection {
 	}
 
 	// PERMISSIONS
-	function listPermissions() {
-		$stmt = $this->prepare("SELECT * FROM `perms`");
+	function listPermissions($public = false) {
+		$query = "SELECT * FROM `perms`";
+
+		if ($public) {
+			$query .= " WHERE `usergroup` = 'General'";
+		}
+
+		$stmt = $this->prepare($query);
 		$stmt->execute();
 
 		$result = $stmt->get_result();
@@ -203,5 +209,9 @@ class Connection {
 		}
 
 		return $perms;
+	}
+
+	function listPublicPermissions() {
+		return $this->listPermissions(true);
 	}
 }

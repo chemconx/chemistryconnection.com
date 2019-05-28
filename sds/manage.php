@@ -55,6 +55,15 @@ if (!$perms || !$perms->userHasPermissionsFromUserGroup("Admin")){
 		</table>
 	</div>
 
+	<div class="container public">
+		<div class="container header">
+			<h3 class="header public">Manage Public Permissions</h3>
+			<button id="public-permissions">PERMISSIONS</button>
+		</div>
+
+		<p>Manage permissions for unsigned users</p>
+	</div>
+
 	<?php
 }
 
