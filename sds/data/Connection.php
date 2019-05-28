@@ -214,4 +214,27 @@ class Connection {
 	function listPublicPermissions() {
 		return $this->listPermissions(true);
 	}
+
+	function listDefaultPermissions() {
+		$query = "SELECT * FROM `userperms`, `perms` WHERE `userperms`.`permid`=`perms`.`id` AND `userperms`.`uid` = \"default\";";
+		$stmt = $this->prepare($query);
+		$stmt->execute();
+
+		$result = $stmt->get_result();
+
+		$perms = array();
+
+		while ($row = $result->fetch_assoc()) {
+			$id = intval($row['id']);
+			$title     = $row['title'];
+			$usergroup = $row['usergroup'];
+			$desc      = $row['description'];
+
+			$perm = new Permission($id, $title, $usergroup, $desc);
+
+			array_push($perms, $perm);
+		}
+
+		return $perms;
+	}
 }

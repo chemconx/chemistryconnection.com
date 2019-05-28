@@ -6,7 +6,9 @@
  * Time: 12:25 PM
  */
 
-require_once __DIR__ . "/../../data/auth.php";
+require_once __DIR__ . '/../Connection.php';
+require_once __DIR__ . '/../UserPermissions.php';
+require_once __DIR__ . "/../auth.php";
 
 $authresults = auth(false);
 
@@ -23,6 +25,15 @@ $userProperties = [
 
 try {
 	$createdUser = $auth->createUser($userProperties);
+
+	$conn = new Connection();
+	$userPerms = new UserPermissions($createdUser->uid, $conn);
+
+	$perms = $conn->listDefaultPermissions();
+	foreach ($perms as $perm) {
+		$userPerms->updateUserPermission($perm->id,true);
+	}
+
 	echo "User created successfully.";
 } catch (Kreait\Firebase\Exception\Auth\EmailExists $e) {
 	echo "Cannot create user: Email exists.";

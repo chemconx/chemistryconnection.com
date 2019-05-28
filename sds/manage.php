@@ -58,10 +58,19 @@ if (!$perms || !$perms->userHasPermissionsFromUserGroup("Admin")){
 	<div class="container public">
 		<div class="container header">
 			<h3 class="header public">Manage Public Permissions</h3>
-			<button id="public-permissions">PERMISSIONS</button>
+			<button id="public-permissions">PUBLIC PERMISSIONS</button>
 		</div>
 
 		<p>Manage permissions for unsigned users</p>
+	</div>
+
+	<div class="container newuserdefault">
+		<div class="container header">
+			<h3 class="header public">Manage Default Permissions for New Users</h3>
+			<button id="default-permissions">DEFAULT PERMISSIONS</button>
+		</div>
+
+		<p>Manage default permissions for new users.</p>
 	</div>
 
 	<?php

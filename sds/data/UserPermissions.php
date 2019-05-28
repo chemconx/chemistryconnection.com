@@ -8,7 +8,6 @@
 
 require_once __DIR__ . '/Connection.php';
 
-
 class UserPermissions {
 	/** @var Connection */
 	var $conn;

@@ -23,6 +23,10 @@ $(document).ready((e) => {
 	$('#public-permissions').click(()=> {
 		showModal('modal/permissions.php?uid=public', initMngPerms);
 	});
+
+	$('#default-permissions').click(()=> {
+		showModal('modal/permissions.php?uid=default', initMngPerms);
+	});
 });
 
 function initTable() {
