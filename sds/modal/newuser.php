@@ -6,6 +6,15 @@
  * Time: 11:53 AM
  */
 
+require_once(__DIR__ . "/../data/auth.php");
+
+$authresults = auth(false, "Create User");
+
+if (!$authresults['success']) {
+	echo "You do not have access";
+	exit();
+}
+
 ?>
 
 <div class="container header">

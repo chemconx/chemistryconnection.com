@@ -8,7 +8,7 @@
 
 require_once(__DIR__ . "/../data/auth.php");
 
-$authresults = auth(false);
+$authresults = auth(false, "Change Display Name");
 
 if (!$authresults['success']) {
 	echo "You do not have access";
@@ -18,7 +18,7 @@ if (!$authresults['success']) {
 ?>
 
 <div class="container header">
-	<h3>Change Username</h3>
+	<h3>Change Display name</h3>
 </div>
 <div class="container" id="chusername-container">
 	<form class="modal-form" id="chusername-form" method="post" action="./">
@@ -28,14 +28,14 @@ if (!$authresults['success']) {
 			$user = $auth->getUser($_GET['uid']);
 			$username = $user->displayName;
 
-			echo '<input type="text" id="chusername-username" name="username" placeholder="New Username" value="' . $username . '" size="40">';
+			echo '<input type="text" id="chusername-username" name="username" placeholder="New display name" value="' . $username . '" size="40">';
 
 			echo '<input type="hidden" id="chusername-uid" name="id" value="' . $_GET['uid'] . '">';
 		}
 		?>
 
 		<div class="container">
-			<button type="submit" id="chusername-submit" style="float: right">Change Username</button>
+			<button type="submit" id="chusername-submit" style="float: right">Change Display Name</button>
 		</div>
 	</form>
 </div>

@@ -7,6 +7,8 @@
  */
 
 require_once __DIR__ . '/../../vendor/autoload.php';
+require_once __DIR__ . "/UserPermissions.php";
+
 
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
@@ -21,7 +23,7 @@ $firebase = (new Factory)
 
 $auth = $firebase->getAuth();
 
-function auth($echoJSON = true) {
+function auth($echoJSON = true, $perm = null) {
 	global $auth;
 	$result = array();
 
@@ -62,6 +64,18 @@ function auth($echoJSON = true) {
 		header("Content-Type: application/json");
 
 		echo json_encode($result);
+	}
+
+	if ($result['success']) {
+		$perms = new UserPermissions($result['user']->uid);
+
+		if ($perm != null) {
+			if (!$perms->userHasPermission($perm)) {
+				$result['success'] = false;
+			}
+		}
+
+		$result['perms'] = $perms;
 	}
 
 	return $result;

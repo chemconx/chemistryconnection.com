@@ -9,7 +9,7 @@ require_once __DIR__ . '/../data/Connection.php';
 require_once __DIR__ . '/../data/UserPermissions.php';
 require_once(__DIR__ . "/../data/auth.php");
 
-$authresults = auth(false);
+$authresults = auth(false, "Manage Permissions");
 
 if (!$authresults['success']) {
 	echo "You do not have access";

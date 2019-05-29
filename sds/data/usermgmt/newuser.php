@@ -10,7 +10,7 @@ require_once __DIR__ . '/../Connection.php';
 require_once __DIR__ . '/../UserPermissions.php';
 require_once __DIR__ . "/../auth.php";
 
-$authresults = auth(false);
+$authresults = auth(false, "Create User");
 
 if (!$authresults['success']) {
 	echo "You do not have access";

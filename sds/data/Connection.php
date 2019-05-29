@@ -184,7 +184,7 @@ class Connection {
 
 	// PERMISSIONS
 	function listPermissions($public = false) {
-		$query = "SELECT * FROM `perms`";
+		$query = "SELECT * FROM `perms` ORDER BY `perms`.`usergroup` ASC, `perms`.`title` ASC;";
 
 		if ($public) {
 			$query .= " WHERE `usergroup` = 'General'";

@@ -19,12 +19,6 @@ include __DIR__ . '/data/usertoolbar.php';
 
 include __DIR__ . '/component/navbar.php';
 
-$perms = null;
-
-if ($authResults['success']) {
-	$perms = new UserPermissions($authResults['user']->uid);
-}
-
 ?>
 
 	<div class="main content">
@@ -33,7 +27,7 @@ if ($authResults['success']) {
 <?php
 
 // main content here
-if (!$perms || !$perms->userHasPermissionsFromUserGroup("Admin")){
+if (!$authResults['success'] || !$perms || !$perms->userHasPermissionsFromUserGroup("1 Admin")){
 	echo '<div class="container header">
 				<h3 class="header recent">Manage Accounts</h3>
 			</div>';
@@ -46,7 +40,10 @@ if (!$perms || !$perms->userHasPermissionsFromUserGroup("Admin")){
 	<div class="container userlist">
 		<div class="container header">
 			<h3 class="header userlist">Manage Accounts</h3>
-			<button id="add-user-button">ADD USER</button>
+
+			<?php if ($perms->userHasPermission('Create User')) { ?>
+				<button id="add-user-button">ADD USER</button>
+			<?php } ?>
 		</div>
 
 		<!-- table data -->
@@ -55,25 +52,29 @@ if (!$perms || !$perms->userHasPermissionsFromUserGroup("Admin")){
 		</table>
 	</div>
 
-	<div class="container public">
-		<div class="container header">
-			<h3 class="header public">Manage Public Permissions</h3>
-			<button id="public-permissions">PUBLIC PERMISSIONS</button>
+	<?php if ($perms->userHasPermission('Manage Permissions')) { ?>
+
+		<div class="container public">
+			<div class="container header">
+				<h3 class="header public">Manage Public Permissions</h3>
+				<button id="public-permissions">PUBLIC PERMISSIONS</button>
+			</div>
+
+			<p>Manage permissions for unsigned users</p>
 		</div>
 
-		<p>Manage permissions for unsigned users</p>
-	</div>
+		<div class="container newuserdefault">
+			<div class="container header">
+				<h3 class="header public">Manage Default Permissions for New Users</h3>
+				<button id="default-permissions">DEFAULT PERMISSIONS</button>
+			</div>
 
-	<div class="container newuserdefault">
-		<div class="container header">
-			<h3 class="header public">Manage Default Permissions for New Users</h3>
-			<button id="default-permissions">DEFAULT PERMISSIONS</button>
+			<p>Manage default permissions for new users.</p>
 		</div>
 
-		<p>Manage default permissions for new users.</p>
-	</div>
+		<?php
 
-	<?php
+	}
 }
 
 ?>
@@ -81,10 +82,25 @@ if (!$perms || !$perms->userHasPermissionsFromUserGroup("Admin")){
 	</div>
 
 <div style="display: none" id="threedotsdropdown">
+	<?php if ($perms->userHasPermission('Change Display Name')) { ?>
 	<a class="threedotsaction" id="chusername-threedotsaction">Change Username</a>
+	<?php }
+
+	if ($perms->userHasPermission('Change Email Address')) { ?>
+	<a class="threedotsaction" id="chemail-threedotsaction">Change Email</a>
+	<?php }
+
+	if ($perms->userHasPermission('Reset Password')) { ?>
 	<a class="threedotsaction" id="respass-threedotsaction">Reset Password</a>
+	<?php }
+
+	if ($perms->userHasPermission("Manage Permissions")){?>
 	<a class="threedotsaction" id="perms-threedotsaction">Permissions</a>
+	<?php }
+
+	if ($perms->userHasPermission("Delete User")){?>
 	<a class="threedotsaction destructive" id="del-threedotsaction">Delete</a>
+	<?php } ?>
 </div>
 
 <?php

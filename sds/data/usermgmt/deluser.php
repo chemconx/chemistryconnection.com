@@ -8,7 +8,7 @@
 
 require_once __DIR__ . "/../../data/auth.php";
 
-$authresults = auth(false);
+$authresults = auth(false, "Delete User");
 
 if (!$authresults['success']) {
 	echo "You do not have access";

@@ -12,6 +12,10 @@ require_once __DIR__ . "/UserPermissions.php";
 
 $authResults = auth(false);
 
+if ($authResults['success']) {
+	$perms = $authResults['perms'];
+}
+
 if ($authResults['success'] && !isset($_GET['logout'])) {
 	$displayName = "USER";
 
@@ -30,7 +34,7 @@ if ($authResults['success'] && !isset($_GET['logout'])) {
 
 			<?php
 
-				if ($userPerms->userHasPermissionsFromUserGroup("Admin")) {
+				if ($userPerms->userHasPermissionsFromUserGroup("1 Admin")) {
 					echo "<li class=\"usertoolbar-link\"><a href=\"/sds/manage.php\">Manage Users</a></li>";
 				}
 

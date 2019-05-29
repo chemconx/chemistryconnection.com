@@ -47,6 +47,12 @@ function initTable() {
 
 			});
 
+			$('#chemail-threedotsaction').click(() => {
+				closeDropdown($('.threedotsdropdown'));
+				showModal("modal/chemail.php?uid=" + uid, initChEmail);
+
+			});
+
 			$('#respass-threedotsaction').click(() => {
 				closeDropdown($('.threedotsdropdown'));
 				showModal("modal/respass.php?uid=" + uid, initResPass);
@@ -106,6 +112,55 @@ function initChUsername() {
 				that.prop("disabled", false);
 
 				$('#chusername-container').append(message);
+				message.slideDown(100);
+
+				// reload homepage
+				initTable();
+
+				// add event to modal-close
+				$('.modal-close').click(function (e) {
+					e.preventDefault();
+					closeModal();
+				});
+			});
+		});
+	});
+}
+
+function initChEmail() {
+	$('#chemail-email').focus().select();
+
+	$('#chemail-submit').click(function (e) {
+		e.preventDefault();
+
+		var that = jQuery(this);
+		that.prop("disabled", true);
+
+		let id = $("#chemail-uid").val();
+		let email = $('#chemail-email').val();
+
+		var formData = new FormData();
+
+		// add assoc key values, this will be posts values
+		formData.append("email", email);
+		formData.append("uid", id);
+
+		$.ajax({
+			type: "POST",
+			url: "data/usermgmt/chemail.php",
+			async: true,
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			timeout: 60000
+		}).done(function (data) {
+			$('.modal-form').slideUp(100, function () {
+				let message = $(data).hide();
+
+				that.prop("disabled", false);
+
+				$('#chemail-container').append(message);
 				message.slideDown(100);
 
 				// reload homepage
