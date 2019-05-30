@@ -1,13 +1,18 @@
 <?php
 require_once("data/auth.php");
 
+include __DIR__ . '/component/page-head.php';
+
+include __DIR__ . '/data/usertoolbar.php';
+
+include __DIR__ . '/component/navbar.php';
+
 // check for session
 if (isset($_GET['logout'])) {
 	session_destroy();
-	$authresults["success"] = false;
-} else {
-	$authresults = auth(false);
+	$authResults["success"] = false;
 }
+
 $searchContainer = '<div class="container search">
 			 		<div class="container header">
 						<h3 class="header recent">Search Results</h3>
@@ -21,7 +26,7 @@ $searchContainer = '<div class="container search">
 				</div>';
 
 
-if ($authresults['success']) {
+if ($authResults['success']) {
 
 	$homeContainers = '
 				<div class="container recent">
@@ -74,11 +79,6 @@ if ($authresults['success']) {
 				';
 }
 
-include __DIR__ . '/component/page-head.php';
-
-include __DIR__ . '/data/usertoolbar.php';
-
-include __DIR__ . '/component/navbar.php';
 ?>
 
 <!-- NAVBAR -->
@@ -110,7 +110,7 @@ include __DIR__ . '/component/navbar.php';
 
 <?php
 
-if (isset($_GET['login']) && !$authresults['success']) {
+if (isset($_GET['login']) && !$authResults['success']) {
 	echo '<script>
 		(function() {
 			jQuery(document).ready(function (){
@@ -157,7 +157,7 @@ if (isset($_GET['login']) && !$authresults['success']) {
 	</script>';
 }
 
-if ($authresults['success']) {
+if ($authResults['success']) {
 	$scripts = [
 		'<script src="js/main.js"></script>',
 		'<script src="js/ui-dropdown/dropdown.min.js"></script>',
