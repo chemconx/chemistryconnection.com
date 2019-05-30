@@ -82,7 +82,7 @@
 		}
 
 		// Check auth
-		$authresults = auth(false);
+		$authresults = auth(false, "Upload File");
 		upload($authresults);
 		?>
 	</p>

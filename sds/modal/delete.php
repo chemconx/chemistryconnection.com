@@ -10,7 +10,7 @@ require_once __DIR__ . '/../data/DataSheet.php';
 require_once __DIR__ . '/../data/Connection.php';
 require_once __DIR__ . "/../data/auth.php";
 
-$authresults = auth(false);
+$authresults = auth(false, "Delete File");
 
 if (!$authresults['success']) {
 	echo "You do not have access";

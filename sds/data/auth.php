@@ -66,17 +66,21 @@ function auth($echoJSON = true, $perm = null) {
 		echo json_encode($result);
 	}
 
+	$perms = null;
+
 	if ($result['success']) {
 		$perms = new UserPermissions($result['user']->uid);
-
-		if ($perm != null) {
-			if (!$perms->userHasPermission($perm)) {
-				$result['success'] = false;
-			}
-		}
-
-		$result['perms'] = $perms;
+	} else {
+		$perms = new UserPermissions("public");
 	}
+
+	if ($perm != null) {
+		if (!$perms->userHasPermission($perm)) {
+			$result['success'] = false;
+		}
+	}
+
+	$result['perms'] = $perms;
 
 	return $result;
 }

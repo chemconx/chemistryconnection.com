@@ -123,7 +123,7 @@ function initTableButtons() {
 function onCopy(e) {
 	let link = $(e.target).attr("data-clipboard-text");
 	let fileType = $(e.target).attr("data-copy-link-file-type");
-	showModal('modal/copy.html', () => {
+	showModal('modal/copy.php', () => {
 		var imageLink = "https://chemistryconnection.com/sds/img/datasheettype" + fileType + ".jpg";
 		var iconCode = '<a target="_blank" href="' + link + '"><img src="' + imageLink + '" style="height: 6rem; width: auto"></a>';
 

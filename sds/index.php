@@ -26,7 +26,7 @@ $searchContainer = '<div class="container search">
 				</div>';
 
 
-if ($authResults['success']) {
+if ($authResults['success'] && $perms->userHasPermission("Upload File")) {
 
 	$homeContainers = '
 				<div class="container recent">
@@ -81,32 +81,43 @@ if ($authResults['success']) {
 
 ?>
 
-<!-- NAVBAR -->
+	<!-- NAVBAR -->
 
-<div class="main content">
-	<div class="tab-bar">
-		<a class="tab-item tab-active" data-sheet-type="-1">All files</a>
-		<a class="tab-item" data-sheet-type="1">Safety Data Sheets</a>
-		<a class="tab-item" data-sheet-type="2">Certificates of Analysis</a>
-		<a class="tab-item" data-sheet-type="3">Technical Data Sheets</a>
-	</div>
-	<div class="main-container">
-		<div class="container search-container">
-			<form id="search-form" action="" method="get">
-				<input id="search-input" name="q" type="text" placeholder="SEARCH">
-				<button id="search-submit" type="submit">SEARCH</button>
-			</form>
+	<div class="main content">
+		<div class="tab-bar">
+			<a class="tab-item tab-active" data-sheet-type="-1">All files</a>
+			<a class="tab-item" data-sheet-type="1">Safety Data Sheets</a>
+			<a class="tab-item" data-sheet-type="2">Certificates of Analysis</a>
+			<a class="tab-item" data-sheet-type="3">Technical Data Sheets</a>
 		</div>
+		<div class="main-container">
 
-		<?php
-		if (isset($_GET['q']) && !empty($_GET['q'])) {
-			echo $searchContainer;
-		} else {
-			echo $homeContainers;
-		}
-		?>
+			<?php if (!$perms->userHasPermission("View File Directory")) { ?>
+				<div class="container newuserdefault">
+					<div class="container header">
+						<h3 class="header public">Login</h3>
+					</div>
+
+					<p>You must <a href="index.php?login">log in</a> to view files.</p>
+				</div>
+			<?php } else { ?>
+				<div class="container search-container">
+					<form id="search-form" action="" method="get">
+						<input id="search-input" name="q" type="text" placeholder="SEARCH">
+						<button id="search-submit" type="submit"> SEARCH</button>
+					</form>
+				</div>
+
+				<?php
+				if (isset($_GET['q']) && !empty($_GET['q'])) {
+					echo $searchContainer;
+				} else {
+					echo $homeContainers;
+				}
+			}
+			?>
+		</div>
 	</div>
-</div>
 
 <?php
 
