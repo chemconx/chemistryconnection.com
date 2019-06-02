@@ -1,3 +1,6 @@
+// main.js
+// define global variables and main functions
+
 var tabSelected = -1;
 
 $(document).ready(function () {
@@ -5,9 +8,11 @@ $(document).ready(function () {
 
 	initTables();
 
-	initModals();
-
 	initSearch();
+
+	setTimeout(function () {
+		$('.hide-eventually').slideUp(300);
+	}, 3000);
 }());
 
 function initTabs() {
@@ -118,7 +123,7 @@ function initTableButtons() {
 function onCopy(e) {
 	let link = $(e.target).attr("data-clipboard-text");
 	let fileType = $(e.target).attr("data-copy-link-file-type");
-	showModal('modal/copy.html', () => {
+	showModal('modal/copy.php', () => {
 		var imageLink = "https://chemistryconnection.com/sds/img/datasheettype" + fileType + ".jpg";
 		var iconCode = '<a target="_blank" href="' + link + '"><img src="' + imageLink + '" style="height: 6rem; width: auto"></a>';
 
@@ -146,60 +151,5 @@ function onCopy(e) {
 			showBottomMSG("We were unable to copy the code.");
 		});
 	});
-}
-
-function getUrlVars() {
-	var vars = {};
-	var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-		vars[key] = value;
-	});
-	return vars;
-}
-
-function cleanURL() {
-	let uri = window.location.toString();
-	if (uri.indexOf("?") > 0) {
-		let clean_uri = uri.substring(0, uri.indexOf("?"));
-		window.history.replaceState({}, document.title, clean_uri);
-	}
-}
-
-function showModal(url, completion = null) {
-	$('.darkenscreen').fadeIn(100);
-	$('.modal').fadeIn(100);
-
-	$.get(url, function (data) {
-		$(".modal").html(data).show();
-
-		// Add event listeners to whatever gets loaded
-		if (completion) {
-			completion();
-		}
-	});
-}
-
-function closeModal() {
-	$('.darkenscreen').fadeOut(100);
-	$('.modal').fadeOut(100);
-	cleanURL();
-}
-
-function showBottomMSG(msg){
-	let bottomMSG = $('.bottommsg');
-	bottomMSG.html("<p>" + msg + "</p>");
-	bottomMSG.show();
-
-	bottomMSG.animate({bottom:'0px'},300);
-
-	setTimeout(function () {
-		hideBottomMsg();
-	}, 3000);
-
-}
-
-function hideBottomMsg() {
-	$('.bottommsg').animate({bottom:'-100px'},300, "swing", function() {
-		$(this).hide();
-	})
 }
 

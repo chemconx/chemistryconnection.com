@@ -22,19 +22,32 @@ function buildTables($sds) {
 // check for session
 
 	$authResult = auth(false);
+	$perms = $authResult['perms'];
 
-	if ($authResult['success']) {
-		$login = true;
-		$fileRowTeemplate = '
+	if (!$perms->userHasPermission("View File Directory")) {
+		echo "You do not have access";
+		exit();
+	}
+
+	$fileRowTeemplate = '
 <tr>
 	<td>{FILENAME}</td>
-	<td><a class="action" href="{LINK}" target="_blank">Open</a></td>
-	<td><a class="action copy" data-clipboard-text="{FULL_LINK}" data-copy-link-file-type="{FILE_TYPE}">Copy Link</a></td>
-	<td><a class="action" onclick="renameFile({ID})">Rename</a></td>
-	<td><a class="action destructive" onclick="deleteFile({ID})">Delete</a></td>
-</tr>
-';
+	<td><a class="action" href="{LINK}" target="_blank">Open</a></td>';
+
+
+	if ($perms->userHasPermission("Copy Link") || $perms->userHasPermission("Copy HTML")) {
+		$fileRowTeemplate .= '<td><a class="action copy" data-clipboard-text="{FULL_LINK}" data-copy-link-file-type="{FILE_TYPE}">Copy Link</a></td>';
 	}
+
+	if ($perms->userHasPermission("Rename File")) {
+		$fileRowTeemplate .= '<td><a class="action" onclick="renameFile({ID})">Rename</a></td>';
+	}
+
+	if ($perms->userHasPermission("Delete File")) {
+		$fileRowTeemplate .= '<td><a class="action destructive" onclick="deleteFile({ID})">Delete</a></td>';
+	}
+
+	$fileRowTeemplate .= '</tr>';
 
 // load files
 	echo '<colgroup>

@@ -6,14 +6,25 @@
  * Time: 6:17 PM
  */
 
-require __DIR__ . '/../../vendor/autoload.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
+require_once __DIR__ . "/UserPermissions.php";
+
 
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
 
 session_start();
 
-function auth($echoJSON = true) {
+$serviceAccount = ServiceAccount::fromJsonFile(__DIR__ . '/private/myopdffilebrowser-b92e95396fa0.json');
+
+$firebase = (new Factory)
+	->withServiceAccount($serviceAccount)
+	->create();
+
+$auth = $firebase->getAuth();
+
+function auth($echoJSON = true, $perm = null) {
+	global $auth;
 	$result = array();
 
 	if (isset($_SESSION['user'])) {
@@ -36,14 +47,6 @@ function auth($echoJSON = true) {
 				$result['message'] = "Invalid username or password";
 			} else {
 
-				$serviceAccount = ServiceAccount::fromJsonFile(__DIR__ . '/private/myopdffilebrowser-b92e95396fa0.json');
-
-				$firebase = (new Factory)
-					->withServiceAccount($serviceAccount)
-					->create();
-
-				$auth = $firebase->getAuth();
-
 				try {
 					$user = $auth->verifyPassword($email, $password);
 					$result['success'] = true;
@@ -62,6 +65,22 @@ function auth($echoJSON = true) {
 
 		echo json_encode($result);
 	}
+
+	$perms = null;
+
+	if ($result['success']) {
+		$perms = new UserPermissions($result['user']->uid);
+	} else {
+		$perms = new UserPermissions("public");
+	}
+
+	if ($perm != null) {
+		if (!$perms->userHasPermission($perm)) {
+			$result['success'] = false;
+		}
+	}
+
+	$result['perms'] = $perms;
 
 	return $result;
 }

@@ -69,6 +69,10 @@ a, a:visited {
 	flex-grow: 1;
 }
 
+.main-header h1 a {
+	text-decoration: none;
+}
+
 .main-header div {
 	padding-right: 50px;
 	text-align: right;
@@ -141,4 +145,27 @@ td:first-child {
 
 tr:first-child td {
 	border: none;
+}
+
+.threedotsdropdown {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	background-color: white;
+	/*padding: 10px;*/
+	border: #214A5B 2px solid;
+}
+
+.threedotsaction {
+	margin: 0;
+	padding: 5px 10px;
+	cursor: pointer;
+}
+
+.threedotsaction.destructive {
+	color: #E65532;
+}
+
+.threedotsaction:hover {
+	background-color: #EFEFEF;
 }

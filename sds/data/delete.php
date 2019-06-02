@@ -52,7 +52,7 @@
 		}
 
 
-		$authresults = auth(false);
+		$authresults = auth(false, "Delete File");
 		deleteFile($authresults);
 		?>
 

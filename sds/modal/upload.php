@@ -9,7 +9,7 @@
 require_once(__DIR__ . "/../data/auth.php");
 require_once __DIR__ . '/../data/Connection.php';
 
-$authresults = auth(false);
+$authresults = auth(false, "Upload File");
 
 if (!$authresults['success']) {
 	echo "You do not have access";

@@ -66,7 +66,7 @@
 		}
 
 
-		$authresults = auth(false);
+		$authresults = auth(false, "Rename File");
 		renameFile($authresults);
 		?>
 

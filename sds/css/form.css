@@ -2,17 +2,51 @@
 	display: flex;
 }
 
-.modal-form {
-	display: flex;
-	flex-direction: column;
-}
-
 button {
 	cursor: pointer;
 }
 
-/* SEARCH FORM */
+button, a.action {
+	padding: 0 30px;
+	background-color: #214A5B;
+	color: white;
 
+	font-weight: 600;
+	border: none;
+	border-radius: 5px;
+}
+
+a.action {
+	padding: 5px 25px;
+	height: 100%;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.action.destructive {
+	background-color: #E65532;
+}
+
+button:hover, .upload-input + label:hover, a.action:hover {
+	opacity: 0.8;
+}
+
+.success {
+	color: #31872c;
+}
+
+input.error {
+	border: 1px solid #E65532;
+}
+
+button.disabled, button:disabled {
+	opacity: 0.5;
+}
+
+
+
+
+/*---------- SEARCH FORM ----------*/
 #search-form {
 	display: flex;
 }
@@ -24,14 +58,14 @@ button {
 	margin-right: 20px;
 }
 
-button, a.action {
-	padding: 0 30px;
-	background-color: #214A5B;
-	color: white;
 
-	font-weight: 600;
-	border: none;
-	border-radius: 5px;
+
+
+/*---------- MODAL ----------*/
+
+.modal-form {
+	display: flex;
+	flex-direction: column;
 }
 
 .modal-action-buttons button {
@@ -50,22 +84,93 @@ button, a.action {
 	color: white;
 }
 
-a.action {
-	padding: 5px 25px;
-	height: 100%;
-	cursor: pointer;
-	text-decoration: none;
+.multi-checkbox {
+	background: white;
+	border: #214A5B 1px solid;
+	padding: 0rem;
+
+	overflow-x: hidden;
+	overflow-y: scroll;
+
+	min-width: 400px;
+
+	max-height: 200px;
 }
 
-.action.destructive {
-	background-color: #E65532;
+.checkboxrow {
+	padding: .25rem .5rem;
+	display: flex;
 }
 
-button:hover, .upload-input + label:hover, a.action:hover {
-	opacity: 0.8;
+.checkboxrow:first-child {
+	padding-top: .5rem;
 }
 
-/* UPLOAD BUTTON */
+.checkboxrow:last-child {
+	padding-bottom: .5rem;
+}
+
+.checkbox-label {
+	padding-left: .5rem;
+}
+
+.checkboxrow input {
+	margin: 0;
+}
+
+.checkboxrow:hover {
+	background-color: #CFD6DE;
+}
+
+.perm-desc {
+	font-size: .8rem;
+	margin: 0;
+}
+
+.modal-form .form-element {
+	display: flex;
+	align-items: center;
+}
+
+.modal-form .form-element label {
+	min-width: 7.5rem;
+	width: 7.5rem;
+}
+
+
+
+
+
+/*---------- CONTENT FORM ----------*/
+.content-form .form-element {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	padding-top: .5rem;
+}
+
+.content-form .form-element label {
+	min-width: 10rem;
+	width: 10rem;
+}
+
+.content-form .form-element input {
+	padding: .3rem;
+}
+
+.content-form .form-element.submit-element {
+	justify-content: right;
+	-webkit-justify-content: flex-end;
+}
+
+.content-form .form-element button {
+	padding: .4rem 1.1rem;
+}
+
+
+
+
+/*---------- UPLOAD BUTTON ----------*/
 .upload-input {
 	width: 0.1px;
 	height: 0.1px;
@@ -104,6 +209,10 @@ form p.small {
 
 .container.modal-action-buttons button {
 	margin-left: 10px;
+}
+
+.container.modal-action-buttons .left-most-button {
+	margin-left: 0;
 }
 
 .error {

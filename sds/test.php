@@ -6,4 +6,12 @@
  * Time: 11:13 PM
  */
 
-phpinfo();
+require_once (__DIR__ . "/data/auth.php");
+
+include __DIR__ . "/data/UserPermissions.php";
+
+$authresults = auth(false);
+
+$userPerms = new UserPermissions($authresults['user']->uid);
+
+echo $userPerms->userHasPermissionsFromUserGroup("Admin");

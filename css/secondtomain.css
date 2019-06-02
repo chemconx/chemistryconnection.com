@@ -4,9 +4,6 @@ body {
 	width: 100%;
 	height: 100vh;
 
-	background: #555555 url("./../img/mixingsmall.jpg") no-repeat center;
-	background-size: cover;
-
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -15,20 +12,45 @@ body {
 	color: white;
 }
 
+.bkgdcont {
+	width: 100%;
+	height: 100vh;
+
+	background: #555555 url("./../img/mixingsmall.jpg") no-repeat center;
+	background-size: cover;
+
+	position: fixed;
+
+	z-index: -1;
+}
 
 .main {
 	text-align: center;
 }
 
 a {
-	padding: 20px;
-	margin: 10px 0;
+	padding: 1rem 2rem;
+	margin: .5rem .5rem;
 	background-color: white;
 	border-radius: 15px;
 	display: inline-block;
 
 	color: #222222;
 	text-decoration: none;
+}
+
+.login {
+	background: none;
+	text-decoration: underline;
+	color: darkgrey;
+}
+
+.localinformation {
+	margin-top: 4rem;
+}
+
+.localinformation p {
+	margin: .1rem;
 }
 
 @media screen and (max-width: 600px){
@@ -43,7 +65,7 @@ a {
 
 	.links {
 		text-align: center;
-		font-size: 1.2em;
+		font-size: 1.1em;
 	}
 
 	body {

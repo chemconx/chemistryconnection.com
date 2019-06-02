@@ -1,13 +1,18 @@
 <?php
 require_once("data/auth.php");
 
+include __DIR__ . '/component/page-head.php';
+
+include __DIR__ . '/data/usertoolbar.php';
+
+include __DIR__ . '/component/navbar.php';
+
 // check for session
 if (isset($_GET['logout'])) {
 	session_destroy();
-	$authresults["success"] = false;
-} else {
-	$authresults = auth(false);
+	$authResults["success"] = false;
 }
+
 $searchContainer = '<div class="container search">
 			 		<div class="container header">
 						<h3 class="header recent">Search Results</h3>
@@ -21,7 +26,7 @@ $searchContainer = '<div class="container search">
 				</div>';
 
 
-if ($authresults['success']) {
+if ($authResults['success'] && $perms->userHasPermission("Upload File")) {
 
 	$homeContainers = '
 				<div class="container recent">
@@ -74,43 +79,49 @@ if ($authresults['success']) {
 				';
 }
 
-include __DIR__ . '/component/page-head.php';
-
-include __DIR__ . '/data/usertoolbar.php';
-
-include __DIR__ . '/component/navbar.php';
 ?>
 
-<!-- NAVBAR -->
+	<!-- NAVBAR -->
 
-<div class="main content">
-	<div class="tab-bar">
-		<a class="tab-item tab-active" data-sheet-type="-1">All files</a>
-		<a class="tab-item" data-sheet-type="1">Safety Data Sheets</a>
-		<a class="tab-item" data-sheet-type="2">Certificates of Analysis</a>
-		<a class="tab-item" data-sheet-type="3">Technical Data Sheets</a>
-	</div>
-	<div class="main-container">
-		<div class="container search-container">
-			<form id="search-form" action="" method="get">
-				<input id="search-input" name="q" type="text" placeholder="SEARCH">
-				<button id="search-submit" type="submit">SEARCH</button>
-			</form>
+	<div class="main content">
+		<div class="tab-bar">
+			<a class="tab-item tab-active" data-sheet-type="-1">All files</a>
+			<a class="tab-item" data-sheet-type="1">Safety Data Sheets</a>
+			<a class="tab-item" data-sheet-type="2">Certificates of Analysis</a>
+			<a class="tab-item" data-sheet-type="3">Technical Data Sheets</a>
 		</div>
+		<div class="main-container">
 
-		<?php
-		if (isset($_GET['q']) && !empty($_GET['q'])) {
-			echo $searchContainer;
-		} else {
-			echo $homeContainers;
-		}
-		?>
+			<?php if (!$perms->userHasPermission("View File Directory")) { ?>
+				<div class="container newuserdefault">
+					<div class="container header">
+						<h3 class="header public">Login</h3>
+					</div>
+
+					<p>You must <a href="index.php?login">log in</a> to view files.</p>
+				</div>
+			<?php } else { ?>
+				<div class="container search-container">
+					<form id="search-form" action="" method="get">
+						<input id="search-input" name="q" type="text" placeholder="SEARCH">
+						<button id="search-submit" type="submit"> SEARCH</button>
+					</form>
+				</div>
+
+				<?php
+				if (isset($_GET['q']) && !empty($_GET['q'])) {
+					echo $searchContainer;
+				} else {
+					echo $homeContainers;
+				}
+			}
+			?>
+		</div>
 	</div>
-</div>
 
 <?php
 
-if (isset($_GET['login']) && !$authresults['success']) {
+if (isset($_GET['login']) && !$authResults['success']) {
 	echo '<script>
 		(function() {
 			jQuery(document).ready(function (){
@@ -157,12 +168,16 @@ if (isset($_GET['login']) && !$authresults['success']) {
 	</script>';
 }
 
-if ($authresults['success']) {
-	echo '<script src="js/ui-dropdown/dropdown.min.js"></script>';
-	echo '<script src="js/ui-transition/transition.min.js"></script>';
-	echo '<script src="js/upload.js"></script>';
-	echo '<script src="js/specialaccess.js"></script>';
-
+if ($authResults['success']) {
+	$scripts = [
+		'<script src="js/main.js"></script>',
+		'<script src="js/ui-dropdown/dropdown.min.js"></script>',
+		'<script src="js/ui-transition/transition.min.js"></script>',
+		'<script src="js/upload.js"></script>',
+		'<script src="js/specialaccess.js"></script>'
+	];
+} else {
+	$scripts = ['<script src="js/main.js"></script>'];
 }
 
 include __DIR__ . '/component/footer.php'; ?>

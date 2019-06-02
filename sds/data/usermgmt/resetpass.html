@@ -1,0 +1,31 @@
+<form class="content-form main-container" id="reset-pass-form" method="post" autocomplete="on">
+	<div class="container header">
+		<h3 class="header recent">Reset Password</h3>
+	</div>
+
+	<div class="form-element">
+		<label for="reset-pass-form-new">New Password:</label>
+		<input type="password" autocomplete="new-password" id="reset-pass-form-new" name="respass"
+			   placeholder="New Password" size="40" class="chpassfield">
+	</div>
+
+	<div class="form-element" id="new-pass-form-new-msg-container" style="display: none">
+		<label></label>
+		<p class="small error" id="new-pass-form-new-msg"></p>
+	</div>
+
+	<div class="form-element">
+		<label for="reset-pass-form-confirm">Confirm:</label>
+		<input type="password" autocomplete="new-password" id="reset-pass-form-confirm" name="confirm"
+			   placeholder="Confirm" size="40" class="chpassfield">
+	</div>
+
+	<div class="form-element" id="new-pass-form-confirm-msg-container" style="display: none">
+		<label></label>
+		<p class="small error" id="new-pass-form-confirm-msg"></p>
+	</div>
+
+	<div class="form-element submit-element">
+		<button type="submit" id="reset-pass-form-submit">Update</button>
+	</div>
+</form>
