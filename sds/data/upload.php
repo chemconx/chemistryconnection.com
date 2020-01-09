@@ -21,7 +21,7 @@
 				$dsType = 1;
 				if (isset($_POST['dstype'])){
 					$dsType = intval($_POST['dstype']);
-					if ($dsType != 1 && $dsType != 2) {
+					if ($dsType != 1 && $dsType != 2 && $dsType != 3) {
 						$dsType = 1;
 					}
 				}
