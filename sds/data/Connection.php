@@ -41,7 +41,7 @@ class Connection {
 	}
 
 	function dataSheetFromRow($row) {
-		return new DataSheet($row['name'], $row['filepath'], new DateTime($row['date_uploaded']), intval($row['id']), intval($row['type']));
+		return new DataSheet($row['name'].' '.$row['id'], $row['filepath'], new DateTime($row['date_uploaded']), intval($row['id']), intval($row['type']));
 	}
 
 	function getDataSheetTypes() {
@@ -65,12 +65,18 @@ class Connection {
 	 * @return DataSheet[]
 	 * Null if database connection fails, array of SafetyDataSheets if successful
 	 */
-	function getAllFiles($dataSheetType = -1) {
-		$query = "SELECT * FROM `file` ORDER BY `name` ASC";
+	function getAllFiles($dataSheetType = -1, $pagenumber = 0, $pagesize = 50) {
+
+		$offset = $pagenumber * $pagesize;
+
+		$query = "SELECT * FROM `file` ORDER BY `id` ASC";
 
 		if ($dataSheetType != -1) {
-			$query = "SELECT * FROM `file` WHERE `type` = $dataSheetType ORDER BY `name` ASC";
+			$query = "SELECT * FROM `file` WHERE `type` = $dataSheetType ORDER BY `id` ASC";
 		}
+
+		$query .= " LIMIT $pagesize OFFSET $offset";
+
 		$stmt = $this->conn->prepare($query);
 
 		$stmt->execute();
@@ -84,6 +90,25 @@ class Connection {
 		}
 
 		return $files;
+	}
+
+	/**
+	 * Returns the number of pages based on the number of records in the file table
+	 * @return integer
+	 */
+	// TODO accept datasheet type param
+	function getNumPagesAllFiles($pagesize = 50) {
+		$stmt = $this->conn->prepare("SELECT COUNT(*) FROM `file`");
+		$stmt->execute();
+		$result = $stmt->get_result();
+		if ($result->num_rows == 1) {
+			$filecount = intval($result->fetch_row()[0]);
+			$pages = $filecount / $pagesize;
+
+			return ceil($pages);
+		}
+
+		return 0;
 	}
 
 	/**

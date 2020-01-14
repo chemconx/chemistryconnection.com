@@ -44,6 +44,7 @@ if ($authResults['success'] && $perms->userHasPermission("Upload File")) {
 				<div class="container all">
 					<div class="container header">
 						<h3 class="header all">All Safety Data Sheets</h3>
+						<div class="page-numbers" id="all-files-page-numbers"></div>
 					</div>
 
 					<!-- table data -->
@@ -69,6 +70,7 @@ if ($authResults['success'] && $perms->userHasPermission("Upload File")) {
 				<div class="container all">
 					<div class="container header">
 						<h3 class="header all">All Safety Data Sheets</h3>
+						<div class="page-numbers" id="all-files-page-numbers"></div>
 					</div>
 
 					<!-- table data -->

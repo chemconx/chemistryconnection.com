@@ -169,3 +169,7 @@ tr:first-child td {
 .threedotsaction:hover {
 	background-color: #EFEFEF;
 }
+
+.page-numbers {
+	padding-top: 10px;
+}

@@ -26,11 +26,13 @@ function initTabs() {
 	})
 }
 
-function initTables() {
-	var type = "?t="+tabSelected;
+function initTables(pagenumber = 0) {
+	var getArgs = "?t="+tabSelected+"&p="+pagenumber;
+	var type = "?t=" + tabSelected;
 
 	if (tabSelected === -1) {
-		type = ""
+		getArgs = "?p="+pagenumber;
+		type = "";
 	}
 
 	$.get("data/recentfiles.php" + type, function (data) {
@@ -39,7 +41,7 @@ function initTables() {
 		initTableButtons();
 	});
 
-	$.get("data/allfiles.php" + type, function (data) {
+	$.get("data/allfiles.php" + getArgs, function (data) {
 		$('#all-files-table').html(data);
 
 		initTableButtons();
@@ -118,14 +120,30 @@ function initTableButtons() {
 	$('.action.copy').click(e => {
 		onCopy(e);
 	});
+
+	// TODO send datasheet type
+	$.get("data/pagecount.php", data => {
+		const pages = parseInt(data, 0);
+		// TODO set up links using an id
+		let html = '<a href="">&lt; Prev</a> ';
+
+		for (let i = 0; i < pages; i++) {
+			html += '<a href="">'+ (i + 1) + '</a> ';
+
+		}
+
+		html += '<a href=""> Next &gt;</a>';
+
+		$("#all-files-page-numbers").html(html);
+	});
 }
 
 function onCopy(e) {
 	let link = $(e.target).attr("data-clipboard-text");
 	let fileType = $(e.target).attr("data-copy-link-file-type");
 	showModal('modal/copy.php', () => {
-		var imageLink = "https://chemistryconnection.com/sds/img/datasheettype" + fileType + ".jpg";
-		var iconCode = '<a target="_blank" href="' + link + '"><img src="' + imageLink + '" style="height: 6rem; width: auto"></a>';
+		let imageLink = "https://chemistryconnection.com/sds/img/datasheettype" + fileType + ".jpg";
+		let iconCode = '<a target="_blank" href="' + link + '"><img src="' + imageLink + '" style="height: 6rem; width: auto"></a>';
 
 		$('#copy-form-link').attr("data-clipboard-text", link);
 		$('#copy-form-icon-code').attr("data-clipboard-text", iconCode);
