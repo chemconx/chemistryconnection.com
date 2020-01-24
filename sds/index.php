@@ -172,14 +172,17 @@ if (isset($_GET['login']) && !$authResults['success']) {
 
 if ($authResults['success']) {
 	$scripts = [
-		'<script src="js/main.js"></script>',
+		'<script type="module" src="js/main.js"></script>',
+		'<script type="module" src="js/filespagination.js"></script>',
 		'<script src="js/ui-dropdown/dropdown.min.js"></script>',
 		'<script src="js/ui-transition/transition.min.js"></script>',
 		'<script src="js/upload.js"></script>',
 		'<script src="js/specialaccess.js"></script>'
 	];
 } else {
-	$scripts = ['<script src="js/main.js"></script>'];
+	$scripts = ['<script src="js/main.js"></script>',
+		'<script src="js/filespagination.js"></script>'
+	];
 }
 
 include __DIR__ . '/component/footer.php'; ?>

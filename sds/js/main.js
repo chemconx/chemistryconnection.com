@@ -1,5 +1,6 @@
 // main.js
 // define global variables and main functions
+import * as pagination from './filespagination.js';
 
 var tabSelected = -1;
 
@@ -26,12 +27,12 @@ function initTabs() {
 	})
 }
 
-function initTables(pagenumber = 0) {
-	var getArgs = "?t="+tabSelected+"&p="+pagenumber;
+function initTables() {
+	var getArgs = "?t="+tabSelected+"&p="+pagination.pagenumber;
 	var type = "?t=" + tabSelected;
 
 	if (tabSelected === -1) {
-		getArgs = "?p="+pagenumber;
+		getArgs = "?p="+pagination.pagenumber;
 		type = "";
 	}
 
@@ -57,8 +58,6 @@ function initTables(pagenumber = 0) {
 		} else {
 			url = 'data/search.php' + type + '&q=' + urlvars['q']
 		}
-
-
 
 		$("#search-input").val(urlvars['q'].replace(/\+/g, ' '));
 
@@ -124,17 +123,8 @@ function initTableButtons() {
 	// TODO send datasheet type
 	$.get("data/pagecount.php", data => {
 		const pages = parseInt(data, 0);
-		// TODO set up links using an id
-		let html = '<a href="">&lt; Prev</a> ';
-
-		for (let i = 0; i < pages; i++) {
-			html += '<a href="">'+ (i + 1) + '</a> ';
-
-		}
-
-		html += '<a href=""> Next &gt;</a>';
-
-		$("#all-files-page-numbers").html(html);
+		console.log(pages);
+		$("#all-files-page-numbers").html(pagination.buildHTML(pages));
 	});
 }
 
