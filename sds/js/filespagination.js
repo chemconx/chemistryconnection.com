@@ -47,45 +47,45 @@ export function buildHTML(pages) {
 	 */
 
 	// print first page always
-	html += '<a class="page-number-link" data-page-number=' + (0) + '>' + (1) + '</a> ';
+	html += '<a class="page-number-link  ' + (pagenumber == 0 ? 'current' : '') +'" data-page-number=' + (0) + '>' + (1) + '</a>';
 
 	// Do we output ... ?
 	if (pagenumber - 3 > 0) {
-		html += '... ';
+		html += ' ... ';
 	}
 
 	// Do we output prev2 ?
 	if (pagenumber - 2 > 0) {
-		html += '<a class="page-number-link" data-page-number=' + (pagenumber - 2) + '>' + (pagenumber - 1) + '</a> ';
+		html += '<a class="page-number-link" data-page-number=' + (pagenumber - 2) + '>' + (pagenumber - 1) + '</a>';
 	}
 
 	// Do we output prev ?
 	if (pagenumber - 1 > 0) {
-		html += '<a class="page-number-link" data-page-number=' + (pagenumber - 1) + '>' + pagenumber + '</a> ';
+		html += '<a class="page-number-link" data-page-number=' + (pagenumber - 1) + '>' + pagenumber + '</a>';
 	}
 
 	// Do we output cur ?
 	if (pagenumber > 0 && pagenumber < pages - 1) {
-		html += '<a class="page-number-link" data-page-number=' + (pagenumber) + '>' + (pagenumber + 1) + '</a> ';
+		html += '<a class="page-number-link current" data-page-number=' + (pagenumber) + '>' + (pagenumber + 1) + '</a>';
 	}
 
 	// Do we output next ?
 	if (pagenumber + 1 < pages - 1) {
-		html += '<a class="page-number-link" data-page-number=' + (pagenumber + 1) + '>' + (pagenumber + 2) + '</a> ';
+		html += '<a class="page-number-link" data-page-number=' + (pagenumber + 1) + '>' + (pagenumber + 2) + '</a>';
 	}
 
 	// Do we output next2 ?
 	if (pagenumber + 2 < pages - 1) {
-		html += '<a class="page-number-link" data-page-number=' + (pagenumber + 2) + '>' + (pagenumber + 3) + '</a> ';
+		html += '<a class="page-number-link" data-page-number=' + (pagenumber + 2) + '>' + (pagenumber + 3) + '</a>';
 	}
 
 	// Do we output ... ?
 	if (pagenumber + 3 < pages - 1) {
-		html += '... ';
+		html += ' ... ';
 	}
 
 	// print last page always
-	html += '<a class="page-number-link" data-page-number=' + (pages - 1) + '>' + (pages) + '</a> ';
+	html += '<a class="page-number-link ' + (pagenumber == (pages - 1) ? 'current' : '') +'" data-page-number=' + (pages - 1) + '>' + (pages) + '</a>';
 
 	if (pagenumber < (pages - 1)) {
 		html += '<a class="page-number-link" data-page-number=' + (pagenumber + 1) + '> Next &gt;</a>';
