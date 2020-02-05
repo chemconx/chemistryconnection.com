@@ -1,3 +1,5 @@
+import {initTables} from "./main.js";
+
 export var pagenumber = 0;
 
 export function buildHTML(pages) {
@@ -96,4 +98,14 @@ export function buildHTML(pages) {
 
 function initPageLinks() {
 	// TODO: click events
+
+	$('.page-number-link').click(e => {
+		onPageLinkClick(e);
+	});
+}
+
+function onPageLinkClick(e) {
+	pagenumber = parseInt($(e.target).attr("data-page-number"));
+	console.log(pagenumber);
+	initTables();
 }

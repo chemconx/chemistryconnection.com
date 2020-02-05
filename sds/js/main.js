@@ -27,7 +27,7 @@ function initTabs() {
 	})
 }
 
-function initTables() {
+export function initTables() {
 	var getArgs = "?t="+tabSelected+"&p="+pagination.pagenumber;
 	var type = "?t=" + tabSelected;
 
@@ -123,7 +123,6 @@ function initTableButtons() {
 	// TODO send datasheet type
 	$.get("data/pagecount.php", data => {
 		const pages = parseInt(data, 0);
-		console.log(pages);
 		$("#all-files-page-numbers").html(pagination.buildHTML(pages));
 	});
 }
