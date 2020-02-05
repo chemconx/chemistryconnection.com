@@ -44,7 +44,7 @@ if ($authResults['success'] && $perms->userHasPermission("Upload File")) {
 				<div class="container all">
 					<div class="container header">
 						<h3 class="header all">All Safety Data Sheets</h3>
-						<div class="page-numbers" id="all-files-page-numbers"></div>
+						<div class="page-numbers" id="all-files-page-numbers" style="display: none"></div>
 					</div>
 
 					<!-- table data -->
@@ -70,7 +70,7 @@ if ($authResults['success'] && $perms->userHasPermission("Upload File")) {
 				<div class="container all">
 					<div class="container header">
 						<h3 class="header all">All Safety Data Sheets</h3>
-						<div class="page-numbers" id="all-files-page-numbers"></div>
+						<div class="page-numbers" id="all-files-page-numbers" style="display: none"></div>
 					</div>
 
 					<!-- table data -->
@@ -180,8 +180,8 @@ if ($authResults['success']) {
 		'<script src="js/specialaccess.js"></script>'
 	];
 } else {
-	$scripts = ['<script src="js/main.js"></script>',
-		'<script src="js/filespagination.js"></script>'
+	$scripts = ['<script type="module" src="js/main.js"></script>',
+		'<script type="module" src="js/filespagination.js"></script>'
 	];
 }
 

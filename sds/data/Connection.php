@@ -65,7 +65,7 @@ class Connection {
 	 * @return DataSheet[]
 	 * Null if database connection fails, array of SafetyDataSheets if successful
 	 */
-	function getAllFiles($dataSheetType = -1, $pagenumber = 0, $pagesize = 5) {
+	function getAllFiles($dataSheetType = -1, $pagenumber = 0, $pagesize = 50) {
 
 		$offset = $pagenumber * $pagesize;
 
@@ -97,7 +97,7 @@ class Connection {
 	 * @return integer
 	 */
 	// TODO accept datasheet type param
-	function getNumPagesAllFiles($pagesize = 5) {
+	function getNumPagesAllFiles($pagesize = 50) {
 		$stmt = $this->conn->prepare("SELECT COUNT(*) FROM `file`");
 		$stmt->execute();
 		$result = $stmt->get_result();

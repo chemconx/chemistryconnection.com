@@ -122,8 +122,15 @@ function initTableButtons() {
 
 	// TODO send datasheet type
 	$.get("data/pagecount.php", data => {
+		console.log("data length: " + data.length);
+		console.log("data: " + data);
 		const pages = parseInt(data, 0);
-		$("#all-files-page-numbers").html(pagination.buildHTML(pages));
+
+		if (pages == 0) {
+			$("#all-files-page-numbers").hide();
+		} else {
+			$("#all-files-page-numbers").show().html(pagination.buildHTML(pages));
+		}
 	});
 }
 
