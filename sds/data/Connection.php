@@ -41,6 +41,7 @@ class Connection {
 	}
 
 	function dataSheetFromRow($row) {
+		// TODO REMOVE .' '.$row['id'] from name field
 		return new DataSheet($row['name'].' '.$row['id'], $row['filepath'], new DateTime($row['date_uploaded']), intval($row['id']), intval($row['type']));
 	}
 
@@ -65,7 +66,7 @@ class Connection {
 	 * @return DataSheet[]
 	 * Null if database connection fails, array of SafetyDataSheets if successful
 	 */
-	function getAllFiles($dataSheetType = -1, $pagenumber = 0, $pagesize = 50) {
+	function getAllFiles($dataSheetType = -1, $pagenumber = 0, $pagesize = 25) {
 
 		$offset = $pagenumber * $pagesize;
 
@@ -96,9 +97,14 @@ class Connection {
 	 * Returns the number of pages based on the number of records in the file table
 	 * @return integer
 	 */
-	// TODO accept datasheet type param
-	function getNumPagesAllFiles($pagesize = 50) {
-		$stmt = $this->conn->prepare("SELECT COUNT(*) FROM `file`");
+	function getNumPagesAllFiles($pagesize = 25, $dataSheetType = -1) {
+		$query = "SELECT COUNT(*) FROM `file`";
+
+		if ($dataSheetType > -1) {
+			$query.=" WHERE `type` = $dataSheetType";
+		}
+
+		$stmt = $this->conn->prepare($query);
 		$stmt->execute();
 		$result = $stmt->get_result();
 		if ($result->num_rows == 1) {

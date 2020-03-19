@@ -19,6 +19,12 @@ if (!$perms->userHasPermission("View File Directory")) {
 	exit();
 }
 
-// TODO set up datasheet type param
+$dataSheetType = -1;
 
-echo "".$conn->getNumPagesAllFiles();
+if (isset($_GET['t']) && is_numeric($_GET['t'])) {
+	$dataSheetType = intval($_GET['t']);
+}
+
+
+
+echo "".$conn->getNumPagesAllFiles(25, $dataSheetType);

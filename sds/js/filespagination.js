@@ -5,7 +5,7 @@ export var pagenumber = 0;
 export function buildHTML(pages) {
 	let html = "";
 	if (pagenumber > 0 ) {
-		html += '<a class="page-number-link" data-page-number=' + (pagenumber - 1) +'>&lt; Prev</a> ';
+		html += '<a class="page-number-link" data-page-number=' + (pagenumber - 1) +'>&lt;</a> ';
 	}
 
 	// We only want the first page, previous two pages, current page, next two pages, and last page
@@ -88,7 +88,7 @@ export function buildHTML(pages) {
 	html += '<a class="page-number-link ' + (pagenumber == (pages - 1) ? 'current' : '') +'" data-page-number=' + (pages - 1) + '>' + (pages) + '</a>';
 
 	if (pagenumber < (pages - 1)) {
-		html += '<a class="page-number-link" data-page-number=' + (pagenumber + 1) + '> Next &gt;</a>';
+		html += '<a class="page-number-link" data-page-number=' + (pagenumber + 1) + '>&gt;</a>';
 	}
 
 	$("#all-files-page-numbers").html(html);
@@ -96,9 +96,11 @@ export function buildHTML(pages) {
 	initPageLinks();
 }
 
-function initPageLinks() {
-	// TODO: click events
+export function resetPageNumber() {
+	pagenumber = 0;
+}
 
+function initPageLinks() {
 	$('.page-number-link').click(e => {
 		onPageLinkClick(e);
 	});

@@ -23,6 +23,8 @@ function initTabs() {
 
 		tabSelected = parseInt($(this).attr("data-sheet-type"));
 
+		pagination.resetPageNumber();
+
 		initTables();
 	})
 }
@@ -120,13 +122,15 @@ function initTableButtons() {
 		onCopy(e);
 	});
 
-	// TODO send datasheet type
-	$.get("data/pagecount.php", data => {
-		console.log("data length: " + data.length);
-		console.log("data: " + data);
+	var t = "";
+	if (tabSelected > -1) {
+		t = `?t=${tabSelected}`;
+	}
+
+	$.get(`data/pagecount.php${t}`, data => {
 		const pages = parseInt(data, 0);
 
-		if (pages == 0) {
+		if (pages <= 1) {
 			$("#all-files-page-numbers").hide();
 		} else {
 			$("#all-files-page-numbers").show().html(pagination.buildHTML(pages));
@@ -138,8 +142,8 @@ function onCopy(e) {
 	let link = $(e.target).attr("data-clipboard-text");
 	let fileType = $(e.target).attr("data-copy-link-file-type");
 	showModal('modal/copy.php', () => {
-		let imageLink = "https://chemistryconnection.com/sds/img/datasheettype" + fileType + ".jpg";
-		let iconCode = '<a target="_blank" href="' + link + '"><img src="' + imageLink + '" style="height: 6rem; width: auto"></a>';
+		let imageLink = `https://chemistryconnection.com/sds/img/datasheettype${fileType}.jpg`;
+		let iconCode = `<a target="_blank" href="${link}"><img src="${imageLink}" style="height: 6rem; width: auto"></a>`;
 
 		$('#copy-form-link').attr("data-clipboard-text", link);
 		$('#copy-form-icon-code').attr("data-clipboard-text", iconCode);
