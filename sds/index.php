@@ -44,6 +44,7 @@ if ($authResults['success'] && $perms->userHasPermission("Upload File")) {
 				<div class="container all">
 					<div class="container header">
 						<h3 class="header all">All Safety Data Sheets</h3>
+						<div class="page-numbers" id="all-files-page-numbers" style="display: none"></div>
 					</div>
 
 					<!-- table data -->
@@ -69,6 +70,7 @@ if ($authResults['success'] && $perms->userHasPermission("Upload File")) {
 				<div class="container all">
 					<div class="container header">
 						<h3 class="header all">All Safety Data Sheets</h3>
+						<div class="page-numbers" id="all-files-page-numbers" style="display: none"></div>
 					</div>
 
 					<!-- table data -->
@@ -170,14 +172,17 @@ if (isset($_GET['login']) && !$authResults['success']) {
 
 if ($authResults['success']) {
 	$scripts = [
-		'<script src="js/main.js"></script>',
+		'<script type="module" src="js/main.js"></script>',
+		'<script type="module" src="js/filespagination.js"></script>',
 		'<script src="js/ui-dropdown/dropdown.min.js"></script>',
 		'<script src="js/ui-transition/transition.min.js"></script>',
 		'<script src="js/upload.js"></script>',
 		'<script src="js/specialaccess.js"></script>'
 	];
 } else {
-	$scripts = ['<script src="js/main.js"></script>'];
+	$scripts = ['<script type="module" src="js/main.js"></script>',
+		'<script type="module" src="js/filespagination.js"></script>'
+	];
 }
 
 include __DIR__ . '/component/footer.php'; ?>

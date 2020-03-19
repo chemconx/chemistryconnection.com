@@ -169,3 +169,22 @@ tr:first-child td {
 .threedotsaction:hover {
 	background-color: #EFEFEF;
 }
+
+.page-numbers {
+	padding: 10px 10px;
+	background-color: #214A5B;
+	border: none;
+	border-radius: 5px;
+	color: white;
+}
+
+.page-number-link {
+	padding: 10px 10px;
+	color: white;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.page-number-link:hover, .page-number-link.current {
+	background-color: #416B7A;
+}

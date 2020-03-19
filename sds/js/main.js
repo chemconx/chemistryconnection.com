@@ -1,5 +1,6 @@
 // main.js
 // define global variables and main functions
+import * as pagination from './filespagination.js';
 
 var tabSelected = -1;
 
@@ -22,15 +23,19 @@ function initTabs() {
 
 		tabSelected = parseInt($(this).attr("data-sheet-type"));
 
+		pagination.resetPageNumber();
+
 		initTables();
 	})
 }
 
-function initTables() {
-	var type = "?t="+tabSelected;
+export function initTables() {
+	var getArgs = "?t="+tabSelected+"&p="+pagination.pagenumber;
+	var type = "?t=" + tabSelected;
 
 	if (tabSelected === -1) {
-		type = ""
+		getArgs = "?p="+pagination.pagenumber;
+		type = "";
 	}
 
 	$.get("data/recentfiles.php" + type, function (data) {
@@ -39,7 +44,7 @@ function initTables() {
 		initTableButtons();
 	});
 
-	$.get("data/allfiles.php" + type, function (data) {
+	$.get("data/allfiles.php" + getArgs, function (data) {
 		$('#all-files-table').html(data);
 
 		initTableButtons();
@@ -55,8 +60,6 @@ function initTables() {
 		} else {
 			url = 'data/search.php' + type + '&q=' + urlvars['q']
 		}
-
-
 
 		$("#search-input").val(urlvars['q'].replace(/\+/g, ' '));
 
@@ -118,14 +121,29 @@ function initTableButtons() {
 	$('.action.copy').click(e => {
 		onCopy(e);
 	});
+
+	var t = "";
+	if (tabSelected > -1) {
+		t = `?t=${tabSelected}`;
+	}
+
+	$.get(`data/pagecount.php${t}`, data => {
+		const pages = parseInt(data, 0);
+
+		if (pages <= 1) {
+			$("#all-files-page-numbers").hide();
+		} else {
+			$("#all-files-page-numbers").show().html(pagination.buildHTML(pages));
+		}
+	});
 }
 
 function onCopy(e) {
 	let link = $(e.target).attr("data-clipboard-text");
 	let fileType = $(e.target).attr("data-copy-link-file-type");
 	showModal('modal/copy.php', () => {
-		var imageLink = "https://chemistryconnection.com/sds/img/datasheettype" + fileType + ".jpg";
-		var iconCode = '<a target="_blank" href="' + link + '"><img src="' + imageLink + '" style="height: 6rem; width: auto"></a>';
+		let imageLink = `https://chemistryconnection.com/sds/img/datasheettype${fileType}.jpg`;
+		let iconCode = `<a target="_blank" href="${link}"><img src="${imageLink}" style="height: 6rem; width: auto"></a>`;
 
 		$('#copy-form-link').attr("data-clipboard-text", link);
 		$('#copy-form-icon-code').attr("data-clipboard-text", iconCode);

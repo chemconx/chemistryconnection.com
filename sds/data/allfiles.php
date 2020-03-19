@@ -21,11 +21,16 @@ if ($conn == null) {
 }
 
 $fileType = -1;
+$pagenumber = 0;
 
 if (!empty($_GET['t']) && is_numeric($_GET['t'])) {
 	$fileType = intval($_GET['t']);
 }
 
-$sds = $conn->getAllFiles($fileType);
+if (!empty($_GET['p']) && is_numeric($_GET['p'])) {
+	$pagenumber = intval($_GET['p']);
+}
+
+$sds = $conn->getAllFiles($fileType, $pagenumber);
 
 buildTables($sds);

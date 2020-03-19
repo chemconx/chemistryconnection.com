@@ -65,12 +65,18 @@ class Connection {
 	 * @return DataSheet[]
 	 * Null if database connection fails, array of SafetyDataSheets if successful
 	 */
-	function getAllFiles($dataSheetType = -1) {
-		$query = "SELECT * FROM `file` ORDER BY `name` ASC";
+	function getAllFiles($dataSheetType = -1, $pagenumber = 0, $pagesize = 25) {
+
+		$offset = $pagenumber * $pagesize;
+
+		$query = "SELECT * FROM `file` ORDER BY `id` ASC";
 
 		if ($dataSheetType != -1) {
-			$query = "SELECT * FROM `file` WHERE `type` = $dataSheetType ORDER BY `name` ASC";
+			$query = "SELECT * FROM `file` WHERE `type` = $dataSheetType ORDER BY `id` ASC";
 		}
+
+		$query .= " LIMIT $pagesize OFFSET $offset";
+
 		$stmt = $this->conn->prepare($query);
 
 		$stmt->execute();
@@ -84,6 +90,30 @@ class Connection {
 		}
 
 		return $files;
+	}
+
+	/**
+	 * Returns the number of pages based on the number of records in the file table
+	 * @return integer
+	 */
+	function getNumPagesAllFiles($pagesize = 25, $dataSheetType = -1) {
+		$query = "SELECT COUNT(*) FROM `file`";
+
+		if ($dataSheetType > -1) {
+			$query.=" WHERE `type` = $dataSheetType";
+		}
+
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		if ($result->num_rows == 1) {
+			$filecount = intval($result->fetch_row()[0]);
+			$pages = $filecount / $pagesize;
+
+			return ceil($pages);
+		}
+
+		return 0;
 	}
 
 	/**
