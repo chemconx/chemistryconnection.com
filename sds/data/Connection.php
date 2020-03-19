@@ -41,8 +41,7 @@ class Connection {
 	}
 
 	function dataSheetFromRow($row) {
-		// TODO REMOVE .' '.$row['id'] from name field
-		return new DataSheet($row['name'].' '.$row['id'], $row['filepath'], new DateTime($row['date_uploaded']), intval($row['id']), intval($row['type']));
+		return new DataSheet($row['name'], $row['filepath'], new DateTime($row['date_uploaded']), intval($row['id']), intval($row['type']));
 	}
 
 	function getDataSheetTypes() {

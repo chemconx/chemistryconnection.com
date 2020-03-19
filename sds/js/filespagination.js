@@ -108,6 +108,5 @@ function initPageLinks() {
 
 function onPageLinkClick(e) {
 	pagenumber = parseInt($(e.target).attr("data-page-number"));
-	console.log(pagenumber);
 	initTables();
 }
