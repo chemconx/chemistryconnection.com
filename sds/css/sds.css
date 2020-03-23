@@ -188,3 +188,21 @@ tr:first-child td {
 .page-number-link:hover, .page-number-link.current {
 	background-color: #416B7A;
 }
+
+
+
+/* BEGIN MOBILE ADJUSTMENTS */
+@media screen and (max-width: 480px) {
+	.navbar {
+		padding: 1.5rem 0;
+	}
+
+	h1 {
+		font-size: 1.5rem;
+	}
+
+	.header-image {
+		padding-left: 1.5rem;
+		height: 50px;
+	}
+}
