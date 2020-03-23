@@ -1,5 +1,10 @@
+import * as rwd from './rwd.js';
+
 $(document).ready(()=>{
 	initModals();
+
+	rwd.init(); // init responsive web design (set up resize listener)
+	rwd.update(); // run initial check
 });
 
 function initModals() {

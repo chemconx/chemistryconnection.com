@@ -27,6 +27,8 @@ if ($authResults['success'] && !isset($_GET['logout'])) {
 	<link rel="stylesheet" href="css/usertoolbar.css">
 
 	<div class="usertoolbar">
+		<i id="mobile-bars" class="fas fa-bars"></i>
+
 		<ul class="usertoolbar-links">
 
 			<?php

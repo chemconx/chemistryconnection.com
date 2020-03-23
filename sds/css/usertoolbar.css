@@ -2,6 +2,7 @@
 	background-color: #E3E3E3;
 	padding: 0 10px;
 	color: #868686;
+	text-align: right;
 }
 
 .usertoolbar-links {
@@ -29,4 +30,36 @@
 .usertoolbar-link a {
 	color: #868686;
 	text-decoration: none;
+}
+
+#mobile-bars {
+	font-size: 1.5rem;
+	padding: 0 1rem;
+	display: none;
+
+	transition: all 0.2s ease-in-out;
+}
+
+#mobile-bars.active {
+	transform: rotate(90deg);
+}
+
+@media screen and (max-width: 500px) {
+	.usertoolbar {
+		padding: 0.75rem 1rem;
+	}
+
+	 .usertoolbar-links {
+		 display: none;
+		 padding-top: 1rem;
+		 /*text-align: center;*/
+	 }
+
+	 .usertoolbar-link {
+		 display: block;
+	 }
+
+	#mobile-bars {
+		display: inline-block;
+	}
 }
