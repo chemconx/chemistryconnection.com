@@ -15,5 +15,6 @@ export function init() {
 }
 
 export function update() {
-
+	$('.usertoolbar-links').attr('style', '');
+	$('#mobile-bars').removeClass('active');
 }
