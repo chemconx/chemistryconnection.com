@@ -1,14 +1,13 @@
-// specialaccess.js
+// filemanagement.js
 // Functions and code needed only if a user is logged in.
-//
-// keeps download size small and improves security maybe
-//
-// although this file will still be accessible if people know where
-// to look.
+
+import * as main from './main.js';
+import * as util from './util.js';
+import {Upload} from "./upload.js";
 
 $(document).ready(function () {
 	$('#upload-button').click(function () {
-		showModal("modal/upload.php", initUpload);
+		util.showModal("modal/upload.php", initUpload);
 	});
 });
 
@@ -42,12 +41,12 @@ function initUpload() {
 					message.slideDown(100);
 
 					// reload homepage
-					initTables();
+					main.initTables();
 
 					// add event to modal-close
 					$('.modal-close').click(function (e) {
 						e.preventDefault();
-						closeModal();
+						util.closeModal();
 					});
 				});
 			});
@@ -88,12 +87,12 @@ function initRename() {
 				message.slideDown(100);
 
 				// reload homepage
-				initTables();
+				main.initTables();
 
 				// add event to modal-close
 				$('.modal-close').click(function (e) {
 					e.preventDefault();
-					closeModal();
+					util.closeModal();
 				});
 			});
 		});
@@ -103,7 +102,7 @@ function initRename() {
 function initDelete(){
 	$('#delete-file-decline').click(function (e) {
 		e.preventDefault();
-		closeModal();
+		util.closeModal();
 	});
 
 	$('#delete-file-accept').click(function (e) {
@@ -133,22 +132,22 @@ function initDelete(){
 				message.slideDown(100);
 
 				// reload homepage
-				initTables();
+				main.initTables();
 
 				// add event to modal-close
 				$('.modal-close').click(function (e) {
 					e.preventDefault();
-					closeModal();
+					util.closeModal();
 				});
 			});
 		});
 	});
 }
 
-function renameFile(id) {
-	showModal("modal/rename.php?id=" + id, initRename);
-}
+export function renameFile(id) {
+	util.showModal("modal/rename.php?id=" + id, initRename);
+};
 
-function deleteFile(id) {
-	showModal("modal/delete.php?id=" + id, initDelete);
+export function deleteFile(id) {
+	util.showModal("modal/delete.php?id=" + id, initDelete);
 }

@@ -13,7 +13,7 @@ include __DIR__ . '/component/page-head.php';
 require_once(__DIR__ . "/data/auth.php");
 
 $authresults = auth(false);
-$displayName;
+$displayName = '';
 
 function changePassword($uid) {
 	global $auth;
@@ -236,5 +236,5 @@ if ($authresults['success']) {
 	<?php
 }
 
-$scripts = ['<script src="js/account.js"></script>'];
+$scripts = ['<script type="module" src="js/account.js"></script>'];
 include __DIR__ . '/component/footer.php';

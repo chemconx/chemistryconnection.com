@@ -1,6 +1,8 @@
+import * as util from './util.js';
+
 $(document).ready( () => {
 
-	var urlVars = getUrlVars();
+	var urlVars = util.getUrlVars();
 	var mode = urlVars['mode'];
 
 	if (mode === 'resetPassword') {

@@ -1,6 +1,8 @@
 // main.js
 // define global variables and main functions
 import * as pagination from './filespagination.js';
+import * as util from './util.js';
+import * as filemanagement from './filemanagement.js';
 
 var tabSelected = -1;
 
@@ -51,7 +53,7 @@ export function initTables() {
 	});
 
 	if ($('.container.search').length) {
-		let urlvars = getUrlVars();
+		let urlvars = util.getUrlVars();
 
 		var url = '';
 
@@ -83,7 +85,7 @@ export function initTables() {
 
 function initModals() {
 	$('.darkenscreen').click(function () {
-		closeModal();
+		util.closeModal();
 	});
 
 	$('.modal-close').click(function () {
@@ -92,7 +94,7 @@ function initModals() {
 	});
 
 	$('.bottommsg').click(function () {
-		hideBottomMsg();
+		util.hideBottomMsg();
 	})
 }
 
@@ -136,12 +138,22 @@ function initTableButtons() {
 			$("#all-files-page-numbers").show().html(pagination.buildHTML(pages));
 		}
 	});
+
+	$('.action.rename').click(e => {
+		const id = $(e.target).attr("data-file-id");
+		filemanagement.renameFile(id);
+	});
+
+	$('.action.delete').click(e => {
+		const id = $(e.target).attr("data-file-id");
+		filemanagement.deleteFile(id);
+	});
 }
 
 function onCopy(e) {
 	let link = $(e.target).attr("data-clipboard-text");
 	let fileType = $(e.target).attr("data-copy-link-file-type");
-	showModal('modal/copy.php', () => {
+	util.showModal('modal/copy.php', () => {
 		let imageLink = `https://chemistryconnection.com/sds/img/datasheettype${fileType}.jpg`;
 		let iconCode = `<a target="_blank" href="${link}"><img src="${imageLink}" style="height: 6rem; width: auto"></a>`;
 
@@ -152,21 +164,21 @@ function onCopy(e) {
 		let clipboardCode = new ClipboardJS('#copy-form-icon-code');
 
 		clipboardLink.on('success', () => {
-			closeModal();
-			showBottomMSG("Link copied!");
+			util.closeModal();
+			util.showBottomMSG("Link copied!");
 		});
 
 		clipboardLink.on('error', () => {
-			showBottomMSG("We were unable to copy the link.");
+			util.showBottomMSG("We were unable to copy the link.");
 		});
 
 		clipboardCode.on('success', () => {
-			closeModal();
-			showBottomMSG("HTML code copied!");
+			util.closeModal();
+			util.showBottomMSG("HTML code copied!");
 		});
 
 		clipboardCode.on('error', () => {
-			showBottomMSG("We were unable to copy the code.");
+			util.showBottomMSG("We were unable to copy the code.");
 		});
 	});
 }

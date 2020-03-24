@@ -7,7 +7,7 @@ $(document).ready(()=>{
 	rwd.update(); // run initial check
 });
 
-function initModals() {
+export function initModals() {
 	$('.darkenscreen').click(function () {
 		closeModal();
 	});
@@ -22,7 +22,7 @@ function initModals() {
 	})
 }
 
-function getUrlVars() {
+export function getUrlVars() {
 	var vars = {};
 	var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
 		vars[key] = value;
@@ -30,7 +30,7 @@ function getUrlVars() {
 	return vars;
 }
 
-function cleanURL() {
+export function cleanURL() {
 	let uri = window.location.toString();
 	if (uri.indexOf("?") > 0) {
 		let clean_uri = uri.substring(0, uri.indexOf("?"));
@@ -38,7 +38,7 @@ function cleanURL() {
 	}
 }
 
-function showModal(url, completion = null) {
+export function showModal(url, completion = null) {
 	$('.darkenscreen').fadeIn(100);
 	$('.modal').fadeIn(100);
 
@@ -52,7 +52,7 @@ function showModal(url, completion = null) {
 	});
 }
 
-function closeModal() {
+export function closeModal() {
 	$('.darkenscreen').fadeOut(100);
 	$('.modal').fadeOut(100, ()=>{
 		$('.modal').html("");
@@ -61,7 +61,7 @@ function closeModal() {
 
 }
 
-function showBottomMSG(msg){
+export function showBottomMSG(msg){
 	let bottomMSG = $('.bottommsg');
 	bottomMSG.html("<p>" + msg + "</p>");
 	bottomMSG.show();
@@ -74,7 +74,7 @@ function showBottomMSG(msg){
 
 }
 
-function hideBottomMsg() {
+export  function hideBottomMsg() {
 	$('.bottommsg').animate({bottom:'-100px'},300, "swing", function() {
 		$(this).hide();
 	});

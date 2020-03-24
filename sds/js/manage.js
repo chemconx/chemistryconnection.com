@@ -1,6 +1,8 @@
 // manage.js
 // define variables and functions for manage.php
 
+import * as util from './util.js';
+
 $(document).ready((e) => {
 	initTable();
 
@@ -17,15 +19,15 @@ $(document).ready((e) => {
 	$('#add-user-button').click((e)=>{
 		e.preventDefault();
 
-		showModal("modal/newuser.php", initNewUserModal);
+		util.showModal("modal/newuser.php", initNewUserModal);
 	});
 
 	$('#public-permissions').click(()=> {
-		showModal('modal/permissions.php?uid=public', initMngPerms);
+		util.showModal('modal/permissions.php?uid=public', initMngPerms);
 	});
 
 	$('#default-permissions').click(()=> {
-		showModal('modal/permissions.php?uid=default', initMngPerms);
+		util.showModal('modal/permissions.php?uid=default', initMngPerms);
 	});
 });
 
@@ -43,30 +45,30 @@ function initTable() {
 
 			$('#chusername-threedotsaction').click(() => {
 				closeDropdown($('.threedotsdropdown'));
-				showModal("modal/chusername.php?uid=" + uid, initChUsername);
+				util.showModal("modal/chusername.php?uid=" + uid, initChUsername);
 
 			});
 
 			$('#chemail-threedotsaction').click(() => {
 				closeDropdown($('.threedotsdropdown'));
-				showModal("modal/chemail.php?uid=" + uid, initChEmail);
+				util.showModal("modal/chemail.php?uid=" + uid, initChEmail);
 
 			});
 
 			$('#respass-threedotsaction').click(() => {
 				closeDropdown($('.threedotsdropdown'));
-				showModal("modal/respass.php?uid=" + uid, initResPass);
+				util.showModal("modal/respass.php?uid=" + uid, initResPass);
 
 			});
 
 			$('#perms-threedotsaction').click(()=> {
 				closeDropdown($('.threedotsdropdown'));
-				showModal('modal/permissions.php?uid=' + uid, initMngPerms);
+				util.showModal('modal/permissions.php?uid=' + uid, initMngPerms);
 			});
 
 			$('#del-threedotsaction').click(()=> {
 				closeDropdown($('.threedotsdropdown'));
-				showModal('modal/deluser.php?uid=' + uid, initDelUser);
+				util.showModal('modal/deluser.php?uid=' + uid, initDelUser);
 			});
 		});
 	});
@@ -120,7 +122,7 @@ function initChUsername() {
 				// add event to modal-close
 				$('.modal-close').click(function (e) {
 					e.preventDefault();
-					closeModal();
+					util.closeModal();
 				});
 			});
 		});
@@ -179,7 +181,7 @@ function initChEmail() {
 function initResPass(){
 	$('#respass-decline').click(function (e) {
 		e.preventDefault();
-		closeModal();
+		util.closeModal();
 	});
 
 	$('#respass-accept').click(function (e) {
@@ -211,7 +213,7 @@ function initResPass(){
 				// add event to modal-close
 				$('.modal-close').click(function (e) {
 					e.preventDefault();
-					closeModal();
+					util.closeModal();
 				});
 			});
 		});
@@ -276,8 +278,8 @@ function initMngPerms() {
 			processData: false,
 			timeout: 60000
 		}).done(function (result) {
-			closeModal();
-			showBottomMSG(result);
+			util.closeModal();
+			util.showBottomMSG(result);
 		});
 	});
 }
@@ -299,15 +301,15 @@ function initDelUser(){
 			processData: false,
 			timeout: 60000
 		}).done(function (result) {
-			closeModal();
+			util.closeModal();
 			initTable();
-			showBottomMSG(result);
+			util.showBottomMSG(result);
 		});
 	});
 
 	$('#delete-user-decline').click((e)=>{
 		e.preventDefault();
-		closeModal();
+		util.closeModal();
 	});
 }
 
@@ -363,8 +365,8 @@ function initNewUserModal(){
 			processData: false,
 			timeout: 60000
 		}).done(function (result) {
-			closeModal();
+			util.closeModal();
 			initTable();
-			showBottomMSG(result);
+			util.showBottomMSG(result);
 		});	});
 }

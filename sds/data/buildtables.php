@@ -40,11 +40,11 @@ function buildTables($sds) {
 	}
 
 	if ($perms->userHasPermission("Rename File")) {
-		$fileRowTeemplate .= '<td><a class="action" onclick="renameFile({ID})">Rename</a></td>';
+		$fileRowTeemplate .= '<td><a class="action rename" data-file-id="{ID}">Rename</a></td>';
 	}
 
 	if ($perms->userHasPermission("Delete File")) {
-		$fileRowTeemplate .= '<td><a class="action destructive" onclick="deleteFile({ID})">Delete</a></td>';
+		$fileRowTeemplate .= '<td><a class="action destructive delete" data-file-id="{ID}">Delete</a></td>';
 	}
 
 	$fileRowTeemplate .= '</tr>';

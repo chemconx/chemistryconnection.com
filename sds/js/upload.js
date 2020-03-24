@@ -1,7 +1,7 @@
 // upload.js
 // Define Upload prototype.
 
-var Upload = function (file, filename, fileType) {
+export var Upload = function (file, filename, fileType) {
 	this.file = file;
 	this.filename = filename;
 	this.dsType = fileType;
