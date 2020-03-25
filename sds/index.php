@@ -92,7 +92,7 @@ if ($authResults['success'] && $perms->userHasPermission("Upload File")) {
 			<a class="tab-item" data-sheet-type="2">Certificates of Analysis</a>
 			<a class="tab-item" data-sheet-type="3">Technical Data Sheets</a>
 
-			<div class="mobile-tab-dropdown"><span class="text">All files</span> <i id="tabs-dropdown-button" class="fas fa-angle-down"></i></div>
+			<div class="mobile-tab-dropdown"><span class="text">All files</span> <i id="tabs-dropdown-button" class="fas fa-chevron-down"></i></div>
 			<div class="mobile-tab-list">
 				<a class="mobile-tab-item tab-active" data-sheet-type="-1">All files</a>
 				<a class="mobile-tab-item" data-sheet-type="1">Safety Data Sheets</a>
@@ -115,7 +115,7 @@ if ($authResults['success'] && $perms->userHasPermission("Upload File")) {
 				<div class="container search-container">
 					<form id="search-form" action="" method="get">
 						<input id="search-input" name="q" type="text" placeholder="SEARCH">
-						<button id="search-submit" type="submit"> SEARCH</button>
+						<button id="search-submit" type="submit"><i class="fas fa-search"></i></button>
 					</form>
 				</div>
 

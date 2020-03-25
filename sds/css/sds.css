@@ -232,6 +232,12 @@ tr:first-child td {
 
 /* BEGIN MOBILE ADJUSTMENTS */
 @media screen and (max-width: 500px) {
+	/* ------ MAIN ------ */
+	.main-container {
+		padding: 1rem;
+		overflow: hidden;
+	}
+
 	/* ------ NAVBAR ------ */
 	.navbar {
 		padding: 1.5rem 0;
@@ -258,6 +264,11 @@ tr:first-child td {
 
 	.mobile-tab-dropdown {
 		display: block;
+	}
+
+	/* ------ SEARCH ------ */
+	#search-input {
+		font-size: 16px;
 	}
 
 }
