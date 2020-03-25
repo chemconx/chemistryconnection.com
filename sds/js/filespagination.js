@@ -5,7 +5,7 @@ export var pagenumber = 0;
 export function buildHTML(pages) {
 	let html = "";
 	if (pagenumber > 0 ) {
-		html += '<a class="page-number-link" data-page-number=' + (pagenumber - 1) +'>&lt;</a> ';
+		html += '<a class="page-number-link" data-page-number=' + (pagenumber - 1) +'><i class="fas fa-chevron-left"></i></a> ';
 	}
 
 	// We only want the first page, previous two pages, current page, next two pages, and last page
@@ -88,10 +88,10 @@ export function buildHTML(pages) {
 	html += '<a class="page-number-link ' + (pagenumber == (pages - 1) ? 'current' : '') +'" data-page-number=' + (pages - 1) + '>' + (pages) + '</a>';
 
 	if (pagenumber < (pages - 1)) {
-		html += '<a class="page-number-link" data-page-number=' + (pagenumber + 1) + '>&gt;</a>';
+		html += '<a class="page-number-link" data-page-number=' + (pagenumber + 1) + '><i class="fas fa-chevron-right"></i></a>';
 	}
 
-	$("#all-files-page-numbers").html(html);
+	$(".page-numbers").html(html);
 
 	initPageLinks();
 }

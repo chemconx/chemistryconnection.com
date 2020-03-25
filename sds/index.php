@@ -44,13 +44,14 @@ if ($authResults['success'] && $perms->userHasPermission("Upload File")) {
 				<div class="container all">
 					<div class="container header">
 						<h3 class="header all">All Safety Data Sheets</h3>
-						<div class="page-numbers" id="all-files-page-numbers" style="display: none"></div>
 					</div>
 
+				<div class="page-numbers top" style="display: none"></div>
 					<!-- table data -->
 				<table id="all-files-table">
 
 				</table>
+				<div class="page-numbers bottom" style="display: none"></div>
 			</div>
 				';
 
@@ -70,13 +71,14 @@ if ($authResults['success'] && $perms->userHasPermission("Upload File")) {
 				<div class="container all">
 					<div class="container header">
 						<h3 class="header all">All Safety Data Sheets</h3>
-						<div class="page-numbers" id="all-files-page-numbers" style="display: none"></div>
 					</div>
-
+				
+				<div class="page-numbers top" style="display: none"></div>
 					<!-- table data -->
 				<table id="all-files-table">
 
 				</table>
+				<div class="page-numbers bottom" style="display: none"></div>
 			</div>
 				';
 }

@@ -139,9 +139,9 @@ function initTableButtons() {
 		const pages = parseInt(data, 0);
 
 		if (pages <= 1) {
-			$("#all-files-page-numbers").hide();
+			$(".page-numbers").hide();
 		} else {
-			$("#all-files-page-numbers").show().html(pagination.buildHTML(pages));
+			$(".page-numbers").show().html(pagination.buildHTML(pages));
 		}
 	});
 
