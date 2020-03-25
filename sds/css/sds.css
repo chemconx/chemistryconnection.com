@@ -249,6 +249,7 @@ tr:first-child td {
 	/* ------ TABBAR ------ */
 	.tab-bar {
 		display: block;
+		border-bottom: none;
 	}
 
 	.tab-item {

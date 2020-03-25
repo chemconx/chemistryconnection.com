@@ -28,13 +28,13 @@ export function update() {
 	hideTabsDropdown();
 }
 
-function hideTabsDropdown() {
+export function hideTabsDropdown() {
 	$('#tabs-dropdown-button').removeClass('active');
 	$('.mobile-tab-list').slideUp(200);
 	$('.occlusion-panel').fadeOut(200);
 }
 
-function showTabsDropdown() {
+export function showTabsDropdown() {
 	$('#tabs-dropdown-button').addClass('active');
 	$('.mobile-tab-list').slideDown(200);
 	$('.occlusion-panel').fadeIn(200);

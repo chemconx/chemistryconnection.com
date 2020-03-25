@@ -3,6 +3,7 @@
 import * as pagination from './filespagination.js';
 import * as util from './util.js';
 import * as filemanagement from './filemanagement.js';
+import * as rwd from './rwd.js';
 
 var tabSelected = -1;
 
@@ -19,15 +20,20 @@ $(document).ready(function () {
 }());
 
 function initTabs() {
-	$('.tab-item').click(function (e) {
+	$('.tab-item, .mobile-tab-item').click(function (e) {
 		$('.tab-active').removeClass('tab-active');
-		$(this).addClass('tab-active');
+		// $(this).addClass('tab-active');
 
 		tabSelected = parseInt($(this).attr("data-sheet-type"));
+
+		$('*[data-sheet-type="'+ tabSelected + '"]').addClass('tab-active');
 
 		pagination.resetPageNumber();
 
 		initTables();
+
+		$('.mobile-tab-dropdown .text').text($(this).text());
+		rwd.hideTabsDropdown();
 	})
 }
 
