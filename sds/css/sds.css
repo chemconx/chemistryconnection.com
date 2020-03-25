@@ -26,31 +26,70 @@ a, a:visited {
 	padding-left: 50px;
 }
 
+
+/* TABBAR */
 .tab-bar {
 	width: 100%;
 	display: flex;
-	align-items: center;
+	align-content: stretch;
 	justify-content: center;
 	border-bottom: 4px solid #214A5B;
 	background-color: #CFD6DE;
 }
 
-.tab-bar a {
+.tab-item, .mobile-tab-dropdown, .mobile-tab-item {
 	background-color: #CFD6DE;
 	color: #214A5B;
 	flex-grow: 1;
 	flex-basis: 0;
 	text-align: center;
 
-	padding: 10px 0;
+	padding: 10px;
 	font-weight: 600;
 	text-transform: uppercase;
 	cursor: pointer;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
-.tab-bar a.tab-active, .tab-bar a:hover {
+.tab-item.tab-active, .tab-item:hover, .mobile-tab-dropdown, .mobile-tab-item.tab-active {
 	background-color: #214A5B;
 	color: white;
+}
+
+.mobile-tab-dropdown {
+	display: none;
+}
+
+#tabs-dropdown-button {
+	font-size: 1.4rem;
+	right: 1.5rem;
+	position: absolute;
+
+	transition: all 0.2s ease-in-out;
+}
+
+#tabs-dropdown-button.active {
+	transform: rotate(180deg);
+}
+
+.mobile-tab-list {
+	display: none;
+	position: absolute;
+	width: 100%;
+	border-top: 4px solid #CFD6DE;
+	border-bottom: 4px solid #214A5B;
+	z-index: 100;
+}
+
+.occlusion-panel {
+	display: none;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.7);
 }
 
 .main {
@@ -192,7 +231,8 @@ tr:first-child td {
 
 
 /* BEGIN MOBILE ADJUSTMENTS */
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 500px) {
+	/* ------ NAVBAR ------ */
 	.navbar {
 		padding: 1.5rem 0;
 	}
@@ -205,4 +245,18 @@ tr:first-child td {
 		padding-left: 1.5rem;
 		height: 50px;
 	}
+
+	/* ------ TABBAR ------ */
+	.tab-bar {
+		display: block;
+	}
+
+	.tab-item {
+		display: none;
+	}
+
+	.mobile-tab-dropdown {
+		display: block;
+	}
+
 }

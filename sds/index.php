@@ -91,6 +91,15 @@ if ($authResults['success'] && $perms->userHasPermission("Upload File")) {
 			<a class="tab-item" data-sheet-type="1">Safety Data Sheets</a>
 			<a class="tab-item" data-sheet-type="2">Certificates of Analysis</a>
 			<a class="tab-item" data-sheet-type="3">Technical Data Sheets</a>
+
+			<div class="mobile-tab-dropdown"><span class="text">All files</span> <i id="tabs-dropdown-button" class="fas fa-angle-down"></i></div>
+			<div class="mobile-tab-list">
+				<a class="mobile-tab-item tab-active" data-sheet-type="-1">All files</a>
+				<a class="mobile-tab-item" data-sheet-type="1">Safety Data Sheets</a>
+				<a class="mobile-tab-item" data-sheet-type="2">Certificates of Analysis</a>
+				<a class="mobile-tab-item" data-sheet-type="3">Technical Data Sheets</a>
+			</div>
+			<div class="occlusion-panel"></div>
 		</div>
 		<div class="main-container">
 

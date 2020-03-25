@@ -12,9 +12,30 @@ export function init() {
 			usertoolbarLinks.slideUp(200);
 		}
 	});
+
+	$('.mobile-tab-dropdown').click((e) => {
+		if ($('#tabs-dropdown-button').hasClass('active')) {
+			hideTabsDropdown();
+		} else {
+			showTabsDropdown();
+		}
+	})
 }
 
 export function update() {
 	$('.usertoolbar-links').attr('style', '');
 	$('#mobile-bars').removeClass('active');
+	hideTabsDropdown();
+}
+
+function hideTabsDropdown() {
+	$('#tabs-dropdown-button').removeClass('active');
+	$('.mobile-tab-list').slideUp(200);
+	$('.occlusion-panel').fadeOut(200);
+}
+
+function showTabsDropdown() {
+	$('#tabs-dropdown-button').addClass('active');
+	$('.mobile-tab-list').slideDown(200);
+	$('.occlusion-panel').fadeIn(200);
 }
