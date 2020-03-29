@@ -13,9 +13,9 @@ function buildTables($sds) {
 
 	$fileRowTeemplate = '
 <tr>
-	<td>{FILENAME}</td>
-	<td><a class="action" href="{LINK}" target="_blank">Open</a></td>
-	<td><a class="action copy" data-clipboard-text="{FULL_LINK}" data-copy-link-file-type="{FILE_TYPE}">Copy Link</a></td>
+	<td class="filename-cell">{FILENAME}</td>
+	<td class="action-cell"><a class="action" href="{LINK}" target="_blank">Open</a></td>
+	<td class="action-cell"><a class="action copy" data-clipboard-text="{FULL_LINK}" data-copy-link-file-type="{FILE_TYPE}">Copy Link</a></td>
 </tr>
 ';
 
@@ -30,33 +30,34 @@ function buildTables($sds) {
 	}
 
 	$fileRowTeemplate = '
-<tr>
-	<td>{FILENAME}</td>
-	<td><a class="action" href="{LINK}" target="_blank">Open</a></td>';
+<div class="file-row">
+	<div class="file-cell filename-cell">{FILENAME}</div>
+	<div class="file-cell dropdown-cell"><i class="fas fa-chevron-right"></i></div>
+	<div class="file-cell action-cell"><a class="action" href="{LINK}" target="_blank">Open</a></div>';
 
 
 	if ($perms->userHasPermission("Copy Link") || $perms->userHasPermission("Copy HTML")) {
-		$fileRowTeemplate .= '<td><a class="action copy" data-clipboard-text="{FULL_LINK}" data-copy-link-file-type="{FILE_TYPE}">Copy Link</a></td>';
+		$fileRowTeemplate .= '<div class="file-cell action-cell"><a class="action copy" data-clipboard-text="{FULL_LINK}" data-copy-link-file-type="{FILE_TYPE}">Copy Link</a></div>';
 	}
 
 	if ($perms->userHasPermission("Rename File")) {
-		$fileRowTeemplate .= '<td><a class="action rename" data-file-id="{ID}">Rename</a></td>';
+		$fileRowTeemplate .= '<div class="file-cell action-cell"><a class="action rename" data-file-id="{ID}">Rename</a></div>';
 	}
 
 	if ($perms->userHasPermission("Delete File")) {
-		$fileRowTeemplate .= '<td><a class="action destructive delete" data-file-id="{ID}">Delete</a></td>';
+		$fileRowTeemplate .= '<div class="file-cell action-cell"><a class="action destructive delete" data-file-id="{ID}">Delete</a></div>';
 	}
 
-	$fileRowTeemplate .= '</tr>';
+	$fileRowTeemplate .= '</div>';
 
 // load files
-	echo '<colgroup>
-					<col width="100%">
-					<col width="0%">
-					<col width="0%">
-					<col width="0%">
-					<col width="0%">
-				</colgroup>';
+//	echo '<colgroup>
+//					<col width="100%">
+//					<col width="0%">
+//					<col width="0%">
+//					<col width="0%">
+//					<col width="0%">
+//				</colgroup>';
 
 	foreach ($sds as $file) {
 		$populatedTemplate = str_replace("{FILENAME}", $file->name, $fileRowTeemplate);

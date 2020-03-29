@@ -20,9 +20,9 @@ $searchContainer = '<div class="container search">
 					</div>
 
 					<!-- table data -->
-					<table id="search-results-table">
+					<div id="search-results-table">
 	
-					</table>
+					</div>
 				</div>';
 
 
@@ -36,9 +36,9 @@ if ($authResults['success'] && $perms->userHasPermission("Upload File")) {
 					</div>
 
 					<!-- table data -->
-					<table id="recent-files-table">
+					<div class="file-table" id="recent-files-table">
 	
-					</table>
+					</div>
 				</div>
 
 				<div class="container all">
@@ -48,9 +48,9 @@ if ($authResults['success'] && $perms->userHasPermission("Upload File")) {
 
 				<div class="page-numbers top" style="display: none"></div>
 					<!-- table data -->
-				<table id="all-files-table">
+				<div class="file-table" id="all-files-table">
 
-				</table>
+				</div>
 				<div class="page-numbers bottom" style="display: none"></div>
 			</div>
 				';
@@ -63,9 +63,9 @@ if ($authResults['success'] && $perms->userHasPermission("Upload File")) {
 					</div>
 
 					<!-- table data -->
-					<table id="recent-files-table">
+					<div class="file-table" id="recent-files-table">
 	
-					</table>
+					</div>
 				</div>
 
 				<div class="container all">
@@ -75,9 +75,9 @@ if ($authResults['success'] && $perms->userHasPermission("Upload File")) {
 				
 				<div class="page-numbers top" style="display: none"></div>
 					<!-- table data -->
-				<table id="all-files-table">
+				<div class="file-table" id="all-files-table">
 
-				</table>
+				</div>
 				<div class="page-numbers bottom" style="display: none"></div>
 			</div>
 				';
