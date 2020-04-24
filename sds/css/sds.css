@@ -287,11 +287,25 @@ a, a:visited {
 	}
 
 	/* ------ TABLE ------ */
-	.action-cell {
-		display: none;
+	.file-row {
+		flex-direction: column;
 	}
 
-	.dropdown-cell {
-		display: table-cell;
+	.action-cell {
+		display: none;
+		padding: 0;
+	}
+
+	.action-cell a.action {
+		display: block;
+		border-radius: 0;
+		padding: 10px 25px;
+	}
+
+	.file-cell.dropdown-cell {
+		display: block;
+		float: right;
+		padding: 0px 5px;
+		border: none;
 	}
 }
