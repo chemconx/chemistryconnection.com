@@ -27,6 +27,8 @@
 .modal input {
 	padding: 5px 5px;
 	margin:  5px 0;
+	width: 100%;
+	min-width: 250px;
 }
 
 .modal button {
@@ -54,4 +56,24 @@
 
 .bottommsg p {
 	margin: 0;
+}
+
+@media screen and (max-width: 1000px) {
+	.modal {
+		width: 350px;
+		max-width: calc(100% - 60px);
+	}
+
+	.modal input {
+		min-width: 0;
+	}
+}
+
+@media screen and (max-width: 500px) {
+	.modal button {
+		padding: 7px 13px;
+		font-size: 85%;
+	}
+
+
 }

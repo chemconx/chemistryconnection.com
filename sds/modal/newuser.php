@@ -27,14 +27,12 @@ if (!$authresults['success']) {
 
 		<div class="form-element">
 			<label for="new-user-display-name">Display Name:</label>
-			<input type="text" id="new-user-display-name" name="displayName" placeholder="Display Name"
-				   size="40">
+			<input type="text" id="new-user-display-name" name="displayName" placeholder="Display Name">
 		</div>
 
 		<div class="form-element">
 			<label for="new-user-email">Email:</label>
-			<input type="email" id="new-user-email" name="email" placeholder="Email"
-				   size="40">
+			<input type="email" id="new-user-email" name="email" placeholder="Email">
 		</div>
 
 		<div class="form-element" style="display: none;" id="new-user-email-err">
@@ -44,8 +42,7 @@ if (!$authresults['success']) {
 
 		<div class="form-element">
 			<label for="new-user-password">Password</label>
-			<input type="password" id="new-user-password" name="password" placeholder="Password"
-				   size="40">
+			<input type="password" id="new-user-password" name="password" placeholder="Password">
 		</div>
 
 		<div class="form-element" style="display: none;" id="new-user-pass-err">
@@ -55,8 +52,7 @@ if (!$authresults['success']) {
 
 		<div class="form-element">
 			<label for="new-user-confpass">Confirm:</label>
-			<input type="password" id="new-user-confpass" name="confpass" placeholder="Confirm"
-				   size="40">
+			<input type="password" id="new-user-confpass" name="confpass" placeholder="Confirm">
 		</div>
 
 		<div class="container">
