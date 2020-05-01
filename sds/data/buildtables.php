@@ -9,18 +9,7 @@
 require_once __DIR__ . '/auth.php';
 
 function buildTables($sds) {
-	$login = false;
-
-	$fileRowTeemplate = '
-<tr>
-	<td class="filename-cell">{FILENAME}</td>
-	<td class="action-cell"><a class="action" href="{LINK}" target="_blank">Open</a></td>
-	<td class="action-cell"><a class="action copy" data-clipboard-text="{FULL_LINK}" data-copy-link-file-type="{FILE_TYPE}">Copy Link</a></td>
-</tr>
-';
-
-// check for session
-
+	// check for session
 	$authResult = auth(false);
 	$perms = $authResult['perms'];
 
@@ -48,15 +37,6 @@ function buildTables($sds) {
 	}
 
 	$fileRowTeemplate .= '</div>';
-
-// load files
-//	echo '<colgroup>
-//					<col width="100%">
-//					<col width="0%">
-//					<col width="0%">
-//					<col width="0%">
-//					<col width="0%">
-//				</colgroup>';
 
 	foreach ($sds as $file) {
 		$populatedTemplate = str_replace("{FILENAME}", $file->name, $fileRowTeemplate);
