@@ -126,6 +126,8 @@ function initSearch() {
 }
 
 function initTableButtons() {
+	rwd.initTable();
+
 	$('.action.copy').click(e => {
 		onCopy(e);
 	});

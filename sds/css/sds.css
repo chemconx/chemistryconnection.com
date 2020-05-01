@@ -213,6 +213,12 @@ a, a:visited {
 .file-cell.dropdown-cell {
 	display: none;
 	padding-right: 10px;
+
+	transition: all 0.2s ease-in-out;
+}
+
+.file-cell.dropdown-cell.active {
+	transform: rotate(90deg);
 }
 
 .page-numbers {
@@ -285,7 +291,9 @@ a, a:visited {
 	#search-input {
 		font-size: 16px;
 	}
+}
 
+@media screen and (max-width: 700px){
 	/* ------ TABLE ------ */
 	.file-row {
 		flex-direction: column;
