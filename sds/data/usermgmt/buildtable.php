@@ -11,8 +11,8 @@ include __DIR__ . "/../auth.php";
 $fileRowTeemplate = '
 <tr>
 	<td><a class="action threedots" data-uid="{UID}">&bull;&bull;&bull;</a></td>
-	<td>{USER_EMAIL}</td>
-	<td>{USER_NAME}</td>
+	<td class="user-email-cell">{USER_EMAIL}</td>
+	<td class="username-cell">{USER_NAME}</td>
 </tr>
 ';
 

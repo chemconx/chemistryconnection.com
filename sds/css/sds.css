@@ -151,7 +151,7 @@ a, a:visited {
 }
 
 /* TABLE */
-.file-table {
+table, .file-table {
 	width: 100%;
 	max-width: 100%;
 	border: #214A5B 1px solid;
@@ -169,7 +169,7 @@ a, a:visited {
 	flex-wrap: nowrap;
 }
 
-.file-cell {
+td, .file-cell {
 	padding: 10px 5px;
 	white-space: nowrap;
 	border: none;
@@ -290,6 +290,34 @@ a, a:visited {
 	/* ------ SEARCH ------ */
 	#search-input {
 		font-size: 16px;
+	}
+
+	/* ------ TABLE ------ */
+	table {
+		display: block;
+	}
+
+	tbody {
+		display: flex;
+		flex-direction: column;
+	}
+
+	tr {
+		display: block;
+	}
+
+	.username-cell {
+		display: none;
+	}
+
+	td {
+		display: block;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	td:first-child {
+		float: left;
 	}
 }
 
