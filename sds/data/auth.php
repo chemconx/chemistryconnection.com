@@ -11,17 +11,12 @@ require_once __DIR__ . "/UserPermissions.php";
 
 
 use Kreait\Firebase\Factory;
-use Kreait\Firebase\ServiceAccount;
 
 session_start();
 
-$serviceAccount = ServiceAccount::fromJsonFile(__DIR__ . '/private/myopdffilebrowser-b92e95396fa0.json');
-
-$firebase = (new Factory)
-	->withServiceAccount($serviceAccount)
-	->create();
-
-$auth = $firebase->getAuth();
+$auth = (new Factory)
+	->withServiceAccount(__DIR__ . '/private/myopdffilebrowser-b92e95396fa0.json')
+	->createAuth();
 
 function auth($echoJSON = true, $perm = null) {
 	global $auth;
@@ -46,13 +41,14 @@ function auth($echoJSON = true, $perm = null) {
 				$result['success'] = false;
 				$result['message'] = "Invalid username or password";
 			} else {
-
 				try {
-					$user = $auth->verifyPassword($email, $password);
+					$signInResult = $auth->signInWithEmailAndPassword($email, $password);
+//					var_dump($signInResult);
+					$user = $auth->getUser($signInResult->data()['localId']);
 					$result['success'] = true;
 					$result['user'] = $user;
 					$_SESSION['user'] = $user;
-				} catch (Kreait\Firebase\Exception\Auth\InvalidPassword $e) {
+				} catch (Kreait\Firebase\Auth\SignIn\FailedToSignIn $e) {
 					$result['success'] = false;
 					$result['message'] = $e->getMessage();
 				}

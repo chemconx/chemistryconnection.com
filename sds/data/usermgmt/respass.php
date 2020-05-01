@@ -10,6 +10,8 @@
  */
 require_once __DIR__ . "/../../data/auth.php";
 
+use Kreait\Firebase;
+
 $authresults = auth(false, "Reset Password");
 
 if (!$authresults['success']) {
@@ -17,10 +19,15 @@ if (!$authresults['success']) {
 	exit();
 }
 
-$email = $auth->getUser($_POST['uid'])->email;
-$auth->sendPasswordResetEmail( $email);
+try {
+	$email = $auth->getUser($_POST['uid'])->email;
+//	$auth->sendPasswordResetEmail( $email);
+	$auth->sendPasswordResetLink($email);
+	echo "An email has been sent.";
+} catch (\Exception $e) {
+	echo 'Failed to send password: '.$e->getMessage();
+}
 
-echo "An email has been sent.";
 ?>
 
 	</p>
