@@ -9,16 +9,15 @@ use Kreait\Firebase\Util\DT;
 
 class UserMetaData implements \JsonSerializable
 {
-    /**
-     * @var DateTimeImmutable
-     */
+    /** @var DateTimeImmutable|null */
     public $createdAt;
 
-    /**
-     * @var DateTimeImmutable|null
-     */
+    /** @var DateTimeImmutable|null */
     public $lastLoginAt;
 
+    /**
+     * @param array<string, mixed> $data
+     */
     public static function fromResponseData(array $data): self
     {
         $metadata = new self();
@@ -31,17 +30,15 @@ class UserMetaData implements \JsonSerializable
         return $metadata;
     }
 
-    public function toArray(): array
+    /**
+     * @return array<string, mixed>
+     */
+    public function jsonSerialize(): array
     {
-        return get_object_vars($this);
-    }
+        $data = \get_object_vars($this);
 
-    public function jsonSerialize()
-    {
-        $data = $this->toArray();
-
-        $data['createdAt'] = $data['createdAt']->format(DATE_ATOM);
-        $data['lastLoginAt'] = $data['lastLoginAt'] ? $data['lastLoginAt']->format(DATE_ATOM) : $data['lastLoginAt'];
+        $data['createdAt'] = $this->createdAt ? $this->createdAt->format(\DATE_ATOM) : null;
+        $data['lastLoginAt'] = $this->lastLoginAt ? $this->lastLoginAt->format(\DATE_ATOM) : null;
 
         return $data;
     }

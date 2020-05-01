@@ -10,7 +10,7 @@
 	}
   ],
   "require": {
-    "kreait/firebase-php": "4.19.0",
+    "kreait/firebase-php": "*",
 	"ext-json": "*"
   }
 }

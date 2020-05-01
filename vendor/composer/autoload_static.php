@@ -10,9 +10,12 @@ class ComposerStaticInit61ac93660edc530d8520126fe5781f57
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
+        'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
+        '27592325262b385204a263c2ab632d6e' => __DIR__ . '/..' . '/kreait/clock/src/Clock.php',
         'b067bc7112e384b61c701452d53a14a8' => __DIR__ . '/..' . '/mtdowling/jmespath.php/src/JmesPath.php',
-        'f7c6080b46f9fe41a46a657439674576' => __DIR__ . '/..' . '/kreait/firebase-php/src/Firebase.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -22,7 +25,13 @@ class ComposerStaticInit61ac93660edc530d8520126fe5781f57
         ),
         'S' => 
         array (
-            'Superbalist\\Flysystem\\GoogleStorage\\' => 36,
+            'Symfony\\Polyfill\\Php72\\' => 23,
+            'Symfony\\Polyfill\\Mbstring\\' => 26,
+            'Symfony\\Polyfill\\Intl\\Idn\\' => 26,
+        ),
+        'R' => 
+        array (
+            'Riverline\\MultiPartParser\\' => 26,
         ),
         'P' => 
         array (
@@ -37,13 +46,13 @@ class ComposerStaticInit61ac93660edc530d8520126fe5781f57
         ),
         'L' => 
         array (
-            'League\\Flysystem\\' => 17,
             'Lcobucci\\JWT\\' => 13,
         ),
         'K' => 
         array (
+            'Kreait\\Firebase\\JWT\\' => 20,
             'Kreait\\Firebase\\' => 16,
-            'Kreait\\' => 7,
+            'Kreait\\Clock\\' => 13,
         ),
         'J' => 
         array (
@@ -56,6 +65,7 @@ class ComposerStaticInit61ac93660edc530d8520126fe5781f57
             'GuzzleHttp\\' => 11,
             'Google\\Cloud\\Storage\\' => 21,
             'Google\\Cloud\\Core\\' => 18,
+            'Google\\CRC32\\' => 13,
             'Google\\Auth\\' => 12,
             'Giggsey\\Locale\\' => 15,
         ),
@@ -72,9 +82,21 @@ class ComposerStaticInit61ac93660edc530d8520126fe5781f57
         array (
             0 => __DIR__ . '/..' . '/giggsey/libphonenumber-for-php/src',
         ),
-        'Superbalist\\Flysystem\\GoogleStorage\\' => 
+        'Symfony\\Polyfill\\Php72\\' => 
         array (
-            0 => __DIR__ . '/..' . '/superbalist/flysystem-google-storage/src',
+            0 => __DIR__ . '/..' . '/symfony/polyfill-php72',
+        ),
+        'Symfony\\Polyfill\\Mbstring\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
+        'Symfony\\Polyfill\\Intl\\Idn\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-intl-idn',
+        ),
+        'Riverline\\MultiPartParser\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/riverline/multipart-parser/src',
         ),
         'Psr\\SimpleCache\\' => 
         array (
@@ -96,21 +118,21 @@ class ComposerStaticInit61ac93660edc530d8520126fe5781f57
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
         ),
-        'League\\Flysystem\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/league/flysystem/src',
-        ),
         'Lcobucci\\JWT\\' => 
         array (
             0 => __DIR__ . '/..' . '/lcobucci/jwt/src',
+        ),
+        'Kreait\\Firebase\\JWT\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kreait/firebase-tokens/src/JWT',
         ),
         'Kreait\\Firebase\\' => 
         array (
             0 => __DIR__ . '/..' . '/kreait/firebase-php/src/Firebase',
         ),
-        'Kreait\\' => 
+        'Kreait\\Clock\\' => 
         array (
-            0 => __DIR__ . '/..' . '/kreait/gcp-metadata/src',
+            0 => __DIR__ . '/..' . '/kreait/clock/src/Clock',
         ),
         'JmesPath\\' => 
         array (
@@ -136,6 +158,10 @@ class ComposerStaticInit61ac93660edc530d8520126fe5781f57
         array (
             0 => __DIR__ . '/..' . '/google/cloud-core/src',
         ),
+        'Google\\CRC32\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/google/crc32/src',
+        ),
         'Google\\Auth\\' => 
         array (
             0 => __DIR__ . '/..' . '/google/auth/src',
@@ -150,7 +176,7 @@ class ComposerStaticInit61ac93660edc530d8520126fe5781f57
         ),
         'Firebase\\Auth\\Token\\' => 
         array (
-            0 => __DIR__ . '/..' . '/kreait/firebase-tokens/src',
+            0 => __DIR__ . '/..' . '/kreait/firebase-tokens/src/Firebase/Auth/Token',
         ),
         'Fig\\Http\\Message\\' => 
         array (

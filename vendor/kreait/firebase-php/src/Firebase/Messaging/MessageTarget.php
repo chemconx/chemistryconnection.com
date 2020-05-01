@@ -8,22 +8,23 @@ use Kreait\Firebase\Exception\InvalidArgumentException;
 
 final class MessageTarget
 {
-    const CONDITION = 'condition';
-    const TOKEN = 'token';
-    const TOPIC = 'topic';
+    public const CONDITION = 'condition';
+    public const TOKEN = 'token';
+    public const TOPIC = 'topic';
 
-    const TYPES = [
-        self::CONDITION, self::TOKEN, self::TOPIC,
+    /**
+     * @internal
+     */
+    public const UNKNOWN = 'unknown';
+
+    public const TYPES = [
+        self::CONDITION, self::TOKEN, self::TOPIC, self::UNKNOWN,
     ];
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $type;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $value;
 
     private function __construct()
@@ -33,16 +34,13 @@ final class MessageTarget
     /**
      * Create a new message target with the given type and value.
      *
-     * @param string $type
-     * @param string $value
-     *
      * @throws InvalidArgumentException
      *
      * @return MessageTarget
      */
     public static function with(string $type, string $value): self
     {
-        $targetType = strtolower($type);
+        $targetType = \mb_strtolower($type);
 
         $new = new self();
         $new->type = $targetType;
@@ -57,8 +55,11 @@ final class MessageTarget
             case self::TOPIC:
                 $new->value = (string) Topic::fromValue($value);
                 break;
+            case self::UNKNOWN:
+                $new->value = $value;
+                break;
             default:
-                throw new InvalidArgumentException('Invalid target type "'.$type.'", valid type: "'.implode(', ', self::TYPES));
+                throw new InvalidArgumentException("Invalid target type '{$type}', valid types: ".\implode(', ', self::TYPES));
         }
 
         return $new;

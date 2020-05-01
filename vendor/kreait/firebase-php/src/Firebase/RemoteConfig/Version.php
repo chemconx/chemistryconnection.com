@@ -8,45 +8,36 @@ use Kreait\Firebase\Util\DT;
 
 final class Version
 {
-    /**
-     * @var VersionNumber
-     */
+    /** @var VersionNumber */
     private $versionNumber;
 
-    /**
-     * @var User
-     */
+    /** @var User */
     private $user;
 
-    /**
-     * @var \DateTimeImmutable
-     */
+    /** @var \DateTimeImmutable */
     private $updatedAt;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $description;
 
-    /**
-     * @var UpdateOrigin
-     */
+    /** @var UpdateOrigin */
     private $updateOrigin;
 
-    /**
-     * @var UpdateType
-     */
+    /** @var UpdateType */
     private $updateType;
 
-    /**
-     * @var VersionNumber|null
-     */
+    /** @var VersionNumber|null */
     private $rollbackSource;
 
     private function __construct()
     {
     }
 
+    /**
+     * @internal
+     *
+     * @param array<string, mixed> $data
+     */
     public static function fromArray(array $data): self
     {
         $new = new self();
@@ -100,10 +91,7 @@ final class Version
         return $this->updateType;
     }
 
-    /**
-     * @return VersionNumber|null
-     */
-    public function rollbackSource()
+    public function rollbackSource(): ?VersionNumber
     {
         return $this->rollbackSource;
     }

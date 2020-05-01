@@ -22,6 +22,7 @@ return array (
     'PossibleLengthLocalOnly' => 
     array (
       0 => 6,
+      1 => 7,
     ),
   ),
   'fixedLine' => 
@@ -34,11 +35,12 @@ return array (
     'PossibleLengthLocalOnly' => 
     array (
       0 => 6,
+      1 => 7,
     ),
   ),
   'mobile' => 
   array (
-    'NationalNumberPattern' => '(?:5(?:[14]4|5[0157-9]|68|7[0147-9]|9[1-35-9])|790)\\d{6}',
+    'NationalNumberPattern' => '5(?:0(?:0(?:0\\d|50)\\d|555[5-9])|(?:111\\d|8(?:58[89]|888))\\d|(?:2222|3333)[0-4]|52(?:00\\d|22[0-4])|75(?:00\\d|7(?:7[7-9]|8[01])))\\d{3}|(?:5(?:[14]4|5[0157-9]|68|7[0147-9]|9[1-35-9])|790)\\d{6}',
     'ExampleNumber' => '555123456',
     'PossibleLength' => 
     array (
@@ -90,7 +92,7 @@ return array (
   ),
   'voip' => 
   array (
-    'NationalNumberPattern' => '706\\d{6}',
+    'NationalNumberPattern' => '70[67]\\d{6}',
     'ExampleNumber' => '706123456',
     'PossibleLength' => 
     array (
@@ -131,7 +133,7 @@ return array (
   ),
   'noInternationalDialling' => 
   array (
-    'NationalNumberPattern' => '706\\d{6}',
+    'NationalNumberPattern' => '70[67]\\d{6}',
     'PossibleLength' => 
     array (
     ),
@@ -161,6 +163,18 @@ return array (
     ),
     1 => 
     array (
+      'pattern' => '(\\d{2})(\\d{3})(\\d{2})(\\d{2})',
+      'format' => '$1 $2 $3 $4',
+      'leadingDigitsPatterns' => 
+      array (
+        0 => '32',
+      ),
+      'nationalPrefixFormattingRule' => '0$1',
+      'domesticCarrierCodeFormattingRule' => '',
+      'nationalPrefixOptionalWhenFormatting' => false,
+    ),
+    2 => 
+    array (
       'pattern' => '(\\d{3})(\\d{2})(\\d{2})(\\d{2})',
       'format' => '$1 $2 $3 $4',
       'leadingDigitsPatterns' => 
@@ -171,7 +185,7 @@ return array (
       'domesticCarrierCodeFormattingRule' => '',
       'nationalPrefixOptionalWhenFormatting' => false,
     ),
-    2 => 
+    3 => 
     array (
       'pattern' => '(\\d{3})(\\d{2})(\\d{2})(\\d{2})',
       'format' => '$1 $2 $3 $4',

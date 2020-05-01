@@ -1,248 +1,196 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Kreait\Firebase\Auth;
 
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\RequestException;
-use Kreait\Firebase\Exception\Auth\CredentialsMismatch;
 use Kreait\Firebase\Exception\Auth\EmailNotFound;
-use Kreait\Firebase\Exception\Auth\InvalidCustomToken;
+use Kreait\Firebase\Exception\Auth\ExpiredOobCode;
+use Kreait\Firebase\Exception\Auth\InvalidOobCode;
+use Kreait\Firebase\Exception\Auth\OperationNotAllowed;
+use Kreait\Firebase\Exception\Auth\UserDisabled;
+use Kreait\Firebase\Exception\AuthApiExceptionConverter;
 use Kreait\Firebase\Exception\AuthException;
+use Kreait\Firebase\Exception\FirebaseException;
+use Kreait\Firebase\Http\WrappedGuzzleClient;
 use Kreait\Firebase\Request;
-use Lcobucci\JWT\Token;
+use Kreait\Firebase\Value\Provider;
 use Psr\Http\Message\ResponseInterface;
+use Throwable;
 
-class ApiClient
+/**
+ * @internal
+ */
+class ApiClient implements ClientInterface
 {
-    /**
-     * @var ClientInterface
-     */
-    private $client;
+    use WrappedGuzzleClient;
 
+    /** @var AuthApiExceptionConverter */
+    private $errorHandler;
+
+    /**
+     * @internal
+     */
     public function __construct(ClientInterface $client)
     {
         $this->client = $client;
+        $this->errorHandler = new AuthApiExceptionConverter();
     }
 
     /**
-     * Takes a custom token and exchanges it with an ID token.
-     *
-     * @param Token $token
-     *
-     * @see https://firebase.google.com/docs/reference/rest/auth/#section-verify-custom-token
-     *
-     * @throws InvalidCustomToken
-     * @throws CredentialsMismatch
-     *
-     * @return ResponseInterface
+     * @throws AuthException
+     * @throws FirebaseException
      */
-    public function exchangeCustomTokenForIdAndRefreshToken(Token $token): ResponseInterface
-    {
-        return $this->request('verifyCustomToken', [
-            'token' => (string) $token,
-            'returnSecureToken' => true,
-        ]);
-    }
-
     public function createUser(Request\CreateUser $request): ResponseInterface
     {
-        return $this->request('signupNewUser', $request);
-    }
-
-    public function updateUser(Request\UpdateUser $request): ResponseInterface
-    {
-        return $this->request('setAccountInfo', $request);
+        return $this->requestApi('signupNewUser', $request);
     }
 
     /**
-     * @deprecated 4.2.0
-     * @see ApiClient::createUser()
-     *
-     * @codeCoverageIgnore
+     * @throws AuthException
+     * @throws FirebaseException
      */
-    public function signupNewUser(string $email = null, string $password = null): ResponseInterface
+    public function updateUser(Request\UpdateUser $request): ResponseInterface
     {
-        return $this->createUser(
-            Request\CreateUser::new()
-                ->withUnverifiedEmail($email)
-                ->withClearTextPassword($password)
-        );
+        return $this->requestApi('setAccountInfo', $request);
     }
 
     /**
      * Returns a user for the given email address.
      *
-     * @param string $email
-     *
      * @throws EmailNotFound
-     *
-     * @return ResponseInterface
+     * @throws AuthException
+     * @throws FirebaseException
      */
     public function getUserByEmail(string $email): ResponseInterface
     {
-        return $this->request('getAccountInfo', [
+        return $this->requestApi('getAccountInfo', [
             'email' => [$email],
         ]);
     }
 
     /**
-     * Returns a user for the given phone number.
-     *
-     * @param string $phoneNumber
-     *
-     * @return ResponseInterface
+     * @throws AuthException
+     * @throws FirebaseException
      */
     public function getUserByPhoneNumber(string $phoneNumber): ResponseInterface
     {
-        return $this->request('getAccountInfo', [
+        return $this->requestApi('getAccountInfo', [
             'phoneNumber' => [$phoneNumber],
         ]);
     }
 
-    public function downloadAccount(int $batchSize = null, string $nextPageToken = null): ResponseInterface
+    /**
+     * @throws AuthException
+     * @throws FirebaseException
+     */
+    public function downloadAccount(?int $batchSize = null, ?string $nextPageToken = null): ResponseInterface
     {
         $batchSize = $batchSize ?? 1000;
 
-        return $this->request('downloadAccount', array_filter([
+        return $this->requestApi('downloadAccount', \array_filter([
             'maxResults' => $batchSize,
             'nextPageToken' => $nextPageToken,
         ]));
     }
 
     /**
-     * @deprecated 4.2.0
-     * @see ApiClient::updateUser()
-     *
-     * @codeCoverageIgnore
+     * @throws AuthException
+     * @throws FirebaseException
      */
-    public function enableUser($uid): ResponseInterface
-    {
-        return $this->updateUser(
-            Request\UpdateUser::new()
-                ->withUid($uid)
-                ->markAsEnabled()
-        );
-    }
-
-    /**
-     * @deprecated 4.2.0
-     * @see ApiClient::updateUser()
-     *
-     * @codeCoverageIgnore
-     */
-    public function disableUser($uid): ResponseInterface
-    {
-        return $this->updateUser(
-            Request\UpdateUser::new()
-                ->withUid($uid)
-                ->markAsDisabled()
-        );
-    }
-
     public function deleteUser(string $uid): ResponseInterface
     {
-        return $this->request('deleteAccount', [
+        return $this->requestApi('deleteAccount', [
             'localId' => $uid,
         ]);
     }
 
     /**
-     * @deprecated 4.2.0
-     * @see ApiClient::updateUser()
-     *
-     * @codeCoverageIgnore
+     * @throws AuthException
+     * @throws FirebaseException
      */
-    public function changeUserPassword(string $uid, string $newPassword): ResponseInterface
-    {
-        return $this->updateUser(
-            Request\UpdateUser::new()
-                ->withUid($uid)
-                ->withClearTextPassword($newPassword)
-        );
-    }
-
-    /**
-     * @deprecated 4.2.0
-     * @see ApiClient::updateUser()
-     *
-     * @codeCoverageIgnore
-     */
-    public function changeUserEmail(string $uid, string $newEmail): ResponseInterface
-    {
-        return $this->updateUser(
-            Request\UpdateUser::new()
-                ->withUid($uid)
-                ->withEmail($newEmail)
-        );
-    }
-
     public function getAccountInfo(string $uid): ResponseInterface
     {
-        return $this->request('getAccountInfo', [
+        return $this->requestApi('getAccountInfo', [
             'localId' => [$uid],
         ]);
     }
 
-    public function verifyPassword(string $email, string $password): ResponseInterface
+    /**
+     * @throws ExpiredOobCode
+     * @throws InvalidOobCode
+     * @throws OperationNotAllowed
+     */
+    public function verifyPasswordResetCode(string $oobCode): ResponseInterface
     {
-        return $this->request('verifyPassword', [
-            'email' => $email,
-            'password' => $password,
+        return $this->requestApi('resetPassword', [
+            'oobCode' => $oobCode,
         ]);
     }
 
     /**
-     * @param string $idToken
-     * @param string $continueUrl
-     *
-     * @return ResponseInterface
+     * @throws ExpiredOobCode
+     * @throws InvalidOobCode
+     * @throws OperationNotAllowed
+     * @throws UserDisabled
      */
-    public function sendEmailVerification(string $idToken, string $continueUrl = null): ResponseInterface
+    public function confirmPasswordReset(string $oobCode, string $newPassword): ResponseInterface
     {
-        return $this->request('getOobConfirmationCode', array_filter([
-            'requestType' => 'VERIFY_EMAIL',
-            'idToken' => $idToken,
-            'continueUrl' => $continueUrl,
-        ]));
-    }
-
-    public function sendPasswordResetEmail(string $email, string $continueUrl = null): ResponseInterface
-    {
-        return $this->request('getOobConfirmationCode', array_filter([
-            'email' => $email,
-            'requestType' => 'PASSWORD_RESET',
-            'continueUrl' => $continueUrl,
-        ]));
-    }
-
-    public function revokeRefreshTokens(string $uid): ResponseInterface
-    {
-        return $this->request('setAccountInfo', [
-            'localId' => $uid,
-            'validSince' => time(),
+        return $this->requestApi('resetPassword', [
+            'oobCode' => $oobCode,
+            'newPassword' => $newPassword,
         ]);
     }
 
+    /**
+     * @throws AuthException
+     * @throws FirebaseException
+     */
+    public function revokeRefreshTokens(string $uid): ResponseInterface
+    {
+        return $this->requestApi('setAccountInfo', [
+            'localId' => $uid,
+            'validSince' => \time(),
+        ]);
+    }
+
+    /**
+     * @param array<int, string|Provider> $providers
+     *
+     * @throws AuthException
+     * @throws FirebaseException
+     */
     public function unlinkProvider(string $uid, array $providers): ResponseInterface
     {
-        return $this->request('setAccountInfo', [
+        return $this->requestApi('setAccountInfo', [
             'localId' => $uid,
             'deleteProvider' => $providers,
         ]);
     }
 
-    private function request(string $uri, $data): ResponseInterface
+    /**
+     * @param mixed $data
+     * @param array<string, mixed> $headers
+     *
+     * @throws AuthException
+     * @throws FirebaseException
+     */
+    private function requestApi(string $uri, $data, ?array $headers = null): ResponseInterface
     {
         if ($data instanceof \JsonSerializable && empty($data->jsonSerialize())) {
             $data = (object) []; // Will be '{}' instead of '[]' when JSON encoded
         }
 
+        $options = \array_filter([
+            'json' => $data,
+            'headers' => $headers,
+        ]);
+
         try {
-            return $this->client->request('POST', $uri, ['json' => $data]);
-        } catch (RequestException $e) {
-            throw AuthException::fromRequestException($e);
-        } catch (\Throwable $e) {
-            throw new AuthException($e->getMessage(), $e->getCode(), $e);
+            return $this->request('POST', $uri, $options);
+        } catch (Throwable $e) {
+            throw $this->errorHandler->convertException($e);
         }
     }
 }

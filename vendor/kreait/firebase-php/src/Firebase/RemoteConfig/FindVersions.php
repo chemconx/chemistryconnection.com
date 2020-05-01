@@ -4,51 +4,28 @@ declare(strict_types=1);
 
 namespace Kreait\Firebase\RemoteConfig;
 
+use DateTimeInterface;
 use Kreait\Firebase\Util\DT;
 
 class FindVersions
 {
-    /**
-     * @var \DateTimeImmutable|null
-     */
+    /** @var \DateTimeImmutable|null */
     private $since;
 
-    /**
-     * @var \DateTimeImmutable|null
-     */
+    /** @var \DateTimeImmutable|null */
     private $until;
 
-    /**
-     * @var VersionNumber|null
-     */
+    /** @var VersionNumber|null */
     private $upToVersion;
 
-    /**
-     * @var int|null
-     */
+    /** @var int|null */
     private $limit;
 
-    public static function fromArray(array $params): self
+    /** @var int|null */
+    private $pageSize;
+
+    private function __construct()
     {
-        $new = new self();
-
-        if ($value = $params['since'] ?? null) {
-            $new->since = DT::toUTCDateTimeImmutable($value);
-        }
-
-        if ($value = $params['until'] ?? null) {
-            $new->until = DT::toUTCDateTimeImmutable($value);
-        }
-
-        if ($value = $params['up_to_version'] ?? null) {
-            $new->upToVersion = $value instanceof VersionNumber ? $value : VersionNumber::fromValue($value);
-        }
-
-        if ($value = $params['limit'] ?? null) {
-            $new->limit = (int) $value;
-        }
-
-        return $new;
     }
 
     public static function all(): self
@@ -57,33 +34,97 @@ class FindVersions
     }
 
     /**
-     * @return \DateTimeImmutable|null
+     * @param array<string, mixed> $params
      */
-    public function since()
+    public static function fromArray(array $params): self
+    {
+        $query = self::all();
+
+        if ($value = $params['startingAt'] ?? $params['startTime'] ?? $params['since'] ?? null) {
+            $query = $query->startingAt(DT::toUTCDateTimeImmutable($value));
+        }
+
+        if ($value = $params['endingAt'] ?? $params['endTime'] ?? $params['until'] ?? null) {
+            $query = $query->endingAt(DT::toUTCDateTimeImmutable($value));
+        }
+
+        if ($value = $params['lastVersionBeing'] ?? $params['endVersionNumber'] ?? $params['up_to_version'] ?? null) {
+            $versionNumber = $value instanceof VersionNumber ? $value : VersionNumber::fromValue($value);
+            $query = $query->upToVersion($versionNumber);
+        }
+
+        if ($value = $params['pageSize'] ?? $params['page_size'] ?? null) {
+            $query = $query->withPageSize((int) $value);
+        }
+
+        if ($value = $params['limit'] ?? null) {
+            $query = $query->withLimit((int) $value);
+        }
+
+        return $query;
+    }
+
+    public function startingAt(DateTimeInterface $startTime): self
+    {
+        $query = clone $this;
+        $query->since = DT::toUTCDateTimeImmutable($startTime);
+
+        return $query;
+    }
+
+    public function since(): ?\DateTimeImmutable
     {
         return $this->since;
     }
 
-    /**
-     * @return \DateTimeImmutable|null
-     */
-    public function until()
+    public function endingAt(DateTimeInterface $endTime): self
+    {
+        $query = clone $this;
+        $query->until = DT::toUTCDateTimeImmutable($endTime);
+
+        return $query;
+    }
+
+    public function until(): ?\DateTimeImmutable
     {
         return $this->until;
     }
 
-    /**
-     * @return VersionNumber|null
-     */
-    public function upToVersion()
+    public function upToVersion(VersionNumber $versionNumber): self
+    {
+        $query = clone $this;
+        $query->upToVersion = $versionNumber;
+
+        return $query;
+    }
+
+    public function lastVersionNumber(): ?VersionNumber
     {
         return $this->upToVersion;
     }
 
-    /**
-     * @return int|null
-     */
-    public function limit()
+    public function withPageSize(int $pageSize): self
+    {
+        $query = clone $this;
+        $query->pageSize = $pageSize;
+
+        return $query;
+    }
+
+    public function pageSize(): ?int
+    {
+        return $this->pageSize;
+    }
+
+    public function withLimit(int $limit): self
+    {
+        $query = clone $this;
+        $query->limit = $limit;
+
+        return $query;
+    }
+
+    public function limit(): ?int
     {
         return $this->limit;
     }
