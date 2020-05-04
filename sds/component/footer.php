@@ -2,7 +2,9 @@
 </div>
 
 <div class="modal" style="display: none">
+	<div class="modal-padding-container"
 
+	></div>
 </div>
 
 <div class="bottommsg" style="display: none;">

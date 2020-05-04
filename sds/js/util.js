@@ -43,7 +43,7 @@ export function showModal(url, completion = null) {
 	$('.modal').fadeIn(100);
 
 	$.get(url, function (data) {
-		$(".modal").html(data).show();
+		$(".modal-padding-container").html(data).show();
 
 		// Add event listeners to whatever gets loaded
 		if (completion) {
@@ -55,7 +55,7 @@ export function showModal(url, completion = null) {
 export function closeModal() {
 	$('.darkenscreen').fadeOut(100);
 	$('.modal').fadeOut(100, ()=>{
-		$('.modal').html("");
+		$('.modal-padding-container').html("");
 	});
 	cleanURL();
 
