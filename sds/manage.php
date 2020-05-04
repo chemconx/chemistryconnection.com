@@ -109,7 +109,7 @@ if ($authResults['success']) {
 	$scripts = [
 		'<script src="js/ui-dropdown/dropdown.min.js"></script>',
 		'<script src="js/ui-transition/transition.min.js"></script>',
-		'<script src="js/manage.js"></script>'
+		'<script type="module" src="js/manage.js"></script>'
 	];
 }
 

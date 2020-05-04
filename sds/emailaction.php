@@ -27,7 +27,7 @@ include __DIR__ . '/component/navbar.php';
 
 	<script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-app.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-auth.js"></script>
-	<script type="application/javascript" src="js/emailaction.js"></script>
+	<script type="module" src="js/emailaction.js"></script>
 
 <?php
 

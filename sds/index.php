@@ -20,9 +20,9 @@ $searchContainer = '<div class="container search">
 					</div>
 
 					<!-- table data -->
-					<table id="search-results-table">
+					<div id="search-results-table">
 	
-					</table>
+					</div>
 				</div>';
 
 
@@ -36,21 +36,22 @@ if ($authResults['success'] && $perms->userHasPermission("Upload File")) {
 					</div>
 
 					<!-- table data -->
-					<table id="recent-files-table">
+					<div class="file-table" id="recent-files-table">
 	
-					</table>
+					</div>
 				</div>
 
 				<div class="container all">
 					<div class="container header">
 						<h3 class="header all">All Safety Data Sheets</h3>
-						<div class="page-numbers" id="all-files-page-numbers" style="display: none"></div>
 					</div>
 
+				<div class="page-numbers top" style="display: none"></div>
 					<!-- table data -->
-				<table id="all-files-table">
+				<div class="file-table" id="all-files-table">
 
-				</table>
+				</div>
+				<div class="page-numbers bottom" style="display: none"></div>
 			</div>
 				';
 
@@ -62,21 +63,22 @@ if ($authResults['success'] && $perms->userHasPermission("Upload File")) {
 					</div>
 
 					<!-- table data -->
-					<table id="recent-files-table">
+					<div class="file-table" id="recent-files-table">
 	
-					</table>
+					</div>
 				</div>
 
 				<div class="container all">
 					<div class="container header">
 						<h3 class="header all">All Safety Data Sheets</h3>
-						<div class="page-numbers" id="all-files-page-numbers" style="display: none"></div>
 					</div>
-
+				
+				<div class="page-numbers top" style="display: none"></div>
 					<!-- table data -->
-				<table id="all-files-table">
+				<div class="file-table" id="all-files-table">
 
-				</table>
+				</div>
+				<div class="page-numbers bottom" style="display: none"></div>
 			</div>
 				';
 }
@@ -91,6 +93,15 @@ if ($authResults['success'] && $perms->userHasPermission("Upload File")) {
 			<a class="tab-item" data-sheet-type="1">Safety Data Sheets</a>
 			<a class="tab-item" data-sheet-type="2">Certificates of Analysis</a>
 			<a class="tab-item" data-sheet-type="3">Technical Data Sheets</a>
+
+			<div class="mobile-tab-dropdown"><span class="text">All files</span> <i id="tabs-dropdown-button" class="fas fa-chevron-down"></i></div>
+			<div class="mobile-tab-list">
+				<a class="mobile-tab-item tab-active" data-sheet-type="-1">All files</a>
+				<a class="mobile-tab-item" data-sheet-type="1">Safety Data Sheets</a>
+				<a class="mobile-tab-item" data-sheet-type="2">Certificates of Analysis</a>
+				<a class="mobile-tab-item" data-sheet-type="3">Technical Data Sheets</a>
+			</div>
+			<div class="occlusion-panel"></div>
 		</div>
 		<div class="main-container">
 
@@ -106,7 +117,7 @@ if ($authResults['success'] && $perms->userHasPermission("Upload File")) {
 				<div class="container search-container">
 					<form id="search-form" action="" method="get">
 						<input id="search-input" name="q" type="text" placeholder="SEARCH">
-						<button id="search-submit" type="submit"> SEARCH</button>
+						<button id="search-submit" type="submit"><i class="fas fa-search"></i></button>
 					</form>
 				</div>
 
@@ -123,66 +134,16 @@ if ($authResults['success'] && $perms->userHasPermission("Upload File")) {
 
 <?php
 
+$scripts = ['<script type="module" src="js/main.js"></script>'];
+
 if (isset($_GET['login']) && !$authResults['success']) {
-	echo '<script>
-		(function() {
-			jQuery(document).ready(function (){
-				showModal("modal/login.html", initLogin);
-			});
-		}());
-		
-		function initLogin() {
-			jQuery("#login-form-submit").click(function (e) {
-				var that = jQuery(this);
-				that.prop("disabled", true);
-				 e.preventDefault();
-
-				let email = jQuery("#login-form-email").val();
-				let pass = jQuery("#login-form-pass").val();
-
-				var formData = new FormData();
-
-				// add assoc key values, this will be posts values
-				formData.append("email", email);
-				formData.append("pass", pass);
-				
-				jQuery.ajax({
-					type: "POST",
-					url: "data/login.php",
-					async: true,
-					data: formData,
-					cache: false,
-					contentType: false,
-					processData: false,
-					timeout: 60000
-				}).done(function (data) {
-					if (data === "Success") {
-						window.location = window.location.pathname;
-					} else {
-						jQuery("#login-message").html(data).slideDown(100);
-						console.log(data);
-						that.prop("disabled", false);
-					}
-				});
-			});
-		}
-		 
-	</script>';
+	array_push($scripts, '<script type="module" src="js/login.js"></script>');
 }
 
 if ($authResults['success']) {
-	$scripts = [
-		'<script type="module" src="js/main.js"></script>',
-		'<script type="module" src="js/filespagination.js"></script>',
+	array_push($scripts,
 		'<script src="js/ui-dropdown/dropdown.min.js"></script>',
-		'<script src="js/ui-transition/transition.min.js"></script>',
-		'<script src="js/upload.js"></script>',
-		'<script src="js/specialaccess.js"></script>'
-	];
-} else {
-	$scripts = ['<script type="module" src="js/main.js"></script>',
-		'<script type="module" src="js/filespagination.js"></script>'
-	];
+		'<script src="js/ui-transition/transition.min.js"></script>');
 }
 
 include __DIR__ . '/component/footer.php'; ?>

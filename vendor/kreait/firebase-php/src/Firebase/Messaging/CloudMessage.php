@@ -5,38 +5,30 @@ declare(strict_types=1);
 namespace Kreait\Firebase\Messaging;
 
 use Kreait\Firebase\Exception\InvalidArgumentException;
+use Kreait\Firebase\Exception\Messaging\InvalidArgument;
 
-class CloudMessage implements Message
+final class CloudMessage implements Message
 {
-    /**
-     * @var MessageTarget
-     */
+    /** @var MessageTarget|null */
     private $target;
 
-    /**
-     * @var MessageData|null
-     */
+    /** @var MessageData|null */
     private $data;
 
-    /**
-     * @var Notification|null
-     */
+    /** @var Notification|null */
     private $notification;
 
-    /**
-     * @var AndroidConfig|null
-     */
+    /** @var AndroidConfig|null */
     private $androidConfig;
 
-    /**
-     * @var ApnsConfig|null
-     */
+    /** @var ApnsConfig|null */
     private $apnsConfig;
 
-    /**
-     * @var WebPushConfig|null
-     */
+    /** @var WebPushConfig|null */
     private $webPushConfig;
+
+    /** @var FcmOptions|null */
+    private $fcmOptions;
 
     private function __construct()
     {
@@ -44,30 +36,40 @@ class CloudMessage implements Message
 
     /**
      * @param string $type One of "condition", "token", "topic"
-     * @param string $value
      *
      * @throws InvalidArgumentException if the target type or value is invalid
-     *
-     * @return CloudMessage
      */
     public static function withTarget(string $type, string $value): self
     {
-        return (new self())->withChangedTarget($type, $value);
+        return self::new()->withChangedTarget($type, $value);
     }
 
+    public static function new(): self
+    {
+        return new self();
+    }
+
+    /**
+     * @param array<string, mixed> $data
+     */
     public static function fromArray(array $data): self
     {
-        if ($targetValue = $data[MessageTarget::CONDITION] ?? null) {
-            $targetType = MessageTarget::CONDITION;
-        } elseif ($targetValue = $data[MessageTarget::TOKEN] ?? null) {
-            $targetType = MessageTarget::TOKEN;
-        } elseif ($targetValue = $data[MessageTarget::TOPIC] ?? null) {
-            $targetType = MessageTarget::TOPIC;
-        } else {
-            throw new InvalidArgumentException('Missing target field');
+        $new = new self();
+
+        if (\count(\array_intersect(\array_keys($data), MessageTarget::TYPES)) > 1) {
+            throw new InvalidArgument(
+                'A message can only have one of the following targets: '
+                .\implode(', ', MessageTarget::TYPES)
+            );
         }
 
-        $new = (new self())->withChangedTarget($targetType, (string) $targetValue);
+        if ($targetValue = $data[MessageTarget::CONDITION] ?? null) {
+            $new = $new->withChangedTarget(MessageTarget::CONDITION, (string) $targetValue);
+        } elseif ($targetValue = $data[MessageTarget::TOKEN] ?? null) {
+            $new = $new->withChangedTarget(MessageTarget::TOKEN, (string) $targetValue);
+        } elseif ($targetValue = $data[MessageTarget::TOPIC] ?? null) {
+            $new = $new->withChangedTarget(MessageTarget::TOPIC, (string) $targetValue);
+        }
 
         if ($data['data'] ?? null) {
             $new = $new->withData($data['data']);
@@ -89,16 +91,17 @@ class CloudMessage implements Message
             $new = $new->withWebPushConfig(WebPushConfig::fromArray($data['webpush']));
         }
 
+        if ($data['fcm_options'] ?? null) {
+            $new = $new->withFcmOptions(FcmOptions::fromArray($data['fcm_options']));
+        }
+
         return $new;
     }
 
     /**
      * @param string $type One of "condition", "token", "topic"
-     * @param string $value
      *
      * @throws InvalidArgumentException if the target type or value is invalid
-     *
-     * @return CloudMessage
      */
     public function withChangedTarget(string $type, string $value): self
     {
@@ -109,11 +112,9 @@ class CloudMessage implements Message
     }
 
     /**
-     * @param MessageData|array $data
+     * @param MessageData|array<string, string> $data
      *
      * @throws InvalidArgumentException
-     *
-     * @return CloudMessage
      */
     public function withData($data): self
     {
@@ -124,11 +125,9 @@ class CloudMessage implements Message
     }
 
     /**
-     * @param Notification|array $notification
+     * @param Notification|array<string, string> $notification
      *
      * @throws InvalidArgumentException
-     *
-     * @return CloudMessage
      */
     public function withNotification($notification): self
     {
@@ -139,11 +138,9 @@ class CloudMessage implements Message
     }
 
     /**
-     * @param AndroidConfig|array $config
+     * @param AndroidConfig|array<string, mixed> $config
      *
      * @throws InvalidArgumentException
-     *
-     * @return CloudMessage
      */
     public function withAndroidConfig($config): self
     {
@@ -154,11 +151,9 @@ class CloudMessage implements Message
     }
 
     /**
-     * @param ApnsConfig|array $config
+     * @param ApnsConfig|array<string, mixed> $config
      *
      * @throws InvalidArgumentException
-     *
-     * @return CloudMessage
      */
     public function withApnsConfig($config): self
     {
@@ -168,6 +163,9 @@ class CloudMessage implements Message
         return $new;
     }
 
+    /**
+     * @param WebPushConfig|array<string, mixed> $config
+     */
     public function withWebPushConfig($config): self
     {
         $new = clone $this;
@@ -176,15 +174,40 @@ class CloudMessage implements Message
         return $new;
     }
 
-    public function jsonSerialize()
+    /**
+     * @param FcmOptions|array<string, mixed> $options
+     */
+    public function withFcmOptions($options): self
     {
-        return array_filter([
-            $this->target->type() => $this->target->value(),
+        $new = clone $this;
+        $new->fcmOptions = $options instanceof FcmOptions ? $options : FcmOptions::fromArray($options);
+
+        return $new;
+    }
+
+    public function hasTarget(): bool
+    {
+        return (bool) $this->target;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function jsonSerialize(): array
+    {
+        $data = [
             'data' => $this->data,
             'notification' => $this->notification,
             'android' => $this->androidConfig,
             'apns' => $this->apnsConfig,
             'webpush' => $this->webPushConfig,
-        ]);
+            'fcm_options' => $this->fcmOptions,
+        ];
+
+        if ($this->target) {
+            $data[$this->target->type()] = $this->target->value();
+        }
+
+        return \array_filter($data);
     }
 }

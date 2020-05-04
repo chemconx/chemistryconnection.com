@@ -2,7 +2,9 @@
 </div>
 
 <div class="modal" style="display: none">
+	<div class="modal-padding-container"
 
+	></div>
 </div>
 
 <div class="bottommsg" style="display: none;">
@@ -12,7 +14,6 @@
 <script src="../js/vendor/modernizr-3.6.0.min.js"></script>
 <script src="../js/vendor/clipboard.min.js"></script>
 <script src="../js/plugins.js"></script>
-<script src="js/util.js"></script>
 
 <?php
 

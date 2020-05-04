@@ -6,11 +6,9 @@ namespace Kreait\Firebase\Messaging;
 
 use Kreait\Firebase\Exception\Messaging\InvalidArgument;
 
-class Condition implements \JsonSerializable
+final class Condition implements \JsonSerializable
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private $value;
 
     private function __construct(string $value)
@@ -20,10 +18,14 @@ class Condition implements \JsonSerializable
 
     public static function fromValue(string $value): self
     {
-        $value = str_replace('"', "'", $value);
+        $value = \str_replace('"', "'", $value);
 
-        if ((substr_count($value, "'") % 2) !== 0) {
-            throw new InvalidArgument(sprintf('The condition "%s" contains an uneven amount of quotes.', $value));
+        if ((\mb_substr_count($value, "'") % 2) !== 0) {
+            throw new InvalidArgument(\sprintf('The condition "%s" contains an uneven amount of quotes.', $value));
+        }
+
+        if (\mb_substr_count(\mb_strtolower($value), 'in topics') > 5) {
+            throw new InvalidArgument(\sprintf('The condition "%s" containts more than 5 topics.', $value));
         }
 
         return new self($value);
@@ -39,7 +41,7 @@ class Condition implements \JsonSerializable
         return $this->value;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): string
     {
         return $this->value;
     }

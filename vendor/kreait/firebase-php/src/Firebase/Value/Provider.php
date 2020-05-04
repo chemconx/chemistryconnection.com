@@ -4,30 +4,42 @@ declare(strict_types=1);
 
 namespace Kreait\Firebase\Value;
 
-use Kreait\Firebase\Value;
-
-class Provider implements Value, \JsonSerializable
+class Provider implements \JsonSerializable
 {
-    /**
-     * @var string
-     */
+    public const ANONYMOUS = 'anonymous';
+    public const CUSTOM = 'custom';
+    public const FACEBOOK = 'facebook.com';
+    public const FIREBASE = 'firebase';
+    public const GITHUB = 'github.com';
+    public const GOOGLE = 'google.com';
+    public const PASSWORD = 'password';
+    public const PHONE = 'phone';
+    public const TWITTER = 'twitter.com';
+
+    /** @var string */
     private $value;
 
+    /**
+     * @internal
+     */
     public function __construct(string $value)
     {
         $this->value = $value;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->value;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): string
     {
         return $this->value;
     }
 
+    /**
+     * @param self|string $other
+     */
     public function equalsTo($other): bool
     {
         return $this->value === (string) $other;

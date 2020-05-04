@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Kreait\Firebase\Database\Query\Filter;
 
 use Kreait\Firebase\Database\Query\Filter;
@@ -12,11 +14,15 @@ final class EqualTo implements Filter
 {
     use ModifierTrait;
 
+    /** @var bool|float|int|string */
     private $value;
 
+    /**
+     * @param bool|float|int|string $value
+     */
     public function __construct($value)
     {
-        if ($value !== null && !is_scalar($value)) {
+        if (!\is_scalar($value)) {
             throw new InvalidArgumentException('Only scalar values are allowed for "equalTo" queries.');
         }
 

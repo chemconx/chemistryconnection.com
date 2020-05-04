@@ -92,7 +92,7 @@ button.disabled, button:disabled {
 	overflow-x: hidden;
 	overflow-y: scroll;
 
-	min-width: 400px;
+	/*min-width: 400px;*/
 
 	max-height: 200px;
 }
@@ -167,7 +167,16 @@ button.disabled, button:disabled {
 	padding: .4rem 1.1rem;
 }
 
+/*---------- MEDIA QUERY FOR CONTENT FORM ----------*/
+@media screen and (max-width: 500px){
+	.content-form .form-element label {
+		display: none;
+	}
 
+	.content-form .form-element input {
+		width: 100%;
+	}
+}
 
 
 /*---------- UPLOAD BUTTON ----------*/

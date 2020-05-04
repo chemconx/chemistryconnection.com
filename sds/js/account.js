@@ -1,6 +1,8 @@
 // account.js
 // Handle user events and front-end data validation here
 
+import * as util from './util.js';
+
 $(document).ready(e => {
 	$('.chpassfield').keyup(handlePassFieldChange);
 });

@@ -8,14 +8,15 @@ use JsonSerializable;
 
 class RuleSet implements JsonSerializable
 {
-    /**
-     * @var array
-     */
+    /** @var array<string, array<mixed>> */
     private $rules;
 
+    /**
+     * @param array<string, array<mixed>> $rules
+     */
     private function __construct(array $rules)
     {
-        if (!array_key_exists('rules', $rules)) {
+        if (!\array_key_exists('rules', $rules)) {
             $rules = ['rules' => $rules];
         }
 
@@ -28,8 +29,6 @@ class RuleSet implements JsonSerializable
      * all users of your app but don't want it open to the world.
      *
      * @see https://firebase.google.com/docs/database/security/quickstart#sample-rules
-     *
-     * @return self
      */
     public static function default(): self
     {
@@ -50,8 +49,6 @@ class RuleSet implements JsonSerializable
      * configure more secure rules before launching your app.
      *
      * @see https://firebase.google.com/docs/database/security/quickstart#sample-rules
-     *
-     * @return self
      */
     public static function public(): self
     {
@@ -68,8 +65,6 @@ class RuleSet implements JsonSerializable
      * you can only access the database through the Firebase console and an Admin SDK.
      *
      * @see https://firebase.google.com/docs/database/security/quickstart#sample-rules
-     *
-     * @return self
      */
     public static function private(): self
     {
@@ -81,17 +76,26 @@ class RuleSet implements JsonSerializable
         ]);
     }
 
+    /**
+     * @param array<string, array<mixed>> $rules
+     */
     public static function fromArray(array $rules): self
     {
         return new self($rules);
     }
 
+    /**
+     * @return array<string, array<mixed>>
+     */
     public function getRules(): array
     {
         return $this->rules;
     }
 
-    public function jsonSerialize()
+    /**
+     * @return array<string, array<mixed>>
+     */
+    public function jsonSerialize(): array
     {
         return $this->rules;
     }

@@ -1,16 +1,40 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Kreait\Firebase;
 
 use Firebase\Auth\Token\Domain\Generator as TokenGenerator;
-use Firebase\Auth\Token\Domain\Verifier as IdTokenVerifier;
+use Firebase\Auth\Token\Domain\Verifier;
+use Firebase\Auth\Token\Exception\ExpiredToken;
 use Firebase\Auth\Token\Exception\InvalidSignature;
 use Firebase\Auth\Token\Exception\InvalidToken;
 use Firebase\Auth\Token\Exception\IssuedInTheFuture;
+use Firebase\Auth\Token\Exception\UnknownKey;
+use Kreait\Clock;
+use Kreait\Firebase\Auth\ActionCodeSettings;
+use Kreait\Firebase\Auth\ActionCodeSettings\ValidatedActionCodeSettings;
 use Kreait\Firebase\Auth\ApiClient;
+use Kreait\Firebase\Auth\CreateActionLink;
+use Kreait\Firebase\Auth\CreateActionLink\FailedToCreateActionLink;
+use Kreait\Firebase\Auth\IdTokenVerifier;
+use Kreait\Firebase\Auth\SendActionLink;
+use Kreait\Firebase\Auth\SendActionLink\FailedToSendActionLink;
+use Kreait\Firebase\Auth\SignIn\FailedToSignIn;
+use Kreait\Firebase\Auth\SignIn\Handler as SignInHandler;
+use Kreait\Firebase\Auth\SignInAnonymously;
+use Kreait\Firebase\Auth\SignInResult;
+use Kreait\Firebase\Auth\SignInWithCustomToken;
+use Kreait\Firebase\Auth\SignInWithEmailAndOobCode;
+use Kreait\Firebase\Auth\SignInWithEmailAndPassword;
+use Kreait\Firebase\Auth\SignInWithIdpCredentials;
+use Kreait\Firebase\Auth\SignInWithRefreshToken;
 use Kreait\Firebase\Auth\UserRecord;
-use Kreait\Firebase\Exception\Auth\InvalidPassword;
+use Kreait\Firebase\Exception\Auth\ExpiredOobCode;
+use Kreait\Firebase\Exception\Auth\InvalidOobCode;
+use Kreait\Firebase\Exception\Auth\OperationNotAllowed;
 use Kreait\Firebase\Exception\Auth\RevokedIdToken;
+use Kreait\Firebase\Exception\Auth\UserDisabled;
 use Kreait\Firebase\Exception\Auth\UserNotFound;
 use Kreait\Firebase\Exception\InvalidArgumentException;
 use Kreait\Firebase\Util\DT;
@@ -22,37 +46,52 @@ use Kreait\Firebase\Value\Provider;
 use Kreait\Firebase\Value\Uid;
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Token;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\UriInterface;
+use Throwable;
+use Traversable;
 
 class Auth
 {
-    /**
-     * @var ApiClient
-     */
+    /** @var ApiClient */
     private $client;
 
-    /**
-     * @var TokenGenerator
-     */
+    /** @var TokenGenerator */
     private $tokenGenerator;
 
-    /**
-     * @var IdTokenVerifier
-     */
+    /** @var Verifier */
     private $idTokenVerifier;
 
-    public function __construct(ApiClient $client, TokenGenerator $customToken, IdTokenVerifier $idTokenVerifier)
+    /** @var SignInHandler */
+    private $signInHandler;
+
+    /**
+     * @param array<int, ApiClient|TokenGenerator|Verifier|Clock|SignInHandler> $x
+     *
+     * @internal
+     */
+    public function __construct(...$x)
     {
-        $this->client = $client;
-        $this->tokenGenerator = $customToken;
-        $this->idTokenVerifier = $idTokenVerifier;
+        foreach ($x as $arg) {
+            if ($arg instanceof ApiClient) {
+                $this->client = $arg;
+            } elseif ($arg instanceof TokenGenerator) {
+                $this->tokenGenerator = $arg;
+            } elseif ($arg instanceof Verifier) {
+                $this->idTokenVerifier = $arg;
+            } elseif ($arg instanceof SignInHandler) {
+                $this->signInHandler = $arg;
+            }
+        }
     }
 
-    public function getApiClient(): ApiClient
-    {
-        return $this->client;
-    }
-
+    /**
+     * @param Uid|string $uid
+     *
+     * @throws UserNotFound
+     * @throws Exception\AuthException
+     * @throws Exception\FirebaseException
+     */
     public function getUser($uid): UserRecord
     {
         $uid = $uid instanceof Uid ? $uid : new Uid($uid);
@@ -62,23 +101,20 @@ class Auth
         $data = JSON::decode((string) $response->getBody(), true);
 
         if (empty($data['users'][0])) {
-            throw UserNotFound::withCustomMessage('No user with uid "'.$uid.'" found.');
+            throw new UserNotFound("No user with uid '{$uid}' found.");
         }
 
         return UserRecord::fromResponseData($data['users'][0]);
     }
 
     /**
-     * @param int $maxResults
-     * @param int $batchSize
+     * @throws Exception\AuthException
+     * @throws Exception\FirebaseException
      *
-     * @return \Generator|UserRecord[]
+     * @return Traversable<UserRecord>|UserRecord[]
      */
-    public function listUsers(int $maxResults = null, int $batchSize = null): \Generator
+    public function listUsers(int $maxResults = 1000, int $batchSize = 1000): Traversable
     {
-        $maxResults = $maxResults ?? 1000;
-        $batchSize = $batchSize ?? 1000;
-
         $pageToken = null;
         $count = 0;
 
@@ -101,11 +137,10 @@ class Auth
     /**
      * Creates a new user with the provided properties.
      *
-     * @param array|Request\CreateUser $properties
+     * @param array<string, mixed>|Request\CreateUser $properties
      *
-     * @throws InvalidArgumentException if invalid properties have been provided
-     *
-     * @return UserRecord
+     * @throws Exception\AuthException
+     * @throws Exception\FirebaseException
      */
     public function createUser($properties): UserRecord
     {
@@ -115,20 +150,17 @@ class Auth
 
         $response = $this->client->createUser($request);
 
-        $uid = JSON::decode((string) $response->getBody(), true)['localId'];
-
-        return $this->getUser($uid);
+        return $this->getUserRecordFromResponse($response);
     }
 
     /**
      * Updates the given user with the given properties.
      *
      * @param Uid|string $uid
-     * @param array|Request\UpdateUser $properties
+     * @param array<string, mixed>|Request\UpdateUser $properties
      *
-     * @throws InvalidArgumentException if invalid properties have been provided
-     *
-     * @return UserRecord
+     * @throws Exception\AuthException
+     * @throws Exception\FirebaseException
      */
     public function updateUser($uid, $properties): UserRecord
     {
@@ -140,26 +172,31 @@ class Auth
 
         $response = $this->client->updateUser($request);
 
-        $uid = JSON::decode((string) $response->getBody(), true)['localId'];
-
-        return $this->getUser($uid);
+        return $this->getUserRecordFromResponse($response);
     }
 
     /**
      * @param Email|string $email
      * @param ClearTextPassword|string $password
      *
-     * @return UserRecord
+     * @throws Exception\AuthException
+     * @throws Exception\FirebaseException
      */
     public function createUserWithEmailAndPassword($email, $password): UserRecord
     {
-        return $this->createUser(
-            Request\CreateUser::new()
-                ->withUnverifiedEmail($email)
-                ->withClearTextPassword($password)
+        return $this->createUser(Request\CreateUser::new()
+            ->withUnverifiedEmail($email)
+            ->withClearTextPassword($password)
         );
     }
 
+    /**
+     * @param Email|string $email
+     *
+     * @throws UserNotFound
+     * @throws Exception\AuthException
+     * @throws Exception\FirebaseException
+     */
     public function getUserByEmail($email): UserRecord
     {
         $email = $email instanceof Email ? $email : new Email($email);
@@ -169,12 +206,18 @@ class Auth
         $data = JSON::decode((string) $response->getBody(), true);
 
         if (empty($data['users'][0])) {
-            throw UserNotFound::withCustomMessage('No user with email "'.$email.'" found.');
+            throw new UserNotFound("No user with email '{$email}' found.");
         }
 
         return UserRecord::fromResponseData($data['users'][0]);
     }
 
+    /**
+     * @param PhoneNumber|string $phoneNumber
+     *
+     * @throws Exception\AuthException
+     * @throws Exception\FirebaseException
+     */
     public function getUserByPhoneNumber($phoneNumber): UserRecord
     {
         $phoneNumber = $phoneNumber instanceof PhoneNumber ? $phoneNumber : new PhoneNumber($phoneNumber);
@@ -184,12 +227,16 @@ class Auth
         $data = JSON::decode((string) $response->getBody(), true);
 
         if (empty($data['users'][0])) {
-            throw UserNotFound::withCustomMessage('No user with phone number "'.$phoneNumber.'" found.');
+            throw new UserNotFound("No user with phone number '{$phoneNumber}' found.");
         }
 
         return UserRecord::fromResponseData($data['users'][0]);
     }
 
+    /**
+     * @throws Exception\AuthException
+     * @throws Exception\FirebaseException
+     */
     public function createAnonymousUser(): UserRecord
     {
         return $this->createUser(Request\CreateUser::new());
@@ -199,7 +246,8 @@ class Auth
      * @param Uid|string $uid
      * @param ClearTextPassword|string $newPassword
      *
-     * @return UserRecord
+     * @throws Exception\AuthException
+     * @throws Exception\FirebaseException
      */
     public function changeUserPassword($uid, $newPassword): UserRecord
     {
@@ -210,7 +258,8 @@ class Auth
      * @param Uid|string $uid
      * @param Email|string $newEmail
      *
-     * @return UserRecord
+     * @throws Exception\AuthException
+     * @throws Exception\FirebaseException
      */
     public function changeUserEmail($uid, $newEmail): UserRecord
     {
@@ -220,7 +269,8 @@ class Auth
     /**
      * @param Uid|string $uid
      *
-     * @return UserRecord
+     * @throws Exception\AuthException
+     * @throws Exception\FirebaseException
      */
     public function enableUser($uid): UserRecord
     {
@@ -230,7 +280,8 @@ class Auth
     /**
      * @param Uid|string $uid
      *
-     * @return UserRecord
+     * @throws Exception\AuthException
+     * @throws Exception\FirebaseException
      */
     public function disableUser($uid): UserRecord
     {
@@ -239,49 +290,167 @@ class Auth
 
     /**
      * @param Uid|string $uid
+     *
+     * @throws UserNotFound
+     * @throws Exception\AuthException
+     * @throws Exception\FirebaseException
      */
-    public function deleteUser($uid)
+    public function deleteUser($uid): void
     {
         $uid = $uid instanceof Uid ? $uid : new Uid($uid);
 
         try {
             $this->client->deleteUser((string) $uid);
         } catch (UserNotFound $e) {
-            throw UserNotFound::withCustomMessage('No user with uid "'.$uid.'" found.');
+            throw new UserNotFound("No user with uid '{$uid}' found.");
         }
     }
 
     /**
-     * @param Uid|string $uid
-     * @param UriInterface|string $continueUrl
+     * @param Email|string $email
+     * @param ActionCodeSettings|array<string, mixed>|null $actionCodeSettings
+     *
+     * @throws FailedToCreateActionLink
      */
-    public function sendEmailVerification($uid, $continueUrl = null)
+    public function getEmailActionLink(string $type, $email, $actionCodeSettings = null): string
     {
-        $response = $this->client->exchangeCustomTokenForIdAndRefreshToken(
-            $this->createCustomToken($uid)
-        );
+        $email = $email instanceof Email ? $email : new Email((string) $email);
 
-        $idToken = JSON::decode((string) $response->getBody(), true)['idToken'];
+        if ($actionCodeSettings === null) {
+            $actionCodeSettings = ValidatedActionCodeSettings::empty();
+        } else {
+            $actionCodeSettings = $actionCodeSettings instanceof ActionCodeSettings
+                ? $actionCodeSettings
+                : ValidatedActionCodeSettings::fromArray($actionCodeSettings);
+        }
 
-        $this->client->sendEmailVerification($idToken, (string) $continueUrl);
+        return (new CreateActionLink\GuzzleApiClientHandler($this->client))
+            ->handle(CreateActionLink::new($type, $email, $actionCodeSettings));
     }
 
     /**
      * @param Email|string $email
-     * @param UriInterface|string|null $continueUrl
+     * @param ActionCodeSettings|array<string, mixed>|null $actionCodeSettings
+     *
+     * @throws UserNotFound
+     * @throws FailedToSendActionLink
      */
-    public function sendPasswordResetEmail($email, $continueUrl = null)
+    public function sendEmailActionLink(string $type, $email, $actionCodeSettings = null, ?string $locale = null): void
     {
-        $email = $email instanceof Email ? $email : new Email($email);
+        $email = $email instanceof Email ? $email : new Email((string) $email);
 
-        $this->client->sendPasswordResetEmail((string) $email, (string) $continueUrl);
+        if ($actionCodeSettings === null) {
+            $actionCodeSettings = ValidatedActionCodeSettings::empty();
+        } else {
+            $actionCodeSettings = $actionCodeSettings instanceof ActionCodeSettings
+                ? $actionCodeSettings
+                : ValidatedActionCodeSettings::fromArray($actionCodeSettings);
+        }
+
+        $createAction = CreateActionLink::new($type, $email, $actionCodeSettings);
+        $sendAction = new SendActionLink($createAction, $locale);
+
+        if (\mb_strtolower($type) === 'verify_email') {
+            // The Firebase API expects an ID token for the user belonging to this email address
+            // see https://github.com/firebase/firebase-js-sdk/issues/1958
+            try {
+                $user = $this->getUserByEmail($email);
+            } catch (Throwable $e) {
+                throw new FailedToSendActionLink($e->getMessage(), $e->getCode(), $e);
+            }
+
+            try {
+                $signInResult = $this->signInAsUser($user);
+            } catch (Throwable $e) {
+                throw new FailedToSendActionLink($e->getMessage(), $e->getCode(), $e);
+            }
+
+            if (!($idToken = $signInResult->idToken())) {
+                // @codeCoverageIgnoreStart
+                // This only happens if the response on Google's side has changed
+                // If it does, the tests will fail, but we don't have to cover that
+                throw new FailedToSendActionLink("Failed to send action link: Unable to retrieve ID token for user assigned to email {$email}");
+                // @codeCoverageIgnoreEnd
+            }
+
+            $sendAction = $sendAction->withIdTokenString($idToken);
+        }
+
+        (new SendActionLink\GuzzleApiClientHandler($this->client))->handle($sendAction);
+    }
+
+    /**
+     * @param Email|string $email
+     * @param ActionCodeSettings|array<string, mixed>|null $actionCodeSettings
+     *
+     * @throws FailedToCreateActionLink
+     */
+    public function getEmailVerificationLink($email, $actionCodeSettings = null): string
+    {
+        return $this->getEmailActionLink('VERIFY_EMAIL', $email, $actionCodeSettings);
+    }
+
+    /**
+     * @param Email|string $email
+     * @param ActionCodeSettings|array<string, mixed>|null $actionCodeSettings
+     *
+     * @throws FailedToSendActionLink
+     */
+    public function sendEmailVerificationLink($email, $actionCodeSettings = null, ?string $locale = null): void
+    {
+        $this->sendEmailActionLink('VERIFY_EMAIL', $email, $actionCodeSettings, $locale);
+    }
+
+    /**
+     * @param Email|string $email
+     * @param ActionCodeSettings|array<string, mixed>|null $actionCodeSettings
+     *
+     * @throws FailedToCreateActionLink
+     */
+    public function getPasswordResetLink($email, $actionCodeSettings = null): string
+    {
+        return $this->getEmailActionLink('PASSWORD_RESET', $email, $actionCodeSettings);
+    }
+
+    /**
+     * @param Email|string $email
+     * @param ActionCodeSettings|array<string, mixed>|null $actionCodeSettings
+     *
+     * @throws FailedToSendActionLink
+     */
+    public function sendPasswordResetLink($email, $actionCodeSettings = null, ?string $locale = null): void
+    {
+        $this->sendEmailActionLink('PASSWORD_RESET', $email, $actionCodeSettings, $locale);
+    }
+
+    /**
+     * @param Email|string $email
+     * @param ActionCodeSettings|array<string, mixed>|null $actionCodeSettings
+     *
+     * @throws FailedToCreateActionLink
+     */
+    public function getSignInWithEmailLink($email, $actionCodeSettings = null): string
+    {
+        return $this->getEmailActionLink('EMAIL_SIGNIN', $email, $actionCodeSettings);
+    }
+
+    /**
+     * @param Email|string $email
+     * @param ActionCodeSettings|array<string, mixed>|null $actionCodeSettings
+     *
+     * @throws FailedToSendActionLink
+     */
+    public function sendSignInWithEmailLink($email, $actionCodeSettings = null, ?string $locale = null): void
+    {
+        $this->sendEmailActionLink('EMAIL_SIGNIN', $email, $actionCodeSettings, $locale);
     }
 
     /**
      * @param Uid|string $uid
-     * @param array $attributes
+     * @param array<string, mixed> $attributes
      *
-     * @return UserRecord
+     * @throws Exception\AuthException
+     * @throws Exception\FirebaseException
      */
     public function setCustomUserAttributes($uid, array $attributes): UserRecord
     {
@@ -290,17 +459,33 @@ class Auth
 
     /**
      * @param Uid|string $uid
-     * @param array $claims
      *
-     * @return Token
+     * @throws Exception\AuthException
+     * @throws Exception\FirebaseException
      */
-    public function createCustomToken($uid, array $claims = null): Token
+    public function deleteCustomUserAttributes($uid): UserRecord
     {
-        $claims = $claims ?? [];
+        return $this->updateUser($uid, Request\UpdateUser::new()->withCustomAttributes([]));
+    }
 
+    /**
+     * @param Uid|string $uid
+     * @param array<string, mixed> $claims
+     */
+    public function createCustomToken($uid, array $claims = []): Token
+    {
         $uid = $uid instanceof Uid ? $uid : new Uid($uid);
 
         return $this->tokenGenerator->createCustomToken($uid, $claims);
+    }
+
+    public function parseToken(string $tokenString): Token
+    {
+        try {
+            return (new Parser())->parse($tokenString);
+        } catch (Throwable $e) {
+            throw new InvalidArgumentException('The given token could not be parsed: '.$e->getMessage());
+        }
     }
 
     /**
@@ -316,51 +501,43 @@ class Auth
      *
      * @param Token|string $idToken the JWT to verify
      * @param bool $checkIfRevoked whether to check if the ID token is revoked
-     * @param bool $allowTimeInconsistencies whether to allow tokens that have mismatching timestamps
      *
-     * @throws InvalidToken
-     * @throws IssuedInTheFuture
-     * @throws RevokedIdToken
-     * @throws InvalidSignature
-     *
-     * @return Token the verified token
+     * @throws \InvalidArgumentException if the token could not be parsed
+     * @throws InvalidToken if the token could be parsed, but is invalid for any reason (invalid signature, expired, time errors)
+     * @throws InvalidSignature if the signature doesn't match
+     * @throws ExpiredToken if the token is expired
+     * @throws IssuedInTheFuture if the token is issued in the future
+     * @throws UnknownKey if the token's kid header doesnt' contain a known key
      */
-    public function verifyIdToken($idToken, bool $checkIfRevoked = null, bool $allowTimeInconsistencies = null): Token
+    public function verifyIdToken($idToken, bool $checkIfRevoked = false): Token
     {
-        $checkIfRevoked = $checkIfRevoked ?? false;
-        $allowTimeInconsistencies = $allowTimeInconsistencies ?? false;
+        $leewayInSeconds = 300;
+        $verifier = $this->idTokenVerifier;
 
-        try {
-            $verifiedToken = $this->idTokenVerifier->verifyIdToken($idToken);
-        } catch (IssuedInTheFuture $e) {
-            if (!$allowTimeInconsistencies) {
-                throw $e;
-            }
-
-            $verifiedToken = $e->getToken();
-        } catch (InvalidToken $e) {
-            $verifiedToken = $idToken instanceof Token ? $idToken : (new Parser())->parse($idToken);
-
-            if (stripos($e->getMessage(), 'authentication time') !== false) {
-                $authTime = $verifiedToken->getClaim('auth_time', false);
-
-                if ($authTime && !$allowTimeInconsistencies && $authTime > time()) {
-                    throw $e;
-                }
-            } else {
-                throw $e;
-            }
+        if ($verifier instanceof IdTokenVerifier) {
+            $verifier = $verifier->withLeewayInSeconds($leewayInSeconds);
         }
 
-        if ($checkIfRevoked && $allowTimeInconsistencies) {
-            throw new InvalidToken($verifiedToken, 'Allowing mismatching timestamps cannot be combined with token revokation checks.');
-        }
+        $verifiedToken = $verifier->verifyIdToken($idToken);
 
         if ($checkIfRevoked) {
-            $tokenAuthenticatedAt = DT::toUTCDateTimeImmutable($verifiedToken->getClaim('auth_time'));
-            $validSince = $this->getUser($verifiedToken->getClaim('sub'))->tokensValidAfterTime;
+            try {
+                $user = $this->getUser($verifiedToken->getClaim('sub'));
+            } catch (Throwable $e) {
+                throw new InvalidToken($verifiedToken, "Error while getting the token's user: {$e->getMessage()}", $e->getCode(), $e);
+            }
 
-            if ($validSince && ($tokenAuthenticatedAt < $validSince)) {
+            // The timestamp, in seconds, which marks a boundary, before which Firebase ID token are considered revoked.
+            if (!($validSince = $user->tokensValidAfterTime ?? null)) {
+                return $verifiedToken;
+            }
+
+            $tokenAuthenticatedAt = DT::toUTCDateTimeImmutable($verifiedToken->getClaim('auth_time'));
+            $tokenAuthenticatedAtWithLeeway = $tokenAuthenticatedAt->modify('-'.$leewayInSeconds.' seconds');
+
+            $validSinceWithLeeway = DT::toUTCDateTimeImmutable($validSince)->modify('-'.$leewayInSeconds.' seconds');
+
+            if ($tokenAuthenticatedAtWithLeeway < $validSinceWithLeeway) {
                 throw new RevokedIdToken($verifiedToken);
             }
         }
@@ -369,31 +546,48 @@ class Auth
     }
 
     /**
-     * Verifies wether the given email/password combination is correct and returns
-     * a UserRecord when it is, an Exception otherwise.
+     * Verifies the given password reset code.
      *
-     * This method has the side effect of changing the last login timestamp of the
-     * given user. The recommended way to authenticate users in a client/server
-     * environment is to use a Firebase Client SDK to authenticate the user
-     * and to send an ID Token generated by the client back to the server.
+     * @see https://firebase.google.com/docs/reference/rest/auth#section-verify-password-reset-code
      *
-     * @param Email|string $email
-     * @param ClearTextPassword|string $password
-     *
-     * @throws InvalidPassword if the given password does not match the given email address
-     *
-     * @return UserRecord if the combination of email and password is correct
+     * @throws ExpiredOobCode
+     * @throws InvalidOobCode
+     * @throws OperationNotAllowed
+     * @throws Exception\AuthException
+     * @throws Exception\FirebaseException
      */
-    public function verifyPassword($email, $password): UserRecord
+    public function verifyPasswordResetCode(string $oobCode): void
     {
-        $email = $email instanceof Email ? $email : new Email($email);
-        $password = $password instanceof ClearTextPassword ? $password : new ClearTextPassword($password);
+        $this->client->verifyPasswordResetCode($oobCode);
+    }
 
-        $response = $this->client->verifyPassword((string) $email, (string) $password);
+    /**
+     * Applies the password reset requested via the given OOB code.
+     *
+     * @see https://firebase.google.com/docs/reference/rest/auth#section-confirm-reset-password
+     *
+     * @param string $oobCode the email action code sent to the user's email for resetting the password
+     * @param ClearTextPassword|string $newPassword
+     * @param bool $invalidatePreviousSessions Invalidate sessions initialized with the previous credentials
+     *
+     * @throws ExpiredOobCode
+     * @throws InvalidOobCode
+     * @throws OperationNotAllowed
+     * @throws UserDisabled
+     * @throws Exception\AuthException
+     * @throws Exception\FirebaseException
+     */
+    public function confirmPasswordReset(string $oobCode, $newPassword, bool $invalidatePreviousSessions = true): void
+    {
+        $newPassword = $newPassword instanceof ClearTextPassword ? $newPassword : new ClearTextPassword($newPassword);
 
-        $uid = JSON::decode((string) $response->getBody(), true)['localId'];
+        $response = $this->client->confirmPasswordReset($oobCode, (string) $newPassword);
 
-        return $this->getUser($uid);
+        $email = JSON::decode((string) $response->getBody(), true)['email'] ?? null;
+
+        if ($invalidatePreviousSessions && $email) {
+            $this->revokeRefreshTokens($this->getUserByEmail($email)->uid);
+        }
     }
 
     /**
@@ -403,23 +597,185 @@ class Auth
      * ID token generated before revocation will be rejected with a token expired error.
      *
      * @param Uid|string $uid the user whose tokens are to be revoked
+     *
+     * @throws Exception\AuthException
+     * @throws Exception\FirebaseException
      */
-    public function revokeRefreshTokens($uid)
+    public function revokeRefreshTokens($uid): void
     {
         $uid = $uid instanceof Uid ? $uid : new Uid($uid);
 
         $this->client->revokeRefreshTokens((string) $uid);
     }
 
+    /**
+     * @param Uid|string $uid
+     * @param Provider[]|string[]|string $provider
+     *
+     * @throws Exception\AuthException
+     * @throws Exception\FirebaseException
+     */
     public function unlinkProvider($uid, $provider): UserRecord
     {
         $uid = $uid instanceof Uid ? $uid : new Uid($uid);
-        $provider = array_map(function ($provider) {
+        $provider = \array_map(static function ($provider) {
             return $provider instanceof Provider ? $provider : new Provider($provider);
         }, (array) $provider);
 
-        $response = $this->client->unlinkProvider($uid, $provider);
+        $response = $this->client->unlinkProvider((string) $uid, $provider);
 
+        return $this->getUserRecordFromResponse($response);
+    }
+
+    /**
+     * @param UserRecord|Uid|string $user
+     * @param array<string, mixed> $claims
+     *
+     * @throws FailedToSignIn
+     */
+    public function signInAsUser($user, ?array $claims = null): SignInResult
+    {
+        $claims = $claims ?? [];
+        $uid = $user instanceof UserRecord ? $user->uid : (string) $user;
+
+        return $this->signInHandler->handle(
+            SignInWithCustomToken::fromValue((string) $this->createCustomToken($uid, $claims))
+        );
+    }
+
+    /**
+     * @param Token|string $token
+     *
+     * @throws FailedToSignIn
+     */
+    public function signInWithCustomToken($token): SignInResult
+    {
+        return $this->signInHandler->handle(
+            SignInWithCustomToken::fromValue((string) $token)
+        );
+    }
+
+    /**
+     * @throws FailedToSignIn
+     */
+    public function signInWithRefreshToken(string $refreshToken): SignInResult
+    {
+        return $this->signInHandler->handle(
+            SignInWithRefreshToken::fromValue($refreshToken)
+        );
+    }
+
+    /**
+     * @param string|Email $email
+     * @param string|ClearTextPassword $clearTextPassword
+     *
+     * @throws FailedToSignIn
+     */
+    public function signInWithEmailAndPassword($email, $clearTextPassword): SignInResult
+    {
+        $email = $email instanceof Email ? (string) $email : $email;
+        $clearTextPassword = $clearTextPassword instanceof ClearTextPassword ? (string) $clearTextPassword : $clearTextPassword;
+
+        return $this->signInHandler->handle(
+            SignInWithEmailAndPassword::fromValues($email, $clearTextPassword)
+        );
+    }
+
+    /**
+     * @param string|Email $email
+     * @param string $oobCode
+     *
+     * @throws FailedToSignIn
+     */
+    public function signInWithEmailAndOobCode($email, $oobCode): SignInResult
+    {
+        $email = $email instanceof Email ? (string) $email : $email;
+
+        return $this->signInHandler->handle(
+            SignInWithEmailAndOobCode::fromValues($email, $oobCode)
+        );
+    }
+
+    /**
+     * @throws FailedToSignIn
+     */
+    public function signInAnonymously(): SignInResult
+    {
+        $result = $this->signInHandler->handle(SignInAnonymously::new());
+
+        if ($result->idToken()) {
+            return $result;
+        }
+
+        if ($uid = ($result->data()['localId'] ?? null)) {
+            return $this->signInAsUser($uid);
+        }
+
+        throw new FailedToSignIn('Failed to sign in anonymously: No ID token or UID available');
+    }
+
+    /**
+     * @param Provider|string $provider
+     * @param UriInterface|string|null $redirectUrl
+     *
+     * @throws FailedToSignIn
+     */
+    public function signInWithIdpAccessToken($provider, string $accessToken, $redirectUrl = null): SignInResult
+    {
+        $provider = $provider instanceof Provider ? (string) $provider : $provider;
+        $redirectUrl = $redirectUrl ?? 'http://localhost';
+
+        if ($redirectUrl instanceof UriInterface) {
+            $redirectUrl = (string) $redirectUrl;
+        }
+
+        $action = SignInWithIdpCredentials::withAccessToken($provider, $accessToken);
+
+        if ($redirectUrl) {
+            $action = $action->withRequestUri($redirectUrl);
+        }
+
+        return $this->signInHandler->handle($action);
+    }
+
+    /**
+     * @param Provider|string $provider
+     * @param Token|string $idToken
+     * @param UriInterface|string|null $redirectUrl
+     *
+     * @throws FailedToSignIn
+     */
+    public function signInWithIdpIdToken($provider, $idToken, $redirectUrl = null): SignInResult
+    {
+        $provider = $provider instanceof Provider ? (string) $provider : $provider;
+
+        if ($idToken instanceof Token) {
+            $idToken = (string) $idToken;
+        }
+
+        $redirectUrl = $redirectUrl ?? 'http://localhost';
+
+        if ($redirectUrl instanceof UriInterface) {
+            $redirectUrl = (string) $redirectUrl;
+        }
+
+        $action = SignInWithIdpCredentials::withIdToken($provider, $idToken);
+
+        if ($redirectUrl) {
+            $action = $action->withRequestUri($redirectUrl);
+        }
+
+        return $this->signInHandler->handle($action);
+    }
+
+    /**
+     * Gets the user ID from the response and queries a full UserRecord object for it.
+     *
+     * @throws Exception\AuthException
+     * @throws Exception\FirebaseException
+     */
+    private function getUserRecordFromResponse(ResponseInterface $response): UserRecord
+    {
         $uid = JSON::decode((string) $response->getBody(), true)['localId'];
 
         return $this->getUser($uid);

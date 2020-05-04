@@ -7,23 +7,25 @@ namespace Kreait\Firebase\RemoteConfig;
 use Kreait\Firebase\Exception\InvalidArgumentException;
 use Kreait\Firebase\Util\JSON;
 use Psr\Http\Message\ResponseInterface;
+use Throwable;
 
 class Template implements \JsonSerializable
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private $etag = '*';
 
-    /**
-     * @var Parameter[]
-     */
+    /** @var Parameter[] */
     private $parameters = [];
 
-    /**
-     * @var Condition[]
-     */
+    /** @var Condition[] */
     private $conditions = [];
+
+    /** @var Version|null */
+    private $version;
+
+    private function __construct()
+    {
+    }
 
     public static function new(): self
     {
@@ -34,37 +36,67 @@ class Template implements \JsonSerializable
         return $template;
     }
 
+    /**
+     * @internal
+     */
     public static function fromResponse(ResponseInterface $response): self
     {
         $etagHeader = $response->getHeader('ETag');
-        $etag = array_shift($etagHeader) ?? '*';
+        $etag = \array_shift($etagHeader) ?: '*';
         $data = JSON::decode((string) $response->getBody(), true);
 
         return self::fromArray($data, $etag);
     }
 
-    public static function fromArray(array $data, string $etag = null): self
+    /**
+     * @param array<string, mixed> $data
+     */
+    public static function fromArray(array $data, ?string $etag = null): self
     {
         $template = new self();
         $template->etag = $etag ?? '*';
 
         foreach ((array) ($data['conditions'] ?? []) as $conditionData) {
-            $template->conditions[$conditionData['name']] = Condition::fromArray($conditionData);
+            $template->conditions[(string) $conditionData['name']] = Condition::fromArray($conditionData);
         }
 
         foreach ((array) ($data['parameters'] ?? []) as $name => $parameterData) {
-            $template->parameters[$name] = Parameter::fromArray([$name => $parameterData]);
+            $template->parameters[(string) $name] = Parameter::fromArray([(string) $name => $parameterData]);
+        }
+
+        if (\is_array($data['version'] ?? null)) {
+            try {
+                $template->version = Version::fromArray($data['version']);
+            } catch (Throwable $e) {
+                $template->version = null;
+            }
         }
 
         return $template;
     }
 
-    public function getEtag(): string
+    /**
+     * @internal
+     */
+    public function etag(): string
     {
         return $this->etag;
     }
 
-    public function withParameter(Parameter $parameter)
+    /**
+     * @return Parameter[]
+     */
+    public function parameters(): array
+    {
+        return $this->parameters;
+    }
+
+    public function version(): ?Version
+    {
+        return $this->version;
+    }
+
+    public function withParameter(Parameter $parameter): Template
     {
         $this->assertThatAllConditionalValuesAreValid($parameter);
 
@@ -74,7 +106,7 @@ class Template implements \JsonSerializable
         return $template;
     }
 
-    public function withCondition(Condition $condition)
+    public function withCondition(Condition $condition): Template
     {
         $template = clone $this;
         $template->conditions[$condition->name()] = $condition;
@@ -82,24 +114,27 @@ class Template implements \JsonSerializable
         return $template;
     }
 
-    private function assertThatAllConditionalValuesAreValid(Parameter $parameter)
+    private function assertThatAllConditionalValuesAreValid(Parameter $parameter): void
     {
         foreach ($parameter->conditionalValues() as $conditionalValue) {
-            if (!array_key_exists($conditionalValue->conditionName(), $this->conditions)) {
+            if (!\array_key_exists($conditionalValue->conditionName(), $this->conditions)) {
                 $message = 'The conditional value of the parameter named "%s" referes to a condition "%s" which does not exist.';
 
-                throw new InvalidArgumentException(sprintf($message, $parameter->name(), $conditionalValue->conditionName()));
+                throw new InvalidArgumentException(\sprintf($message, $parameter->name(), $conditionalValue->conditionName()));
             }
         }
     }
 
-    public function jsonSerialize()
+    /**
+     * @return array<string, mixed>
+     */
+    public function jsonSerialize(): array
     {
         $result = [
-            'conditions' => array_values($this->conditions),
+            'conditions' => \array_values($this->conditions),
             'parameters' => $this->parameters,
         ];
 
-        return array_filter($result);
+        return \array_filter($result);
     }
 }

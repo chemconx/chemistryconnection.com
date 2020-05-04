@@ -26,31 +26,70 @@ a, a:visited {
 	padding-left: 50px;
 }
 
+
+/* TABBAR */
 .tab-bar {
 	width: 100%;
 	display: flex;
-	align-items: center;
+	align-content: stretch;
 	justify-content: center;
 	border-bottom: 4px solid #214A5B;
 	background-color: #CFD6DE;
 }
 
-.tab-bar a {
+.tab-item, .mobile-tab-dropdown, .mobile-tab-item {
 	background-color: #CFD6DE;
 	color: #214A5B;
 	flex-grow: 1;
 	flex-basis: 0;
 	text-align: center;
 
-	padding: 10px 0;
+	padding: 10px;
 	font-weight: 600;
 	text-transform: uppercase;
 	cursor: pointer;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
-.tab-bar a.tab-active, .tab-bar a:hover {
+.tab-item.tab-active, .tab-item:hover, .mobile-tab-dropdown, .mobile-tab-item.tab-active {
 	background-color: #214A5B;
 	color: white;
+}
+
+.mobile-tab-dropdown {
+	display: none;
+}
+
+#tabs-dropdown-button {
+	font-size: 1.4rem;
+	right: 1.5rem;
+	position: absolute;
+
+	transition: all 0.2s ease-in-out;
+}
+
+#tabs-dropdown-button.active {
+	transform: rotate(180deg);
+}
+
+.mobile-tab-list {
+	display: none;
+	position: absolute;
+	width: 100%;
+	border-top: 4px solid #CFD6DE;
+	border-bottom: 4px solid #214A5B;
+	z-index: 100;
+}
+
+.occlusion-panel {
+	display: none;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.7);
 }
 
 .main {
@@ -89,7 +128,7 @@ a, a:visited {
 .container.header {
 	display: flex;
 	padding-bottom: 5px;
-	border-bottom: #214A5B 2px solid;
+	/*border-bottom: #214A5B 2px solid;*/
 }
 
 .header {
@@ -112,7 +151,7 @@ a, a:visited {
 }
 
 /* TABLE */
-table {
+table, .file-table {
 	width: 100%;
 	max-width: 100%;
 	border: #214A5B 1px solid;
@@ -120,30 +159,31 @@ table {
 	border-collapse: collapse;
 }
 
-table button {
+.file-table button {
 	padding: 5px 15px;
 }
 
-tr {
-	padding: 10px 0;
+.file-row {
+	padding: 0;
+	display: flex;
+	flex-wrap: nowrap;
 }
 
-
-td {
+td, .file-cell {
 	padding: 10px 5px;
 	white-space: nowrap;
 	border: none;
 	border-top: #214A5B 1px solid;
 }
 
-td:first-child {
+.file-cell:first-child {
 	padding-left: 10px;
 	text-overflow: ellipsis;
 	overflow: hidden;
-	max-width: 1px;
+	flex-grow: 1 ;
 }
 
-tr:first-child td {
+.file-row:first-child .file-cell {
 	border: none;
 }
 
@@ -170,13 +210,33 @@ tr:first-child td {
 	background-color: #EFEFEF;
 }
 
+.file-cell.dropdown-cell {
+	display: none;
+	padding-right: 10px;
+
+	transition: all 0.2s ease-in-out;
+}
+
+.file-cell.dropdown-cell.active {
+	transform: rotate(90deg);
+}
+
 .page-numbers {
 	padding: 10px 10px;
 	background-color: #214A5B;
-	border: none;
-	border-radius: 5px;
+	border: #214A5B 1px solid;
 	color: white;
+	text-align: center;
 }
+
+.page-numbers.bottom {
+	border-radius: 0 0 10px 10px;
+}
+
+.page-numbers.top {
+	border-radius: 10px 10px 0 0;
+}
+
 
 .page-number-link {
 	padding: 10px 10px;
@@ -187,4 +247,101 @@ tr:first-child td {
 
 .page-number-link:hover, .page-number-link.current {
 	background-color: #416B7A;
+}
+
+
+
+/* BEGIN MOBILE ADJUSTMENTS */
+@media screen and (max-width: 500px) {
+	/* ------ MAIN ------ */
+	.main-container {
+		padding: 1rem;
+		overflow: hidden;
+	}
+
+	/* ------ NAVBAR ------ */
+	.navbar {
+		padding: 1.5rem 0;
+	}
+
+	h1 {
+		font-size: 1.5rem;
+	}
+
+	.header-image {
+		padding-left: 1.5rem;
+		height: 50px;
+	}
+
+	/* ------ TABBAR ------ */
+	.tab-bar {
+		display: block;
+		border-bottom: none;
+	}
+
+	.tab-item {
+		display: none;
+	}
+
+	.mobile-tab-dropdown {
+		display: block;
+	}
+
+	/* ------ SEARCH ------ */
+	#search-input {
+		font-size: 16px;
+	}
+
+	/* ------ TABLE ------ */
+	table {
+		display: block;
+	}
+
+	tbody {
+		display: flex;
+		flex-direction: column;
+	}
+
+	tr {
+		display: block;
+	}
+
+	.username-cell {
+		display: none;
+	}
+
+	td {
+		display: block;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	td:first-child {
+		float: left;
+	}
+}
+
+@media screen and (max-width: 700px){
+	/* ------ TABLE ------ */
+	.file-row {
+		flex-direction: column;
+	}
+
+	.action-cell {
+		display: none;
+		padding: 0;
+	}
+
+	.action-cell a.action {
+		display: block;
+		border-radius: 0;
+		padding: 10px 25px;
+	}
+
+	.file-cell.dropdown-cell {
+		display: block;
+		float: right;
+		padding: 0px 5px;
+		border: none;
+	}
 }
