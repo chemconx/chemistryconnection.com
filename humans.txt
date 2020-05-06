@@ -3,7 +3,7 @@
 
 # TEAM
 
-    <name> -- <role> -- <twitter>
+    Jasper Reddin -- Did pretty much everything... I'm the only developer here at this place -- @jasperreddin
 
 # THANKS
 
