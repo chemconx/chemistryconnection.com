@@ -20,7 +20,7 @@ function buildTables($sds) {
 
 	$fileRowTeemplate = '
 <div class="file-row">
-	<div class="file-cell filename-cell">{FILENAME} <div class="file-cell dropdown-cell"><i class="fas fa-chevron-right"></i></div></div>
+	<div class="file-cell filename-cell"><div class="filename-cont">{FILENAME}</div><div class="file-cell dropdown-cell"><i class="fas fa-chevron-right"></i></div></div>
 	<div class="file-cell action-cell"><a class="action" href="{LINK}" target="_blank">Open</a></div>';
 
 

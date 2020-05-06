@@ -176,11 +176,19 @@ td, .file-cell {
 	border-top: #214A5B 1px solid;
 }
 
-.file-cell:first-child {
+.file-cell.filename-cell {
+	/*padding-left: 10px;*/
+	/*text-overflow: ellipsis;*/
+	/*overflow: hidden;*/
+	flex-grow: 1;
+	display: flex;
+}
+
+.filename-cont {
 	padding-left: 10px;
 	text-overflow: ellipsis;
 	overflow: hidden;
-	flex-grow: 1 ;
+	flex-grow: 1;
 }
 
 .file-row:first-child .file-cell {

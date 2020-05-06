@@ -51,7 +51,7 @@ export function showTabsDropdown() {
 }
 
 export function initTable() {
-	const fileRow = $('.file-row');
+	const fileRow = $('.filename-cell');
 	fileRow.off('click.dropdown_table'); // prevent duplicate click events
 	fileRow.on('click.dropdown_table', (e) => {
 		// find what was clicked.
@@ -59,7 +59,7 @@ export function initTable() {
 		if ($(e.target).hasClass('.file-row')) {
 			clicked = $(e.target);
 		} else {
-			clicked = $(e.target).parent('.file-row');
+			clicked = $(e.target).closest('.file-row');
 		}
 
 		if (clicked.hasClass('active')) {
