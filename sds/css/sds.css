@@ -179,7 +179,7 @@ td, .file-cell {
 .file-cell.filename-cell {
 	/*padding-left: 10px;*/
 	/*text-overflow: ellipsis;*/
-	/*overflow: hidden;*/
+	overflow: hidden;
 	flex-grow: 1;
 	display: flex;
 }
