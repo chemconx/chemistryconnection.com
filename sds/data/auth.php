@@ -15,7 +15,7 @@ use Kreait\Firebase\Factory;
 session_start();
 
 $auth = (new Factory)
-	->withServiceAccount(__DIR__ . '/private/myopdffilebrowser-b92e95396fa0.json')
+	->withServiceAccount(__DIR__ . '/private/myopdffilebrowser-02f359d8cb.json')
 	->createAuth();
 
 function auth($echoJSON = true, $perm = null) {
