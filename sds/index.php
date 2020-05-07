@@ -20,7 +20,7 @@ $searchContainer = '<div class="container search">
 					</div>
 
 					<!-- table data -->
-					<div id="search-results-table">
+					<div class="file-table" id="search-results-table">
 	
 					</div>
 				</div>';
