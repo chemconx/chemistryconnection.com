@@ -1,0 +1,18 @@
+create table chemicals
+(
+    id         int auto_increment,
+    chemical   varchar(100) null,
+    gt100      varchar(50)  null,
+    gt200      varchar(50)  null,
+    gt300      varchar(50)  null,
+    hose_rec_1 varchar(40)  null,
+    hose_rec_2 varchar(40)  null,
+    notes      varchar(250) null,
+    constraint chemicals_chemical_uindex
+        unique (chemical),
+    constraint chemicals_id_uindex
+        unique (id)
+);
+
+alter table chemicals
+    add primary key (id);
