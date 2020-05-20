@@ -2,6 +2,8 @@
 sds/data/private/db.ini
 sds/data/pdf/*
 
+api/goatthroat/private/db.ini
+
 .idea/*
 .idea/workspace.xml
 myopdffilebrowser-*.json
