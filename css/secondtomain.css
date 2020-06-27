@@ -46,7 +46,9 @@ a {
 }
 
 .localinformation {
-	margin-top: 4rem;
+	margin: auto;
+	margin-top: 2rem;
+	max-width: 500px;
 }
 
 .localinformation p {
