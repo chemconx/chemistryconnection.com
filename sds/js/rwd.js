@@ -1,7 +1,7 @@
 var oldWidth = 0;
 
 export function init() {
-	oldWidth = $(window).width;
+	oldWidth = $(window).width();
 
 	// run update methods when window is resize
 	$(window).resize(update);
@@ -32,9 +32,10 @@ export function update() {
 	$('#mobile-bars').removeClass('active');
 	hideTabsDropdown();
 
-	const newWidth = $(window).width;
-	if (new newWidth != oldWidth) {
+	const newWidth = $(window).width();
+	if (newWidth !== oldWidth) {
 		dropTableRowUp();
+		oldWidth = newWidth;
 	}
 }
 
