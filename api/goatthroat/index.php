@@ -3,6 +3,9 @@
 require_once __DIR__ . '/private/Connection.php';
 
 header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: http://192.168.103.64:3000'); // todo: MUST CHANGE TO https://makeyourown.buzz FOR PRODUCTION
+header('Access-Control-Allow-Credentials: true');
+header('Access-Control-Allow-Headers: stencil-config,stencil-options,x-xsrf-token');
 
 $conn = new Connection();
 
