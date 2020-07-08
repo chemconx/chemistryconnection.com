@@ -33,7 +33,7 @@ class Connection {
 	}
 
 	function search(string $query) {
-		$query = str_replace('+', ' ', $query);
+		$query = str_replace('+', '%', $query);
 
 		$mysqlquery = "SELECT * FROM `goatthroat`.`chemicals` WHERE `chemical` LIKE ?";
 
