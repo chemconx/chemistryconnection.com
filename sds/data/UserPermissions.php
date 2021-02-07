@@ -41,8 +41,9 @@ class UserPermissions {
 	}
 
 	public function userHasPermissionID($permid) {
+		$permidInt = intval($permid);
 		$stmt = $this->conn->prepare("SELECT * FROM userperms where uid = ? AND permid = ?");
-		$stmt->bind_param('si', $this->uid, intval($permid));
+		$stmt->bind_param('si', $this->uid, $permidInt);
 		$stmt->execute();
 		$result = $stmt->get_result();
 

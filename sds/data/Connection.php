@@ -169,8 +169,9 @@ class Connection {
 
 	// FILE MANAGEMENT
 	function getFile($id) {
+		$fileidint = intval($id);
 		$stmt = $this->prepare("SELECT * FROM `file` WHERE `id` = ?");
-		$stmt->bind_param('i', intval($id));
+		$stmt->bind_param('i', $fileidint);
 		$stmt->execute();
 
 		$result = $stmt->get_result();

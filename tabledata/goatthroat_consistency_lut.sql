@@ -1,3 +1,5 @@
+use goatthroat;
+
 create table consistency_lut
 (
     value       varchar(50) charset utf8mb4 null,

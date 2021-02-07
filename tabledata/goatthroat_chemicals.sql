@@ -1,3 +1,5 @@
+use goatthroat;
+
 create table chemicals
 (
     id         int,
